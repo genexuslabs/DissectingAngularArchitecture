@@ -14,4 +14,4 @@ This repository is the base to understand why generated GeneXus Angular applicat
 
 # Architecture 
 
-![Angular High Level Architecture](arquitectureAngular.png)
+![Angular High Level Architecture](architectureAngular.png)
