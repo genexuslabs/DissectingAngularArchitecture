@@ -52,7 +52,7 @@ In order to see the kind of code GeneXus is generating in this repository you ha
 
 The application basically is a "Light" CRM with Contacts, Companies and Meetings. 
 
-![LightCRM](lightcrm.png)
+![LightCRM](lightCRM.png)
 
 The backend services are hosted in AWS and the Angular generated code you can download and explore locally or here directly on github.
 
