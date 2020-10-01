@@ -42,6 +42,26 @@ is the particular logic of the panel. It is a TypeScript program. Events are gen
 - *.sercvice.ts : is the layer responsible for interacting with the server. It is a Typescript program where communication with the server is generated. Here, the structures are also generated with the data model that the panel will use.
 
 
+# Live Sample
+
+Courious what kind of application you can obtain. Here a live sample https://angular.genexus.com/gx29/Mobile/TodayTab-Level_Detail (Mobile First Design)
+
+# Exploring a Sample
+
+In order to see the kind of code GeneXus is generating in this repository you have the full source code of an application. 
+
+The application basically is a "Light" CRM with Contacts, Companies and Meetings. 
+
+![LightCRM](lightcrm.png)
+
+The backend services are hosted in AWS and the Angular generated code you can download and explore locally or here directly on github.
+
+You can run the Angular code locally just by cloning this repository and after:
+
+`
+cd LightCRMSample
+ng serve -o
+`
 
  
  
