@@ -31,7 +31,9 @@ Every GeneXus object is generated in a separate directory, where all the sources
 
  For each panel, a component (the fundamental building block of Angular applications) is generated, which consists of three sources:
 
-- *.component.html : is the layout of the panel. It is an Angular template that represents the layout of UI. It is mainly HTML 5 referencing webcomponents from the open source library of controls, and it adds elements and attributes that Angular interprets to perform the bindings with the data model and the specified UI events.
+- *.component.html 
+
+is the layout of the panel. It is an Angular template that represents the layout of UI. It is mainly HTML 5 referencing webcomponents from the open source library of controls, and it adds elements and attributes that Angular interprets to perform the bindings with the data model and the specified UI events.
 
 - *.component.ts 
 
