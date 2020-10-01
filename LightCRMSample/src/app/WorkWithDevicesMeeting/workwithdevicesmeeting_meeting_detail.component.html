@@ -1,0 +1,40 @@
+  <section class="main-content">
+    <gx-card
+      #ViewOrEditAnyiOS
+      [showHeader]='showAsCard'
+      [showBorder]='showAsCard'
+      [showFooter]='showAsCard'
+      *ngIf="viewManager.view === 'ViewOrEditAnyiOS'"
+      class="ApplicationBars"
+    >
+      <div slot="body" *ngIf="viewManager.view === 'ViewOrEditAnyiOS'">
+          <gx-table
+            #ctrlMaintable
+            ngClass='TableDetail'
+            areas-template="'cell00 ' "
+            columns-template="1fr"
+            rows-template="minmax(min-content, 1fr)"
+            invisible-mode="keep-space"
+          >
+            <gx-table-cell 
+              area="cell00"
+               overflow-mode="scroll"
+              align="left" valign="top"
+               
+            >
+              <div class="gx-sections-container">
+                <WorkWithDevicesMeeting_Meeting_Section_General class="section"
+                  [meetingid]="this.MeetingId"
+                  [mode]="this.Mode"
+                  sectionType='inline'>
+                >
+                </WorkWithDevicesMeeting_Meeting_Section_General> 
+              </div>
+            </gx-table-cell>
+
+
+          </gx-table>
+
+      </div>
+    </gx-card>
+  </section>

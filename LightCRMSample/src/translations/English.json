@@ -1,0 +1,399 @@
+{ 
+    "Translations" : [ { 
+        "M" : "GXM_cancel",
+        "T" : "Cancel"
+    }, { 
+        "M" : "GXM_insert",
+        "T" : "Insert"
+    }, { 
+        "M" : "GXM_update",
+        "T" : "Update"
+    }, { 
+        "M" : "GX_BtnDelete",
+        "T" : "Delete"
+    }, { 
+        "M" : "GX_EmptyItemText",
+        "T" : "(None)"
+    }, { 
+        "M" : "GXM_Save",
+        "T" : "Save"
+    }, { 
+        "M" : "GXM_AreYouSureYouWantToRemoveTheContact",
+        "T" : "Are you sure you want to remove the contact \"%1\"?"
+    }, { 
+        "M" : "GXM_RemoveContact",
+        "T" : "Remove contact"
+    }, { 
+        "M" : "GXM_No",
+        "T" : "No"
+    }, { 
+        "M" : "GXM_Yes",
+        "T" : "Yes"
+    }, { 
+        "M" : "GXM_ContactNotFound",
+        "T" : "Contact not found"
+    }, { 
+        "M" : "GXM_LocationServicesAreDisabled",
+        "T" : "Location services are disabled"
+    }, { 
+        "M" : "GXM_ThereIsNoCurrentProximityAlertInformation",
+        "T" : "There is no current proximity alert information"
+    }, { 
+        "M" : "GXM_CouldNotStartTracking",
+        "T" : "Could not start tracking"
+    }, { 
+        "M" : "GXM_CouldNotGetLocationInformation",
+        "T" : "Could not get location information"
+    }, { 
+        "M" : "GXM_CouldNotGetInformation",
+        "T" : "Could not get information"
+    }, { 
+        "M" : "GXM_SendMessage",
+        "T" : "Send message"
+    }, { 
+        "M" : "GXM_TheDeviceCannotMakeCalls",
+        "T" : "The device cannot make calls"
+    }, { 
+        "M" : "GXM_PhoneNumberNotSpecified",
+        "T" : "Phone number not specified"
+    }, { 
+        "M" : "GXM_Ok",
+        "T" : "OK"
+    }, { 
+        "M" : "GXM_Confirm",
+        "T" : "Confirm"
+    }, { 
+        "M" : "GXM_CannotOpenUrl",
+        "T" : "Cannot open URL: %1"
+    }, { 
+        "M" : "GXM_TwitterApplicationNotFound",
+        "T" : "Twitter application not found"
+    }, { 
+        "M" : "GXM_TwitterConfig",
+        "T" : "Please configure a Twitter account in Settings.app"
+    }, { 
+        "M" : "GXM_TwitterChoose",
+        "T" : "Choose an Account"
+    }, { 
+        "M" : "GXM_TwitterInvalidUsername",
+        "T" : "Invalid Twitter username"
+    }, { 
+        "M" : "GXM_TwitterNoAccount",
+        "T" : "No Accounts"
+    }, { 
+        "M" : "GXM_TwitterNotAllowed",
+        "T" : "Twitter sharing is not allowed in this device"
+    }, { 
+        "M" : "GXM_TwitterOperationError",
+        "T" : "Twitter operation error"
+    }, { 
+        "M" : "GXM_WeChatNotInstalled",
+        "T" : "WeChat is not installed"
+    }, { 
+        "M" : "GXM_FacebookApplicationNotFound",
+        "T" : "Facebook application not found"
+    }, { 
+        "M" : "GXM_CannotSendMessage",
+        "T" : "Cannot send message"
+    }, { 
+        "M" : "GXM_ThisDeviceDoesNotSupportSendingSmsMessages",
+        "T" : "This device does not support sending SMS messages"
+    }, { 
+        "M" : "GXM_CannotSaveWhileNotEditing",
+        "T" : "Cannot save while not editing"
+    }, { 
+        "M" : "GXM_AuthorizeLogin",
+        "T" : "Authorize Login"
+    }, { 
+        "M" : "GXM_ThereWasAnErrorExecutingAction",
+        "T" : "There was an error executing action"
+    }, { 
+        "M" : "GXM_Logout",
+        "T" : "Logout"
+    }, { 
+        "M" : "GXM_Add",
+        "T" : "Add"
+    }, { 
+        "M" : "GXM_Login",
+        "T" : "Login"
+    }, { 
+        "M" : "GXM_LogingIn",
+        "T" : "Loging in…"
+    }, { 
+        "M" : "GXM_InvalidLogin",
+        "T" : "Invalid Login"
+    }, { 
+        "M" : "GXM_CannotSaveBecauseTheServerIsNoReachablePleaseCheckYourInternetConnection",
+        "T" : "Cannot save because the server is not reachable. Please check your Internet connection."
+    }, { 
+        "M" : "GXM_CannotDeleteBecauseTheServerIsNoReachablePleaseCheckYourInternetConnection",
+        "T" : "Cannot delete because the server is not reachable. Please check your Internet connection."
+    }, { 
+        "M" : "GXM_All",
+        "T" : "All"
+    }, { 
+        "M" : "GXM_ContinueSearchOnServer",
+        "T" : "Continue Search on Server…"
+    }, { 
+        "M" : "GXM_LoadMore",
+        "T" : "Load more…"
+    }, { 
+        "M" : "GXM_Loading",
+        "T" : "Loading…"
+    }, { 
+        "M" : "GXM_Call",
+        "T" : "Call"
+    }, { 
+        "M" : "GXM_Sms",
+        "T" : "SMS"
+    }, { 
+        "M" : "GXM_moredots",
+        "T" : "More…"
+    }, { 
+        "M" : "GXM_ThereIsNoLayout",
+        "T" : "There is no Layout"
+    }, { 
+        "M" : "GXM_RecordVideo",
+        "T" : "Record Video"
+    }, { 
+        "M" : "GXM_ChooseVideo",
+        "T" : "Choose Video"
+    }, { 
+        "M" : "GXM_DeleteVideo",
+        "T" : "Delete Video"
+    }, { 
+        "M" : "GXM_Close",
+        "T" : "Close"
+    }, { 
+        "M" : "GXM_Done",
+        "T" : "Done"
+    }, { 
+        "M" : "GXM_Warning",
+        "T" : "Warning!"
+    }, { 
+        "M" : "GXM_AudioInputHardwareNotAvailable",
+        "T" : "Audio input hardware not available"
+    }, { 
+        "M" : "GXM_Date",
+        "T" : "Date"
+    }, { 
+        "M" : "GXM_Time",
+        "T" : "Time"
+    }, { 
+        "M" : "GXM_Any",
+        "T" : "Any"
+    }, { 
+        "M" : "GXM_EntityCouldNotBeDeleted",
+        "T" : "Entity could not be deleted."
+    }, { 
+        "M" : "GXM_Reset",
+        "T" : "Reset"
+    }, { 
+        "M" : "GXM_Clean",
+        "T" : "Clean"
+    }, { 
+        "M" : "GXM_Filter",
+        "T" : "Filter"
+    }, { 
+        "M" : "GXM_FilterRange",
+        "T" : "%1 - %2"
+    }, { 
+        "M" : "GXM_FilterRangeFrom",
+        "T" : "From %1"
+    }, { 
+        "M" : "GXM_FilterRangeTo",
+        "T" : "Up to %1"
+    }, { 
+        "M" : "GXM_CouldNotLoad",
+        "T" : "Could not load"
+    }, { 
+        "M" : "GXM_Edit",
+        "T" : "Edit"
+    }, { 
+        "M" : "GXM_SelectGrid",
+        "T" : "Select grid"
+    }, { 
+        "M" : "GXM_user",
+        "T" : "User name"
+    }, { 
+        "M" : "GXM_password",
+        "T" : "Password"
+    }, { 
+        "M" : "GXM_Username",
+        "T" : "Username"
+    }, { 
+        "M" : "GXM_ApplicationCacheHasBeenCleared",
+        "T" : "Application cache has been cleared"
+    }, { 
+        "M" : "GXM_LoadingPreview",
+        "T" : "Loading preview…"
+    }, { 
+        "M" : "GXM_LoadingAudio",
+        "T" : "Loading audio…"
+    }, { 
+        "M" : "GXM_next",
+        "T" : "Next"
+    }, { 
+        "M" : "GXM_Address",
+        "T" : "Address"
+    }, { 
+        "M" : "GXM_Server",
+        "T" : "Server"
+    }, { 
+        "M" : "GXM_Retry",
+        "T" : "Retry"
+    }, { 
+        "M" : "GXM_Menu",
+        "T" : "Menu"
+    }, { 
+        "M" : "GXM_TheUsernameAndPasswordMustNotBeEmpty",
+        "T" : "The username and password must not be empty"
+    }, { 
+        "M" : "GXM_CouldNotLoadPage",
+        "T" : "Could not load page"
+    }, { 
+        "M" : "GXM_Cancellogin",
+        "T" : "Cancel Login"
+    }, { 
+        "M" : "GXM_SelectMapType",
+        "T" : "Select Map Type"
+    }, { 
+        "M" : "GXM_Standard",
+        "T" : "Standard"
+    }, { 
+        "M" : "GXM_Satellite",
+        "T" : "Satellite"
+    }, { 
+        "M" : "GXM_Hybrid",
+        "T" : "Hybrid"
+    }, { 
+        "M" : "GXM_NewVersionAvailable",
+        "T" : "New version available"
+    }, { 
+        "M" : "GXM_NewVersionInstallQuestion",
+        "T" : "There is a new major version available."
+    }, { 
+        "M" : "GXM_LoadingVideo",
+        "T" : "Loading video…"
+    }, { 
+        "M" : "GXM_NoPreviewAvailable",
+        "T" : "No preview available"
+    }, { 
+        "M" : "GXM_Order",
+        "T" : "Order"
+    }, { 
+        "M" : "GXM_canmsg",
+        "T" : "Program canceled due to user request"
+    }, { 
+        "M" : "GXM_AddressBookAccessDenied",
+        "T" : "This app does not have access to your contacts. You can enable access in Privacy Settings"
+    }, { 
+        "M" : "GXM_AddressBookAccessRestricted",
+        "T" : "This app does not have access to your contacts."
+    }, { 
+        "M" : "GXM_ReceivingData",
+        "T" : "Receiving data"
+    }, { 
+        "M" : "GXM_ReceivingProgress",
+        "T" : "Receiving in progress"
+    }, { 
+        "M" : "GXM_ReceptionFailed",
+        "T" : "Data reception failed"
+    }, { 
+        "M" : "GXM_ReceptionCompleted",
+        "T" : "Data reception completed"
+    }, { 
+        "M" : "GXM_NothingSelected",
+        "T" : "Nothing Selected"
+    }, { 
+        "M" : "GXM_CameraNotAvailable",
+        "T" : "Camera is not available"
+    }, { 
+        "M" : "GXM_CouldNotLoadImage",
+        "T" : "Could not load image"
+    }, { 
+        "M" : "GXM_PhotoLibraryNotAvailable",
+        "T" : "Photo Library is not available"
+    }, { 
+        "M" : "GXM_FilterDescriptionFrom",
+        "T" : "%1 From"
+    }, { 
+        "M" : "GXM_FilterDescriptionTo",
+        "T" : "%1 To"
+    }, { 
+        "M" : "GXM_DeviceCannotMakePurchases",
+        "T" : "This device can't make purchases"
+    }, { 
+        "M" : "GXM_Meters",
+        "T" : "Meters"
+    }, { 
+        "M" : "GXM_Feet",
+        "T" : "Feet"
+    }, { 
+        "M" : "GXM_ChoosePhoto",
+        "T" : "Choose Photo"
+    }, { 
+        "M" : "GXM_DeletePhoto",
+        "T" : "Delete Photo"
+    }, { 
+        "M" : "GXM_TakePhoto",
+        "T" : "Take a Photo"
+    }, { 
+        "M" : "GXM_getbeforeupd",
+        "T" : "Please 'Get' data before trying to update it."
+    }, { 
+        "M" : "GXM_keynfound",
+        "T" : "Data with the specified key could not be found."
+    }, { 
+        "M" : "GXM_noupdate",
+        "T" : "Record already exists"
+    }, { 
+        "M" : "GXM_recdeleted",
+        "T" : "Error - Record was deleted by another user."
+    }, { 
+        "M" : "GXM_sucadded",
+        "T" : "Data has been successfully added."
+    }, { 
+        "M" : "GXM_sucdeleted",
+        "T" : "Data has been successfully deleted."
+    }, { 
+        "M" : "GXM_sucupdated",
+        "T" : "Data has been successfully updated."
+    }, { 
+        "M" : "GXM_unexp",
+        "T" : "An unexpected error has occurred while updating your data. Please try again."
+    }, { 
+        "M" : "GXM_waschg",
+        "T" : "%1 was changed."
+    }, { 
+        "M" : "GXM_CannotEditVideo",
+        "T" : "The selected video could not be edited."
+    }, { 
+        "M" : "GXM_CouldNotSaveVideo",
+        "T" : "Could not save video."
+    }, { 
+        "M" : "GXM_DroppedPin",
+        "T" : "Dropped Pin"
+    }, { 
+        "M" : "GXM_RemovePin",
+        "T" : "Remove Pin"
+    }, { 
+        "M" : "GXM_filecrea",
+        "T" : "Creating table %1 %2."
+    }, { 
+        "M" : "GXM_creaindx",
+        "T" : "Creating index %1 ..."
+    }, { 
+        "M" : "GXM_DoYouWantBiometricQuestion",
+        "T" : "Do you want to use %1 to remember credentials?"
+    }, { 
+        "M" : "GXM_AuthenticateDescriptionLogin",
+        "T" : "Login using stored credentials"
+    }, { 
+        "M" : "GXM_filesApp",
+        "T" : "Files app"
+    }, { 
+        "M" : "GXM_localFile",
+        "T" : "Local file"
+    } ]
+}

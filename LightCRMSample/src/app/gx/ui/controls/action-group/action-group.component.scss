@@ -1,0 +1,15 @@
+:host {
+	display: block;
+}
+
+.action-group-panel {
+    // TODO: Format this!
+    background-color: white;
+    border: 1px gray solid;
+    margin: 10px;
+    padding: 10px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 100;
+}

@@ -1,0 +1,22 @@
+{
+	"pages": [
+		"http://localhost:3030/WorkWithDevicesCompany-Company_List",
+		"http://localhost:3030/WorkWithDevicesContact-Contact_List",
+		"http://localhost:3030/WorkWithDevicesMeeting-Meeting_List"
+	],
+	"expectations": {
+		"categories": {
+			"best-practices": 65,
+			"accessibility": 65
+		}
+	},
+	"lighthouseParams": {
+		"flags": {
+		  "chromeFlags": ["--headless"]
+		},
+		"config": {
+		  "extends": "lighthouse:default"
+		}
+	},
+	"failOnUnmetExpectation": true
+}

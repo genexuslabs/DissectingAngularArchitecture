@@ -1,0 +1,10 @@
+{
+    "/globantdemoservices": {
+        "target": "https://apps5.genexus.com/globantdemoservices/",
+        "secure": false,
+        "logLevel": "debug",
+        "pathRewrite": {
+            "^/globantdemoservices": ""
+        }
+    }
+}

@@ -1,0 +1,364 @@
+  <section class="main-content">
+    <gx-card
+      #ViewAny
+      [showHeader]='showAsCard'
+      [showBorder]='showAsCard'
+      [showFooter]='showAsCard'
+      *ngIf="viewManager.view === 'ViewAny'"
+      class="ApplicationBars"
+    >
+      <div slot="body" *ngIf="viewManager.view === 'ViewAny'">
+          <gx-table
+            #ctrlMaintable
+            ngClass='TableSection'
+            areas-template="'. ' 'cell10 ' '. ' 'cell30 ' "
+            columns-template="10px"
+            rows-template="minmax(min-content, 10px) var(--gx-table-row-autogrow) minmax(min-content, 10px) var(--gx-table-row-autogrow)"
+             style="min-height: 298px; "
+            invisible-mode="keep-space"
+          >
+            <gx-table-cell 
+              area="cell10"
+               overflow-mode="clip"
+              align="left" valign="top"
+               min-height="150px"
+            >
+                <gx-table
+                  #ctrlTable1
+                  ngClass='Table'
+                  areas-template="'cell00 . cell02 ' "
+                  columns-template="150px 10px 1fr"
+                  rows-template="minmax(min-content, 150px)"
+                   style="min-height: 150px; "
+                  invisible-mode="keep-space"
+                >
+                  <gx-table-cell 
+                    area="cell00"
+                     overflow-mode="clip"
+                    align="center" valign="middle"
+                    max-height="150px" min-height="150px"
+                  >
+                    <gx-image
+                      #ctrlCompanylogo
+                      [autoGrow]="false"
+                      ngClass='Image'
+                      [src]="this.WorkWithDevicesCompany_Company_Section_General_data.CompanyLogo | loadCachedUri | resolveRelativeUrl"
+                      alt="Logo"
+                      invisible-mode="keep-space"
+                    >
+                    </gx-image>
+
+
+                  </gx-table-cell>
+
+
+
+                  <gx-table-cell 
+                    area="cell02"
+                     overflow-mode="clip"
+                    align="left" valign="top"
+                    max-height="150px" min-height="150px"
+                  >
+                      <gx-edit
+                        #ctrlCompanyname
+                        name="ctrlCompanyname"
+                        ngClass='AttributeTitle'
+                        invisible-mode="keep-space"
+
+                        type="text"
+                        placeholder="Name"
+
+                        [ngModel]="this.WorkWithDevicesCompany_Company_Section_General_data.CompanyName"
+                        ngDefaultControl
+                        [attr.readonly]="true"
+                        line-clamp
+                        area="field"
+                      >
+                      </gx-edit>
+
+
+                  </gx-table-cell>
+
+
+                </gx-table>
+
+            </gx-table-cell>
+
+
+
+            <gx-table-cell 
+              area="cell30"
+               overflow-mode="clip"
+              align="left" valign="top"
+               min-height="128px"
+            >
+                <gx-table
+                  #ctrlTable2
+                  ngClass='Table'
+                  areas-template="'cell00 ' 'cell10 ' "
+                  columns-template="1fr"
+                  rows-template="minmax(min-content, 64px) minmax(min-content, 64px)"
+                   style="min-height: 128px; "
+                  invisible-mode="keep-space"
+                >
+                  <gx-table-cell 
+                    area="cell00"
+                     overflow-mode="clip"
+                    align="left" valign="top"
+                    max-height="64px" min-height="64px"
+                  >
+                    <gx-form-field
+                      ngClass='Attribute'
+                      invisible-mode="keep-space"
+                      labelCaption="{{'Address' | translate}}"
+                      label-position="top"
+                      >
+                        <gx-edit
+                          #ctrlCompanyaddress
+                          name="ctrlCompanyaddress"
+                          type="text"
+                          placeholder="Address"
+
+                          [ngModel]="this.WorkWithDevicesCompany_Company_Section_General_data.CompanyAddress"
+                          ngDefaultControl
+                          [attr.readonly]="true"
+                          line-clamp
+                          area="field"
+                        >
+                        </gx-edit>
+
+                    </gx-form-field>
+
+                  </gx-table-cell>
+
+
+                  <gx-table-cell 
+                    area="cell10"
+                     overflow-mode="clip"
+                    align="left" valign="top"
+                    max-height="64px" min-height="64px"
+                  >
+                    <gx-form-field
+                      ngClass='Attribute'
+                      invisible-mode="keep-space"
+                      labelCaption="{{'Phone' | translate}}"
+                      label-position="top"
+                      >
+                        <gx-edit
+                          #ctrlCompanyphone
+                          name="ctrlCompanyphone"
+                          type="text"
+                          placeholder="Phone"
+
+                          [ngModel]="this.WorkWithDevicesCompany_Company_Section_General_data.CompanyPhone"
+                          ngDefaultControl
+                          [attr.readonly]="true"
+                          line-clamp
+                          area="field"
+                        >
+                        </gx-edit>
+
+                    </gx-form-field>
+
+                  </gx-table-cell>
+
+
+                </gx-table>
+
+            </gx-table-cell>
+
+
+          </gx-table>
+
+      </div>
+      <gx-button
+        #ctrlButtonupdate
+        name="ctrlButtonupdate"
+        (click)="callAction( this._Update); $event.stopPropagation()"
+        ngClass='Button'
+        [disabled]="_actionsEnabled | default:true | not"
+        image-position=""
+        slot="high-priority-action"
+        *ngIf="showAsCard"
+      >
+        {{translate('GXM_update')}}
+      </gx-button>
+      <gx-button
+        #ctrlButtondelete
+        name="ctrlButtondelete"
+        (click)="callAction( this._Delete); $event.stopPropagation()"
+        ngClass='Button'
+        [disabled]="_actionsEnabled | default:true | not"
+        image-position=""
+        slot="high-priority-action"
+        *ngIf="showAsCard"
+      >
+        {{translate('GX_BtnDelete')}}
+      </gx-button>
+    </gx-card>
+    <gx-card
+      #EditAny
+      [showHeader]='showAsCard'
+      [showBorder]='showAsCard'
+      [showFooter]='showAsCard'
+      *ngIf="viewManager.view === 'EditAny'"
+      class="ApplicationBars"
+    >
+      <div slot="body" *ngIf="viewManager.view === 'EditAny'">
+          <gx-table
+            #ctrlMaintable
+            ngClass='TableSectioninsert'
+            areas-template="'cell00 ' 'cell10 ' 'cell20 ' 'cell30 ' "
+            columns-template="1fr"
+            rows-template="minmax(min-content, 64px) minmax(min-content, 64px) minmax(min-content, 64px) minmax(min-content, 64px)"
+             style="min-height: 256px; "
+            invisible-mode="keep-space"
+          >
+            <gx-table-cell 
+              area="cell00"
+               overflow-mode="clip"
+              align="left" valign="top"
+              max-height="64px" min-height="64px"
+            >
+              <gx-form-field
+                ngClass='Attribute'
+                invisible-mode="keep-space"
+                labelCaption="{{'Name' | translate}}"
+                label-position="left"
+                >
+                  <gx-edit
+                    #ctrlCompanyname
+                    name="ctrlCompanyname"
+                    type="text"
+                    placeholder="Name"
+
+                    [ngModel]="this.WorkWithDevicesCompany_Company_Section_General_data.CompanyName"
+                    (ngModelChange)="this.WorkWithDevicesCompany_Company_Section_General_data.CompanyName = $event;   "
+                    ngDefaultControl
+                    [attr.readonly]="(false || (this.Mode == 'DLT'))"
+                    area="field"
+                  >
+                  </gx-edit>
+
+              </gx-form-field>
+
+            </gx-table-cell>
+
+
+            <gx-table-cell 
+              area="cell10"
+               overflow-mode="clip"
+              align="left" valign="top"
+              max-height="64px" min-height="64px"
+            >
+              <gx-form-field
+                ngClass='Attribute'
+                invisible-mode="keep-space"
+                labelCaption="{{'Address' | translate}}"
+                label-position="left"
+                >
+                  <gx-edit
+                    #ctrlCompanyaddress
+                    name="ctrlCompanyaddress"
+                    type="text"
+                    placeholder="Address"
+
+                    [ngModel]="this.WorkWithDevicesCompany_Company_Section_General_data.CompanyAddress"
+                    (ngModelChange)="this.WorkWithDevicesCompany_Company_Section_General_data.CompanyAddress = $event;   "
+                    ngDefaultControl
+                    [attr.readonly]="(false || (this.Mode == 'DLT'))"
+                    area="field"
+                  >
+                  </gx-edit>
+
+              </gx-form-field>
+
+            </gx-table-cell>
+
+
+            <gx-table-cell 
+              area="cell20"
+               overflow-mode="clip"
+              align="left" valign="top"
+              max-height="64px" min-height="64px"
+            >
+              <gx-form-field
+                ngClass='Attribute'
+                invisible-mode="keep-space"
+                labelCaption="{{'Phone' | translate}}"
+                label-position="left"
+                >
+                  <gx-edit
+                    #ctrlCompanyphone
+                    name="ctrlCompanyphone"
+                    type="text"
+                    placeholder="Phone"
+
+                    [ngModel]="this.WorkWithDevicesCompany_Company_Section_General_data.CompanyPhone"
+                    (ngModelChange)="this.WorkWithDevicesCompany_Company_Section_General_data.CompanyPhone = $event;   "
+                    ngDefaultControl
+                    [attr.readonly]="(false || (this.Mode == 'DLT'))"
+                    area="field"
+                  >
+                  </gx-edit>
+
+              </gx-form-field>
+
+            </gx-table-cell>
+
+
+            <gx-table-cell 
+              area="cell30"
+               overflow-mode="clip"
+              align="center" valign="middle"
+              max-height="64px" min-height="64px"
+            >
+              <gx-form-field
+                ngClass='Image'
+                invisible-mode="keep-space"
+                labelCaption="{{'Logo' | translate}}"
+                label-position="left"
+                >
+                <gx-image-upload
+                  #ctrlCompanylogo 
+                  [src]="this.WorkWithDevicesCompany_Company_Section_General_data.CompanyLogo | loadCachedUri | resolveRelativeUrl"
+                  [readonly]="false" 
+                  labelText="{{'Logo' | translate}}" 
+                  (onImageChanged)="this.WorkWithDevicesCompany_Company_Section_General_data.CompanyLogo = $event"
+                  alt="Logo"
+                ></gx-image-upload>
+
+              </gx-form-field>
+
+            </gx-table-cell>
+
+
+          </gx-table>
+
+      </div>
+      <gx-button
+        #ctrlButtonsave
+        name="ctrlButtonsave"
+        (click)="callAction( this._Save); $event.stopPropagation()"
+        ngClass='Button'
+        [disabled]="_actionsEnabled | default:true | not"
+        image-position=""
+        slot="high-priority-action"
+        *ngIf="showAsCard"
+      >
+        {{translate('GXM_Save')}}
+      </gx-button>
+      <gx-button
+        #ctrlButtoncancel
+        name="ctrlButtoncancel"
+        (click)="callAction( this._Cancel); $event.stopPropagation()"
+        ngClass='Button'
+        [disabled]="_actionsEnabled | default:true | not"
+        image-position=""
+        slot="high-priority-action"
+        *ngIf="showAsCard"
+      >
+        {{translate('GXM_cancel')}}
+      </gx-button>
+    </gx-card>
+  </section>

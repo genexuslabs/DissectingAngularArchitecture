@@ -1,0 +1,68 @@
+{
+  "images": [
+    { 
+          "name": "img_company", 
+          "theme": "carmineios", 
+          "lang": "English", 
+          "density": [], 
+          "location": "Resources/img_company.png"
+    },
+    { 
+          "name": "img_contact", 
+          "theme": "carmineios", 
+          "lang": "English", 
+          "density": [], 
+          "location": "Resources/img_contact.png"
+    },
+    { 
+          "name": "img_meeting", 
+          "theme": "carmineios", 
+          "lang": "English", 
+          "density": [], 
+          "location": "Resources/img_meeting.png"
+    },
+    { 
+          "name": "ico_android_140x140", 
+          "theme": "carmineios", 
+          "lang": "English", 
+          "density": [], 
+          "location": "Resources/ico_android_140x140.png"
+    },
+    { 
+          "name": "launch_android", 
+          "theme": "carmineios", 
+          "lang": "English", 
+          "density": [], 
+          "location": "Resources/launch_android.png"
+    },
+    { 
+          "name": "bin", 
+          "theme": "carmineios", 
+          "lang": "English", 
+          "density": [], 
+          "location": "Resources/bin.png"
+    },
+    { 
+          "name": "iosicon", 
+          "theme": "carmineios", 
+          "lang": "English", 
+          "density": [], 
+          "location": "Resources/IOSIcon.png"
+    },
+    { 
+          "name": "ioslaunchimage", 
+          "theme": "carmineios", 
+          "lang": "English", 
+          "density": [], 
+          "location": "Resources/IOSLaunchImage.png"
+    },
+    { 
+          "name": "group", 
+          "theme": "carmineios", 
+          "lang": "English", 
+          "density": [], 
+          "location": "Resources/CarmineIOS/Group.png"
+    }
+  ]
+}
+

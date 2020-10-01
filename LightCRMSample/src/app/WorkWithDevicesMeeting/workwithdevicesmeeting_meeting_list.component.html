@@ -1,0 +1,181 @@
+  <section class="main-content">
+    <gx-card
+      #ViewAnyAndroid
+      [showHeader]='showAsCard'
+      [showBorder]='showAsCard'
+      [showFooter]='showAsCard'
+      *ngIf="viewManager.view === 'ViewAnyAndroid'"
+      class="ApplicationBars"
+    >
+      <div slot="body" *ngIf="viewManager.view === 'ViewAnyAndroid'">
+          <gx-table
+            #ctrlMaintable
+            ngClass='Table'
+            areas-template="'cell00 ' 'cell10 ' "
+            columns-template="1fr"
+            rows-template="minmax(min-content, 1fr) var(--gx-table-row-autogrow-collapse)"
+            invisible-mode="keep-space"
+          >
+            <gx-table-cell 
+              area="cell00"
+               overflow-mode="scroll"
+              align="left" valign="top"
+               
+            >
+              <gx-grid-fs
+                 #ctrlGrid1 
+                 ngClass='Grid'
+                 invisible-mode="keep-space"
+                 [loadingState]='this.uiModel._ctrlGrid1Items.loadingState || false'    
+                 [recordCount]="this.WorkWithDevicesMeeting_Meeting_List_Grid1_collection.length"
+                >
+                  <virtual-scroller 
+                        #ctrlGrid1_VScroll
+                        [bufferAmount]="6" 
+                        slot="grid-content"
+                        [items]="this.ctrlGrid1Controller.gridData$ | async">
+                    <ng-container  *ngFor="let ctrlGrid1Item of ctrlGrid1_VScroll.viewPortItems; trackBy:this.ctrlGrid1Controller.identify" >
+                         <gx-table
+                           #ctrlTable1
+                           ngClass='TableTableGrid'
+                           class="gx-grid-row"
+                           areas-template="'. cell01 . ' "
+                           columns-template="10px 1fr 5px"
+                           rows-template="minmax(min-content, 44px)"
+                            style="min-height: 44px; "
+                           invisible-mode="keep-space"
+                           (click)=" this.ctrlGrid1SetContext(ctrlGrid1Item.gxIndex); ctrlGrid1Action( ctrlGrid1Item.gxIndex, this._GridSelect); $event.stopPropagation()"
+                           data-has-action=""
+
+                         >
+                           <gx-table-cell 
+                             area="cell01"
+                              overflow-mode="clip"
+                             align="left" valign="top"
+                             max-height="44px" min-height="44px"
+                           >
+                               <gx-edit
+                                 #ctrlMeetingtitle
+                                 name="ctrlMeetingtitle"
+                                 [disabled]="_actionsEnabled | default:true | not"
+                                 ngClass='AttributeTitle'
+                                 [hidden]="this.uiModel._ctrlGrid1Items[ctrlGrid1Item.gxIndex]?.ctrlMeetingtitle?.visible | default:true | not"
+                                 invisible-mode="keep-space"
+
+                                 type="text"
+                                 placeholder="Meeting Title"
+
+                                 [ngModel]="ctrlGrid1Item.MeetingTitle"
+                                 ngDefaultControl
+                                 [attr.readonly]="true"
+                                 (click) = "this.ctrlGrid1SetContext(ctrlGrid1Item.gxIndex);uiActions.ctrlMeetingtitle.onClick($event);"
+                                 data-has-action=""
+                                 line-clamp
+                                 area="field"
+                               >
+                               </gx-edit>
+
+
+                           </gx-table-cell>
+
+
+
+                         </gx-table>
+                        
+                     </ng-container>
+                    <gx-grid-infinite-scroll
+                                 threshold="150px"
+                                 viewport-selector="virtual-scroller"
+                                 [itemCount]="this.WorkWithDevicesMeeting_Meeting_List_Grid1_collection.length" (gxInfinite)="this.fetchNextPagectrlGrid1($event)">
+                             <gx-grid-infinite-scroll-content>
+                                <div>
+                                  <span class="gx-loading-text">{{translate("GXM_Loading")}}</span>
+                                </div>
+                             </gx-grid-infinite-scroll-content>
+                    </gx-grid-infinite-scroll>
+                  </virtual-scroller>
+
+                <div slot="grid-empty-loading-placeholder">
+                  <span class="gx-loading-text">{{translate("GXM_Loading")}}</span>
+                </div>
+                <div slot="grid-content-empty">
+                  <gx-grid-empty-indicator
+                    >
+                  </gx-grid-empty-indicator>  
+                </div>
+              </gx-grid-fs>
+
+            </gx-table-cell>
+
+
+            <gx-table-cell 
+              area="cell10"
+               overflow-mode="clip"
+              align="left" valign="top"
+               min-height="60px"
+            >
+                <gx-table
+                  #ctrlReciclebin
+                  ngClass='TableRecycleBin'
+                  areas-template="'cell00 . cell02 ' "
+                  columns-template="0.8fr 10px 0.2fr"
+                  rows-template="minmax(min-content, 60px)"
+                   style="min-height: 60px; "
+                  invisible-mode="collapse"
+                >
+                  <gx-table-cell 
+                    area="cell00"
+                     overflow-mode="clip"
+                    align="center" valign="middle"
+                    max-height="60px" min-height="60px"
+                  >
+                    <gx-textblock 
+                      #ctrlTextblock1 
+                      ngClass='TextBlockTransp'
+                      invisible-mode="keep-space"
+                      line-clamp
+                    >{{translate('Drop meeting here to delete')}}</gx-textblock>
+                  </gx-table-cell>
+
+
+
+                  <gx-table-cell 
+                    area="cell02"
+                     overflow-mode="scroll"
+                    align="left" valign="middle"
+                    max-height="60px" min-height="60px"
+                  >
+                    <gx-image
+                      [autoGrow]="false"
+                      #ctrlImage1
+                      ngClass='Image'
+                      src="{{getImageSource('bin')}}"
+                      alt="ctrlImage1"
+                      invisible-mode="keep-space"
+                    >
+                    </gx-image>
+                  </gx-table-cell>
+
+
+                </gx-table>
+
+            </gx-table-cell>
+
+
+          </gx-table>
+
+      </div>
+      <gx-button
+        #ctrlButtoninsert
+        name="ctrlButtoninsert"
+        (click)="callAction( this._Insert); $event.stopPropagation()"
+        ngClass='Button'
+        [disabled]="_actionsEnabled | default:true | not"
+        image-position=""
+        slot="high-priority-action"
+        *ngIf="showAsCard"
+      >
+        {{translate('GXM_insert')}}
+      </gx-button>
+    </gx-card>
+  </section>

@@ -1,0 +1,148 @@
+  <section class="main-content">
+    <gx-card
+      #ViewAny
+      [showHeader]='showAsCard'
+      [showBorder]='showAsCard'
+      [showFooter]='showAsCard'
+      *ngIf="viewManager.view === 'ViewAny'"
+      class="ApplicationBars"
+    >
+      <div slot="body" *ngIf="viewManager.view === 'ViewAny'">
+          <gx-table
+            #ctrlMaintable
+            ngClass='GridContainer'
+            areas-template="'cell00 ' "
+            columns-template="1fr"
+            rows-template="minmax(min-content, 1fr)"
+            invisible-mode="keep-space"
+          >
+            <gx-table-cell 
+              area="cell00"
+               overflow-mode="scroll"
+              align="left" valign="top"
+               
+            >
+              <gx-grid-smart 
+                  rows="3"
+                  items-per-group='2'
+                  columns='2'
+                  direction="horizontal" 
+                  snap-to-grid="true" 
+                  pager="true"
+                  [currentPage]="this.uiModel.ctrlGrid1?.currentPage"
+                  #ctrlGrid1 
+                  ngClass='Grid'
+                  invisible-mode="keep-space"
+                  [loadingState]='this.uiModel._ctrlGrid1Items.loadingState || false'    
+                  [recordCount]="this.WorkWithDevicesContact_Contact_List_Grid1_collection.length"
+                  (gxInfiniteThresholdReached)="this.fetchNextPagectrlGrid1($event)"
+                >
+                <div slot="grid-content">
+                 <ng-container *ngFor="let ctrlGrid1Item of this.ctrlGrid1Controller.gridData$ | async; trackBy:this.ctrlGrid1Controller.identify" >
+                      <gx-table
+                        #ctrlTable1
+                        ngClass='Table'
+                        class="swiper-slide gx-grid-row"
+                        areas-template="'cell00 ' "
+                        columns-template="1fr"
+                        rows-template="minmax(min-content, 1fr)"
+                         style="align-self: stretch; height: calc(100% / 3 ); min-height: auto; "
+                        invisible-mode="keep-space"
+                        (click)=" this.ctrlGrid1SetContext(ctrlGrid1Item.gxIndex); ctrlGrid1Action( ctrlGrid1Item.gxIndex, this._GridSelect); $event.stopPropagation()"
+                        data-has-action=""
+
+                      >
+                        <ng-container *visibleWith="ctrlTable1">
+                          <gx-table-cell 
+                            area="cell00"
+                             overflow-mode="clip"
+                            align="center" valign="middle"
+                             
+                          >
+                              <gx-canvas
+                                #ctrlTable2
+                                class="Table"
+                                 style="min-width: 100%; min-height: 100%; "
+                                invisible-mode="keep-space"
+                              >
+                                <gx-canvas-cell 
+                                  align="center" valign="middle"
+                                   style="top: 10px; left: 20px; width: calc( 100% + -20px ); height: calc( 100% + -10px ); position: absolute; display: flex; "
+                                >
+                                  <gx-image
+                                    #ctrlContactphoto
+                                    [autoGrow]="false"
+                                    ngClass='ImageScaleToFillKA'
+                                    [src]="ctrlGrid1Item.ContactPhoto | loadCachedUri | resolveRelativeUrl"
+                                    alt="Contact Photo"
+                                    invisible-mode="keep-space"
+                                  >
+                                  </gx-image>
+
+
+                                </gx-canvas-cell>
+
+
+                                <gx-canvas-cell 
+                                  align="center" valign="middle"
+                                   style="top: calc( 100% + -30px ); width: 100%; height: 30px; position: absolute; display: flex; align-items: center; justify-content: center; "
+                                >
+                                    <gx-edit
+                                      #ctrlContactname
+                                      name="ctrlContactname"
+                                      ngClass='AttributeWhite'
+                                      invisible-mode="keep-space"
+
+                                      type="text"
+                                      placeholder="Contact Name"
+
+                                      [ngModel]="ctrlGrid1Item.ContactName"
+                                      ngDefaultControl
+                                      [attr.readonly]="true"
+                                      area="field"
+                                    >
+                                    </gx-edit>
+
+
+                                </gx-canvas-cell>
+
+                              </gx-canvas>
+
+                          </gx-table-cell>
+
+                        </ng-container>
+
+                      </gx-table>
+                     
+                  </ng-container>
+                </div>  
+                <div slot="grid-empty-loading-placeholder">
+                  <span class="gx-loading-text">{{translate("GXM_Loading")}}</span>
+                </div>
+                <div slot="grid-content-empty">
+                  <gx-grid-empty-indicator
+                    >
+                  </gx-grid-empty-indicator>  
+                </div>
+              </gx-grid-smart>
+
+            </gx-table-cell>
+
+
+          </gx-table>
+
+      </div>
+      <gx-button
+        #ctrlButtoninsert
+        name="ctrlButtoninsert"
+        (click)="callAction( this._Insert); $event.stopPropagation()"
+        ngClass='Button'
+        [disabled]="_actionsEnabled | default:true | not"
+        image-position=""
+        slot="high-priority-action"
+        *ngIf="showAsCard"
+      >
+        {{translate('GXM_insert')}}
+      </gx-button>
+    </gx-card>
+  </section>

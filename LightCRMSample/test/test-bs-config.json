@@ -1,0 +1,14 @@
+{
+  "port": 3030,
+  "open": false,
+  "logLevel": "silent",
+  "server": {
+    "middleware": {
+      "0": null
+    },
+    "baseDir": "dist",
+    "routes": {
+      "/node_modules": "node_modules"
+    }
+  }
+}

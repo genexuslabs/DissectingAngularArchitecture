@@ -1,0 +1,26 @@
+#messageBar {
+    position: absolute;
+    z-index: 101;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    text-align: center;
+    background: #fde073;
+    overflow: hidden;
+    transform: translateY(-50px);
+}
+
+#messageBar.show {
+    animation: slideDown 0.5s 0s 1 ease forwards;
+}
+
+@keyframes slideDown {
+    0% {
+        transform: translateY(-50px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}

@@ -1,0 +1,5 @@
+<gx-timer [state]="timerState" interval=1 maxValue=5 (onEnd)="dismissGroup()">
+    <div [hidden]="!show" class="action-group-panel">
+        <ng-content></ng-content>
+    </div>
+</gx-timer>

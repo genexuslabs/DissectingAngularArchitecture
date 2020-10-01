@@ -1,0 +1,9 @@
+<gx-modal [opened]="show" (close)="closeAction()" (open)="openAction()">
+    <div slot="header">{{settings.title}}</div>
+    <div slot="body">
+        <gx-progress-bar [value]="sValue"></gx-progress-bar>
+        <div>
+            {{settings.description}}
+        </div>
+    </div>
+</gx-modal>

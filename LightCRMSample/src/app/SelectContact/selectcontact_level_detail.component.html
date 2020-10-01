@@ -1,0 +1,130 @@
+  <section class="main-content">
+    <gx-card
+      #ViewAny
+      [showHeader]='showAsCard'
+      [showBorder]='showAsCard'
+      [showFooter]='showAsCard'
+      *ngIf="viewManager.view === 'ViewAny'"
+      class="ApplicationBars"
+    >
+      <div slot="body" *ngIf="viewManager.view === 'ViewAny'">
+          <gx-table
+            #ctrlMaintable
+            ngClass='TableDetail'
+            areas-template="'cell00 ' "
+            columns-template="1fr"
+            rows-template="minmax(min-content, 1fr)"
+            invisible-mode="keep-space"
+          >
+            <gx-table-cell 
+              area="cell00"
+               overflow-mode="scroll"
+              align="left" valign="top"
+               
+            >
+              <gx-grid-fs
+                 #ctrlGrid1 
+                 ngClass='Grid'
+                 invisible-mode="keep-space"
+                 [loadingState]='this.uiModel._ctrlGrid1Items.loadingState || false'    
+                 [recordCount]="this.SelectContact_Grid1_collection.length"
+                >
+                  <virtual-scroller 
+                        #ctrlGrid1_VScroll
+                        [bufferAmount]="6" 
+                        slot="grid-content"
+                        [items]="this.ctrlGrid1Controller.gridData$ | async">
+                    <ng-container  *ngFor="let ctrlGrid1Item of ctrlGrid1_VScroll.viewPortItems; trackBy:this.ctrlGrid1Controller.identify" >
+                         <gx-table
+                           #ctrlGrid1table
+                           ngClass='Table'
+                           class="gx-grid-row"
+                           areas-template="'cell00 cell01 ' "
+                           columns-template="1fr 64px"
+                           rows-template="minmax(min-content, 44px)"
+                            style="min-height: 44px; "
+                           invisible-mode="keep-space"
+                           (click)=" this.ctrlGrid1SetContext(ctrlGrid1Item.gxIndex); ctrlGrid1Action( ctrlGrid1Item.gxIndex, this._Select); $event.stopPropagation()"
+                           data-has-action=""
+
+                         >
+                           <gx-table-cell 
+                             area="cell00"
+                              overflow-mode="clip"
+                             align="left" valign="middle"
+                             max-height="44px" min-height="44px"
+                           >
+                               <gx-edit
+                                 #ctrlContactname
+                                 name="ctrlContactname"
+                                 ngClass='AttributeTitle'
+                                 invisible-mode="keep-space"
+
+                                 type="text"
+                                 placeholder="Contact Name"
+
+                                 [ngModel]="ctrlGrid1Item.ContactName"
+                                 ngDefaultControl
+                                 [attr.readonly]="(true || (this.Mode == 'DLT'))"
+                                 line-clamp
+                                 area="field"
+                               >
+                               </gx-edit>
+
+
+                           </gx-table-cell>
+
+
+                           <gx-table-cell 
+                             area="cell01"
+                              overflow-mode="clip"
+                             align="right" valign="middle"
+                             max-height="44px" min-height="44px"
+                           >
+                             <gx-image
+                               #ctrlContactphoto
+                               [autoGrow]="false"
+                               ngClass='Image'
+                               [src]="ctrlGrid1Item.ContactPhoto | loadCachedUri | resolveRelativeUrl"
+                               alt="Contact Photo"
+                               invisible-mode="keep-space"
+                             >
+                             </gx-image>
+
+
+                           </gx-table-cell>
+
+
+                         </gx-table>
+                        
+                     </ng-container>
+                    <gx-grid-infinite-scroll
+                                 threshold="150px"
+                                 viewport-selector="virtual-scroller"
+                                 [itemCount]="this.SelectContact_Grid1_collection.length" (gxInfinite)="this.fetchNextPagectrlGrid1($event)">
+                             <gx-grid-infinite-scroll-content>
+                                <div>
+                                  <span class="gx-loading-text">{{translate("GXM_Loading")}}</span>
+                                </div>
+                             </gx-grid-infinite-scroll-content>
+                    </gx-grid-infinite-scroll>
+                  </virtual-scroller>
+
+                <div slot="grid-empty-loading-placeholder">
+                  <span class="gx-loading-text">{{translate("GXM_Loading")}}</span>
+                </div>
+                <div slot="grid-content-empty">
+                  <gx-grid-empty-indicator
+                    >
+                  </gx-grid-empty-indicator>  
+                </div>
+              </gx-grid-fs>
+
+            </gx-table-cell>
+
+
+          </gx-table>
+
+      </div>
+    </gx-card>
+  </section>

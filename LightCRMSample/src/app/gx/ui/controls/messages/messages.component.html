@@ -1,0 +1,20 @@
+<div id="messageBar" [class]="statusBarClass">
+    <gx-message type="{{statusMessageType}}">{{statusMessage}}</gx-message>
+</div>
+
+<gx-modal [opened]="modalOpened" (close)="closeAction()">
+    <div slot="header">{{modalTitle}}</div>
+    <div slot="body">
+        {{modalMessage}}
+    </div>
+    <div slot="primary-action">
+        <gx-button (click)="confirmAction()" class="Button">
+            {{confirmCaption}}
+        </gx-button>
+    </div>
+    <div slot="secondary-action" [hidden]="!allowCancelAction">
+        <gx-button (click)="cancelAction()" class="Button">
+            {{translate('GXM_cancel')}}
+        </gx-button>
+    </div>
+</gx-modal>

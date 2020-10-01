@@ -1,0 +1,19 @@
+:host {
+    display: flex;
+    flex: 1;
+}
+
+.image-viewer {
+    display: flex;
+	flex: 1;
+    max-height: 100%;
+}
+
+.file-viewer > gx-button {
+    margin: 2px;
+}
+
+.file-viewer-file {
+    display: block;
+	flex: 1;
+}

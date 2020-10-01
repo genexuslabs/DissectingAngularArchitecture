@@ -1,0 +1,97 @@
+  <section class="main-content">
+    <gx-card
+      #ViewOrEditAnyiOS
+      [showHeader]='showAsCard'
+      [showBorder]='showAsCard'
+      [showFooter]='showAsCard'
+      *ngIf="viewManager.view === 'ViewOrEditAnyiOS'"
+      class="ApplicationBars"
+    >
+      <div slot="body" *ngIf="viewManager.view === 'ViewOrEditAnyiOS'">
+          <gx-table
+            #ctrlMaintable
+            ngClass='TableDetail'
+            areas-template="'cell00 ' "
+            columns-template="1fr"
+            rows-template="minmax(min-content, 1fr)"
+            invisible-mode="keep-space"
+          >
+            <gx-table-cell 
+              area="cell00"
+               overflow-mode="scroll"
+              align="left" valign="top"
+               
+            >
+              <div class="gx-sections-container">
+                <WorkWithDevicesCompany_Company_Section_General class="section"
+                  [companyid]="this.CompanyId"
+                  [mode]="this.Mode"
+                  sectionType='inline'>
+                >
+                </WorkWithDevicesCompany_Company_Section_General> 
+                <WorkWithDevicesCompany_Company_Section_Contact class="section"
+                  [companyid]="this.CompanyId"
+                  [mode]="this.Mode"
+                  sectionType='inline'>
+                >
+                </WorkWithDevicesCompany_Company_Section_Contact> 
+              </div>
+            </gx-table-cell>
+
+
+          </gx-table>
+
+      </div>
+    </gx-card>
+    <gx-card
+      #ViewOrEditiPad
+      [showHeader]='showAsCard'
+      [showBorder]='showAsCard'
+      [showFooter]='showAsCard'
+      *ngIf="viewManager.view === 'ViewOrEditiPad'"
+      class="ApplicationBars"
+    >
+      <div slot="body" *ngIf="viewManager.view === 'ViewOrEditiPad'">
+          <gx-table
+            #ctrlMaintable
+            ngClass='TableDetail'
+            areas-template="'cell00 ' 'cell10 ' "
+            columns-template="1fr"
+            rows-template="var(--gx-table-row-autogrow) minmax(min-content, 1fr)"
+            invisible-mode="keep-space"
+          >
+            <gx-table-cell 
+              area="cell00"
+               overflow-mode="clip"
+              align="left" valign="top"
+               min-height="150px"
+            >
+              <WorkWithDevicesCompany_Company_Section_General 
+                #Section1
+                [companyid]="this.CompanyId"
+                [mode]="this.Mode" 
+                sectionType='inline'>
+              </WorkWithDevicesCompany_Company_Section_General>
+            </gx-table-cell>
+
+
+            <gx-table-cell 
+              area="cell10"
+               overflow-mode="clip"
+              align="left" valign="top"
+               
+            >
+              <WorkWithDevicesCompany_Company_Section_Contact 
+                #Section2
+                [companyid]="this.CompanyId"
+                [mode]="this.Mode" 
+                sectionType='inline'>
+              </WorkWithDevicesCompany_Company_Section_Contact>
+            </gx-table-cell>
+
+
+          </gx-table>
+
+      </div>
+    </gx-card>
+  </section>

@@ -1,0 +1,25 @@
+<div class="image-viewer">
+    <gx-image class="image-viewer-image" [src]="src" ></gx-image>
+    <gx-button class="Button" *ngIf="!readonly" 
+        [disabled] = "disabled || uploading" 
+        (click)="updateImageAction($event)">
+        {{updateButtonCaption}}
+    </gx-button>
+    <gx-button class="Button" *ngIf="!readonly && clearButtonVisible"
+        [disabled]="disabled || uploading"
+        (click)="clearImageAction($event)">
+        Clear
+    </gx-button>
+</div>
+
+<gx-modal [opened]="show" (onClose)="closeAction()">
+    <div slot="header">{{modalTitle}}</div>
+    <div slot="body">
+        <input #fileInput type="file" (change)="fileSelectedAction()"/>
+    </div>
+    <div slot="secondary-action">
+        <gx-button (click)="closeAction()" class="Button">
+            {{translate('GXM_cancel')}}
+        </gx-button>
+    </div>
+</gx-modal>
