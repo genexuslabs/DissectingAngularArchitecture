@@ -13,3 +13,5 @@ This repository is the base to understand why generated GeneXus Angular applicat
 - 3 tier client generation (UI, Behavior, Data Connectors)
 
 # Architecture 
+
+![Angular High Level Architecture](architectureAngular.png)
