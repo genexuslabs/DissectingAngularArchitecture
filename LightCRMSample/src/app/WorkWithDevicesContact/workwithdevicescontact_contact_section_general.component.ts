@@ -46,24 +46,24 @@ export class WorkWithDevicesContact_Contact_Section_GeneralComponent extends BcP
   _routingPath = 'WorkWithDevicesContact-Contact_Section_General';
   views = [
     {
-      name: "ViewAny",
+      name: "ViewAnyiOS",
       type: "any",
       minShortestBound: 0,
       maxShortestBound: 0,
       minLongestBound: 0,
       maxLongestBound: 0,
-      appBarInitFn: this.initAppBar_ViewAny.bind(this),
-      appBarResetFn: this.resetAppBar_ViewAny.bind(this)
+      appBarInitFn: this.initAppBar_ViewAnyiOS.bind(this),
+      appBarResetFn: this.resetAppBar_ViewAnyiOS.bind(this)
     }
     ,{
-      name: "EditAny",
+      name: "EditAnyiOS",
       type: "edit",
       minShortestBound: 0,
       maxShortestBound: 0,
       minLongestBound: 0,
       maxLongestBound: 0,
-      appBarInitFn: this.initAppBar_EditAny.bind(this),
-      appBarResetFn: this.resetAppBar_EditAny.bind(this)
+      appBarInitFn: this.initAppBar_EditAnyiOS.bind(this),
+      appBarResetFn: this.resetAppBar_EditAnyiOS.bind(this)
     }
 
   ];
@@ -99,7 +99,7 @@ export class WorkWithDevicesContact_Contact_Section_GeneralComponent extends BcP
     this.panelService.start();
   }
 
-  initAppBar_ViewAny(navigationStyle: NavigationStyle) {
+  initAppBar_ViewAnyiOS(navigationStyle: NavigationStyle) {
     if (this.canControlAppBar) {
       this.appBarService.setNavigation({
         className: "ApplicationBars",
@@ -142,7 +142,7 @@ export class WorkWithDevicesContact_Contact_Section_GeneralComponent extends BcP
     }
   }
 
-  resetAppBar_ViewAny() {
+  resetAppBar_ViewAnyiOS() {
     if (this.showAsCard) {
       this.appBarService.setNavigation({
         showBackButton: false,
@@ -153,7 +153,7 @@ export class WorkWithDevicesContact_Contact_Section_GeneralComponent extends BcP
     this.appBarService.setActions([]);
   }
    
-  initAppBar_EditAny(navigationStyle: NavigationStyle) {
+  initAppBar_EditAnyiOS(navigationStyle: NavigationStyle) {
     if (this.canControlAppBar) {
       this.appBarService.setNavigation({
         className: "ApplicationBars",
@@ -196,7 +196,7 @@ export class WorkWithDevicesContact_Contact_Section_GeneralComponent extends BcP
     }
   }
 
-  resetAppBar_EditAny() {
+  resetAppBar_EditAnyiOS() {
     if (this.showAsCard) {
       this.appBarService.setNavigation({
         showBackButton: false,

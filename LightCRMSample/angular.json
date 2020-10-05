@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "GeneXus web application": {
+    "genexus-web-application": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -11,6 +11,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -32,11 +33,16 @@
             "styles": [
               {"input": "src/sass/carmineios.scss", "inject": false, "bundleName": "carmineios"}
             ],
-            "scripts": [],
-            "lazyModules": ["src/app/shared.module"]
+            "scripts": []
           },
           "configurations": {
             "production": {
+                "budgets": [
+                  {
+                    "type": "anyComponentStyle",
+                    "maximumWarning": "6kb"
+                  }
+                ],
                 "fileReplacements": [
                     {
                         "replace": "src/environments/environment.ts",
@@ -61,21 +67,21 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "proxyConfig": "proxy.conf.json",
-            "browserTarget": "GeneXus web application:build"
+            "browserTarget": "genexus-web-application:build"
           },
           "configurations": {
             "prod": {
-              "browserTarget": "GeneXus web application:build:prod"
+              "browserTarget": "genexus-web-application:build:prod"
             },
             "production": {
-              "browserTarget": "GeneXus web application:build:production"
+              "browserTarget": "genexus-web-application:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "GeneXus web application:build"
+            "browserTarget": "genexus-web-application:build"
           }
         },
         "lint": {
@@ -92,17 +98,17 @@
         }
       }
     },
-    "GeneXus web application-e2e": {
+    "genexus-web-application-e2e": {
       "root": "e2e",
       "sourceRoot": "e2e",
       "projectType": "application"
     }
   },
-  "defaultProject": "GeneXus web application",
+  "defaultProject": "genexus-web-application",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "styleext": "scss"
+      "style": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "app"

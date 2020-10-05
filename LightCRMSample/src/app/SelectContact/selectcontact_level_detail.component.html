@@ -1,13 +1,13 @@
   <section class="main-content">
     <gx-card
-      #ViewAny
+      #ViewAnyiOS
       [showHeader]='showAsCard'
       [showBorder]='showAsCard'
       [showFooter]='showAsCard'
-      *ngIf="viewManager.view === 'ViewAny'"
+      *ngIf="viewManager.view === 'ViewAnyiOS'"
       class="ApplicationBars"
     >
-      <div slot="body" *ngIf="viewManager.view === 'ViewAny'">
+      <div slot="body" *ngIf="viewManager.view === 'ViewAnyiOS'">
           <gx-table
             #ctrlMaintable
             ngClass='TableDetail'
@@ -37,11 +37,11 @@
                     <ng-container  *ngFor="let ctrlGrid1Item of ctrlGrid1_VScroll.viewPortItems; trackBy:this.ctrlGrid1Controller.identify" >
                          <gx-table
                            #ctrlGrid1table
-                           ngClass='Table'
+                           ngClass='TableTableGrid'
                            class="gx-grid-row"
-                           areas-template="'cell00 cell01 ' "
-                           columns-template="1fr 64px"
-                           rows-template="minmax(min-content, 44px)"
+                           areas-template="'cell00 ' "
+                           columns-template="1fr"
+                           rows-template="var(--gx-table-row-autogrow)"
                             style="min-height: 44px; "
                            invisible-mode="keep-space"
                            (click)=" this.ctrlGrid1SetContext(ctrlGrid1Item.gxIndex); ctrlGrid1Action( ctrlGrid1Item.gxIndex, this._Select); $event.stopPropagation()"
@@ -51,46 +51,66 @@
                            <gx-table-cell 
                              area="cell00"
                               overflow-mode="clip"
-                             align="left" valign="middle"
-                             max-height="44px" min-height="44px"
+                             align="left" valign="top"
+                              min-height="44px"
                            >
-                               <gx-edit
-                                 #ctrlContactname
-                                 name="ctrlContactname"
-                                 ngClass='AttributeTitle'
+                               <gx-table
+                                 #ctrlTable2
+                                 ngClass='TableTableGrid'
+                                 areas-template="'cell00 cell01 ' "
+                                 columns-template="1fr 53px"
+                                 rows-template="minmax(min-content, 44px)"
+                                  style="min-height: 44px; "
                                  invisible-mode="keep-space"
-
-                                 type="text"
-                                 placeholder="Contact Name"
-
-                                 [ngModel]="ctrlGrid1Item.ContactName"
-                                 ngDefaultControl
-                                 [attr.readonly]="(true || (this.Mode == 'DLT'))"
-                                 line-clamp
-                                 area="field"
                                >
-                               </gx-edit>
+                                 <gx-table-cell 
+                                   area="cell00"
+                                    overflow-mode="clip"
+                                   align="left" valign="middle"
+                                   max-height="44px" min-height="44px"
+                                 >
+                                     <gx-edit
+                                       #ctrlContactname
+                                       name="ctrlContactname"
+                                       ngClass='AttributeTitle'
+                                       invisible-mode="keep-space"
+
+                                       type="text"
+                                       placeholder="Contact Name"
+
+                                       [ngModel]="ctrlGrid1Item.ContactName"
+                                       ngDefaultControl
+                                       [attr.readonly]="(true || (this.Mode == 'DLT'))"
+                                       line-clamp
+                                       area="field"
+                                     >
+                                     </gx-edit>
 
 
-                           </gx-table-cell>
+                                 </gx-table-cell>
 
 
-                           <gx-table-cell 
-                             area="cell01"
-                              overflow-mode="clip"
-                             align="right" valign="middle"
-                             max-height="44px" min-height="44px"
-                           >
-                             <gx-image
-                               #ctrlContactphoto
-                               [autoGrow]="false"
-                               ngClass='Image'
-                               [src]="ctrlGrid1Item.ContactPhoto | loadCachedUri | resolveRelativeUrl"
-                               alt="Contact Photo"
-                               invisible-mode="keep-space"
-                             >
-                             </gx-image>
+                                 <gx-table-cell 
+                                   area="cell01"
+                                    overflow-mode="clip"
+                                   align="right" valign="middle"
+                                   max-height="44px" min-height="44px"
+                                 >
+                                   <gx-image
+                                     #ctrlContactphoto
+                                     [autoGrow]="false"
+                                     ngClass='ImageScaleToFillKA'
+                                     [src]="ctrlGrid1Item.ContactPhoto | loadCachedUri | resolveRelativeUrl"
+                                     alt="Contact Photo"
+                                     invisible-mode="keep-space"
+                                   >
+                                   </gx-image>
 
+
+                                 </gx-table-cell>
+
+
+                               </gx-table>
 
                            </gx-table-cell>
 

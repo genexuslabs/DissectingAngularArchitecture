@@ -21,7 +21,6 @@ import { sdtMeetingData } from 'app/sdtMeeting/sdtmeeting.dt';
 import { UIEditElement } from 'app/gx/ui/model/ui-edit';
 import { UIListElement } from 'app/gx/ui/model/ui-list';
 import { UIButtonElement } from 'app/gx/ui/model/ui-button';
-import { UITableElement } from 'app/gx/ui/model/ui-table';
 
 @Component({
   selector: 'WorkWithDevicesMeeting_Meeting_List',
@@ -53,14 +52,14 @@ export class WorkWithDevicesMeeting_Meeting_ListComponent extends PanelComponent
   _routingPath = 'WorkWithDevicesMeeting-Meeting_List';
   views = [
     {
-      name: "ViewAnyAndroid",
+      name: "ViewAnyiOS",
       type: "any",
       minShortestBound: 0,
       maxShortestBound: 0,
       minLongestBound: 0,
       maxLongestBound: 0,
-      appBarInitFn: this.initAppBar_ViewAnyAndroid.bind(this),
-      appBarResetFn: this.resetAppBar_ViewAnyAndroid.bind(this)
+      appBarInitFn: this.initAppBar_ViewAnyiOS.bind(this),
+      appBarResetFn: this.resetAppBar_ViewAnyiOS.bind(this)
     }
 
   ];
@@ -99,7 +98,7 @@ export class WorkWithDevicesMeeting_Meeting_ListComponent extends PanelComponent
     this.panelService.start();
   }
 
-  initAppBar_ViewAnyAndroid(navigationStyle: NavigationStyle) {
+  initAppBar_ViewAnyiOS(navigationStyle: NavigationStyle) {
     if (this.canControlAppBar) {
       this.appBarService.setNavigation({
         className: "ApplicationBars",
@@ -132,7 +131,7 @@ export class WorkWithDevicesMeeting_Meeting_ListComponent extends PanelComponent
     }
   }
 
-  resetAppBar_ViewAnyAndroid() {
+  resetAppBar_ViewAnyiOS() {
     if (this.showAsCard) {
       this.appBarService.setNavigation({
         showBackButton: false,
@@ -294,7 +293,6 @@ class WorkWithDevicesMeeting_Meeting_ListUIModel {
   _ctrlGrid1Items = new GridControllerData<ctrlGrid1UIModel>();
   ctrlGrid1 = new UIListElement();
   ctrlButtoninsert = new UIButtonElement();
-
 }
 
  
@@ -303,7 +301,7 @@ class ctrlGrid1UIModel extends UIListElementItem {
 }
 
  
-   
+  
 class WorkWithDevicesMeeting_Meeting_ListUIActions {
 
   private _host: WorkWithDevicesMeeting_Meeting_ListComponent;
@@ -313,12 +311,10 @@ class WorkWithDevicesMeeting_Meeting_ListUIActions {
     this.ctrlMeetingtitle.setDragAction( (...parms) => {this._host.callAction(this._host.ctrlMeetingtitle_Drag, ...parms);});
     this.ctrlMeetingtitle.setDropAcceptedAction( (...parms) => {this._host.callAction(this._host.ctrlMeetingtitle_DropAccepted, ...parms);});
     this.ctrlMeetingtitle.setClickAction( (...parms) => {this._host.callAction(this._host.ctrlMeetingtitle_Tap, ...parms);});
-    this.ctrlReciclebin.setDropAction( (...parms) => {this._host.callAction(this._host.ctrlReciclebin_Drop, ...parms);});
 
   }
 
   ctrlMeetingtitle = new UIEditElement();
 
-  ctrlReciclebin = new UITableElement();
 
 }

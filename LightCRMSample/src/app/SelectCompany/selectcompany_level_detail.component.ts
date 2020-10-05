@@ -49,14 +49,14 @@ export class SelectCompany_Level_DetailComponent extends PanelComponent {
   _routingPath = 'SelectCompany-Level_Detail';
   views = [
     {
-      name: "ViewAny",
+      name: "ViewAnyiOS",
       type: "any",
       minShortestBound: 0,
       maxShortestBound: 0,
       minLongestBound: 0,
       maxLongestBound: 0,
-      appBarInitFn: this.initAppBar_ViewAny.bind(this),
-      appBarResetFn: this.resetAppBar_ViewAny.bind(this)
+      appBarInitFn: this.initAppBar_ViewAnyiOS.bind(this),
+      appBarResetFn: this.resetAppBar_ViewAnyiOS.bind(this)
     }
 
   ];
@@ -94,7 +94,7 @@ export class SelectCompany_Level_DetailComponent extends PanelComponent {
     this.panelService.start();
   }
 
-  initAppBar_ViewAny(navigationStyle: NavigationStyle) {
+  initAppBar_ViewAnyiOS(navigationStyle: NavigationStyle) {
     if (this.canControlAppBar) {
       this.appBarService.setNavigation({
         className: "ApplicationBars",
@@ -117,7 +117,7 @@ export class SelectCompany_Level_DetailComponent extends PanelComponent {
     }
   }
 
-  resetAppBar_ViewAny() {
+  resetAppBar_ViewAnyiOS() {
     if (this.showAsCard) {
       this.appBarService.setNavigation({
         showBackButton: false,

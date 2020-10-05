@@ -44,24 +44,24 @@ export class WorkWithDevicesCompany_Company_Section_GeneralComponent extends BcP
   _routingPath = 'WorkWithDevicesCompany-Company_Section_General';
   views = [
     {
-      name: "ViewAny",
-      type: "any",
-      minShortestBound: 0,
-      maxShortestBound: 0,
-      minLongestBound: 0,
-      maxLongestBound: 0,
-      appBarInitFn: this.initAppBar_ViewAny.bind(this),
-      appBarResetFn: this.resetAppBar_ViewAny.bind(this)
-    }
-    ,{
-      name: "EditAny",
+      name: "EditAnyiOS",
       type: "edit",
       minShortestBound: 0,
       maxShortestBound: 0,
       minLongestBound: 0,
       maxLongestBound: 0,
-      appBarInitFn: this.initAppBar_EditAny.bind(this),
-      appBarResetFn: this.resetAppBar_EditAny.bind(this)
+      appBarInitFn: this.initAppBar_EditAnyiOS.bind(this),
+      appBarResetFn: this.resetAppBar_EditAnyiOS.bind(this)
+    }
+    ,{
+      name: "ViewAnyiOS",
+      type: "any",
+      minShortestBound: 0,
+      maxShortestBound: 0,
+      minLongestBound: 0,
+      maxLongestBound: 0,
+      appBarInitFn: this.initAppBar_ViewAnyiOS.bind(this),
+      appBarResetFn: this.resetAppBar_ViewAnyiOS.bind(this)
     }
 
   ];
@@ -96,7 +96,7 @@ export class WorkWithDevicesCompany_Company_Section_GeneralComponent extends BcP
     this.panelService.start();
   }
 
-  initAppBar_ViewAny(navigationStyle: NavigationStyle) {
+  initAppBar_EditAnyiOS(navigationStyle: NavigationStyle) {
     if (this.canControlAppBar) {
       this.appBarService.setNavigation({
         className: "ApplicationBars",
@@ -106,27 +106,27 @@ export class WorkWithDevicesCompany_Company_Section_GeneralComponent extends BcP
       });
 
       if (!this.showAsCard) {
-        const ctrlButtonupdate = this.uiModel.ctrlButtonupdate;
-        ctrlButtonupdate.id = "ctrlButtonupdate";
-        ctrlButtonupdate.caption = this.translate("GXM_update");
-        ctrlButtonupdate.class = "Button";
-        ctrlButtonupdate.visible = true;
-        ctrlButtonupdate.enabled = true;
-        ctrlButtonupdate.priority = "Normal";
-        ctrlButtonupdate.onClick = () => this.callAction(this._Update);
+        const ctrlButton1 = this.uiModel.ctrlButton1;
+        ctrlButton1.id = "ctrlButton1";
+        ctrlButton1.caption = this.translate("GXM_Save");
+        ctrlButton1.class = "Button";
+        ctrlButton1.visible = true;
+        ctrlButton1.enabled = true;
+        ctrlButton1.priority = "High";
+        ctrlButton1.onClick = () => this.callAction(this._Save);
 
-        const ctrlButtondelete = this.uiModel.ctrlButtondelete;
-        ctrlButtondelete.id = "ctrlButtondelete";
-        ctrlButtondelete.caption = this.translate("GX_BtnDelete");
-        ctrlButtondelete.class = "Button";
-        ctrlButtondelete.visible = true;
-        ctrlButtondelete.enabled = true;
-        ctrlButtondelete.priority = "Normal";
-        ctrlButtondelete.onClick = () => this.callAction(this._Delete);
+        const ctrlButton2 = this.uiModel.ctrlButton2;
+        ctrlButton2.id = "ctrlButton2";
+        ctrlButton2.caption = this.translate("GXM_cancel");
+        ctrlButton2.class = "Button";
+        ctrlButton2.visible = true;
+        ctrlButton2.enabled = true;
+        ctrlButton2.priority = "High";
+        ctrlButton2.onClick = () => this.callAction(this._Cancel);
 
         this.appBarService.setActions([
-          ctrlButtonupdate,
-          ctrlButtondelete
+          ctrlButton1,
+          ctrlButton2
         ]);
       }
     }
@@ -139,7 +139,7 @@ export class WorkWithDevicesCompany_Company_Section_GeneralComponent extends BcP
     }
   }
 
-  resetAppBar_ViewAny() {
+  resetAppBar_EditAnyiOS() {
     if (this.showAsCard) {
       this.appBarService.setNavigation({
         showBackButton: false,
@@ -150,7 +150,7 @@ export class WorkWithDevicesCompany_Company_Section_GeneralComponent extends BcP
     this.appBarService.setActions([]);
   }
    
-  initAppBar_EditAny(navigationStyle: NavigationStyle) {
+  initAppBar_ViewAnyiOS(navigationStyle: NavigationStyle) {
     if (this.canControlAppBar) {
       this.appBarService.setNavigation({
         className: "ApplicationBars",
@@ -160,27 +160,27 @@ export class WorkWithDevicesCompany_Company_Section_GeneralComponent extends BcP
       });
 
       if (!this.showAsCard) {
-        const ctrlButtonsave = this.uiModel.ctrlButtonsave;
-        ctrlButtonsave.id = "ctrlButtonsave";
-        ctrlButtonsave.caption = this.translate("GXM_Save");
-        ctrlButtonsave.class = "Button";
-        ctrlButtonsave.visible = true;
-        ctrlButtonsave.enabled = true;
-        ctrlButtonsave.priority = "High";
-        ctrlButtonsave.onClick = () => this.callAction(this._Save);
+        const ctrlButton1 = this.uiModel.ctrlButton1;
+        ctrlButton1.id = "ctrlButton1";
+        ctrlButton1.caption = this.translate("GXM_update");
+        ctrlButton1.class = "Button";
+        ctrlButton1.visible = true;
+        ctrlButton1.enabled = true;
+        ctrlButton1.priority = "Normal";
+        ctrlButton1.onClick = () => this.callAction(this._Update);
 
-        const ctrlButtoncancel = this.uiModel.ctrlButtoncancel;
-        ctrlButtoncancel.id = "ctrlButtoncancel";
-        ctrlButtoncancel.caption = this.translate("GXM_cancel");
-        ctrlButtoncancel.class = "Button";
-        ctrlButtoncancel.visible = true;
-        ctrlButtoncancel.enabled = true;
-        ctrlButtoncancel.priority = "High";
-        ctrlButtoncancel.onClick = () => this.callAction(this._Cancel);
+        const ctrlButton2 = this.uiModel.ctrlButton2;
+        ctrlButton2.id = "ctrlButton2";
+        ctrlButton2.caption = this.translate("GX_BtnDelete");
+        ctrlButton2.class = "Button";
+        ctrlButton2.visible = true;
+        ctrlButton2.enabled = true;
+        ctrlButton2.priority = "Normal";
+        ctrlButton2.onClick = () => this.callAction(this._Delete);
 
         this.appBarService.setActions([
-          ctrlButtonsave,
-          ctrlButtoncancel
+          ctrlButton1,
+          ctrlButton2
         ]);
       }
     }
@@ -193,7 +193,7 @@ export class WorkWithDevicesCompany_Company_Section_GeneralComponent extends BcP
     }
   }
 
-  resetAppBar_EditAny() {
+  resetAppBar_ViewAnyiOS() {
     if (this.showAsCard) {
       this.appBarService.setNavigation({
         showBackButton: false,
@@ -314,13 +314,11 @@ class WorkWithDevicesCompany_Company_Section_GeneralUIModel {
     this._host = host;
   }
 
-  ctrlButtonupdate = new UIButtonElement();
-  ctrlButtondelete = new UIButtonElement();
-  ctrlButtonsave = new UIButtonElement();
-  ctrlButtoncancel = new UIButtonElement();
+  ctrlButton1 = new UIButtonElement();
+  ctrlButton2 = new UIButtonElement();
 }
 
-    
+  
 class WorkWithDevicesCompany_Company_Section_GeneralUIActions {
 
   private _host: WorkWithDevicesCompany_Company_Section_GeneralComponent;

@@ -1,5 +1,5 @@
-import { Injectable, Injector, Compiler, NgModuleFactory, NgModuleRef, ComponentFactory } from '@angular/core';
-import { AppModule } from "app/app.module";
+import { Injectable, ComponentFactory, ComponentFactoryResolver } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -9,71 +9,34 @@ export class LazyLoaderService {
   loadedModules = {};
 
   constructor(
-    private injector: Injector,
-    private compiler: Compiler,
-    private appRef: NgModuleRef<AppModule>
+    private router: Router,
+    private factoryResolver: ComponentFactoryResolver
   ) { }
 
   async findComponentFactory(componentPath: string): Promise<ComponentFactory<any>> {
-    return await this.findFactoryInModules(componentPath, this.appRef);
-  }
-
-  async findFactoryInModules(typeName: string, moduleRef: any): Promise<ComponentFactory<any>> {
-    const path = typeName.replace(/^\w+\./g, "").toLocaleLowerCase();
-    for (const route of moduleRef.instance.routes) {
-      if (route.path.toLocaleLowerCase().indexOf(path) >= 0) {
-        return moduleRef.componentFactoryResolver.resolveComponentFactory(route.component);
-      }
-      else if (route.loadChildren) {
-        const tempModule = await route.loadChildren();
-        let moduleFactory;
-        if (tempModule instanceof NgModuleFactory) {
-          // For AOT
-          moduleFactory = tempModule;
-        } else {
-          // For JIT
-          if (this.loadedModules[route.path]) {
-            // Already JITed
-            moduleFactory = this.loadedModules[route.path];
-          } else {
-            moduleFactory = await this.compiler.compileModuleAsync(tempModule);
-            this.loadedModules[route.path] = moduleFactory;
-          }
-        }
-        const moduleRef = moduleFactory.create(this.injector);
-        return await this.findFactoryInModules(typeName, moduleRef);
-      }
+    const cfg = this.findComponentConfig(componentPath, this.router.config);
+    if (cfg) {
+      const comp = cfg.component;
+      const factory = this.factoryResolver.resolveComponentFactory(comp);
+      return new Promise((resolve) => { resolve(factory) });
     }
+    return null;
   }
 
   async findComponentRoute(componentPath: string): Promise<string> {
-    return await this.findComponentRouteInModules(componentPath, this.appRef);
+    const cfg = this.findComponentConfig(componentPath, this.router.config);
+    return cfg ? cfg.path : null;
   }
 
-  async findComponentRouteInModules(typeName: string, moduleRef: any): Promise<string> {
+  findComponentConfig(typeName: string, routes): any {
     const path = typeName.replace(/^\w+\./g, "").toLocaleLowerCase();
-    for (const route of moduleRef.instance.routes) {
+    for (const route of routes) {
       if (route.path.toLocaleLowerCase().indexOf(path) >= 0) {
-        return route.path;
+        return route;
       }
       else if (route.loadChildren) {
-        const tempModule = await route.loadChildren();
-        let moduleFactory;
-        if (tempModule instanceof NgModuleFactory) {
-          // For AOT
-          moduleFactory = tempModule;
-        } else {
-          // For JIT
-          if (this.loadedModules[route.path]) {
-            // Already JITed
-            moduleFactory = this.loadedModules[route.path];
-          } else {
-            moduleFactory = await this.compiler.compileModuleAsync(tempModule);
-            this.loadedModules[route.path] = moduleFactory;
-          }
-        }
-        const moduleRef = moduleFactory.create(this.injector);
-        return this.findComponentRouteInModules(typeName, moduleRef);
+        const newRoutes = route._loadedConfig.routes;
+        return this.findComponentConfig(typeName, newRoutes);
       }
     }
   }

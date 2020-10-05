@@ -1,4 +1,4 @@
-import { ModuleWithProviders } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppHome } from 'app/app-home.component';
 import { LightCRMComponent } from "app/LightCRM/lightcrm.component" ;
@@ -12,4 +12,8 @@ export const moduleRoutes: Routes = [
   }
 ];
 
-export const RoutingModule: ModuleWithProviders = RouterModule.forRoot(moduleRoutes);
+@NgModule({
+  imports: [RouterModule.forRoot(moduleRoutes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }

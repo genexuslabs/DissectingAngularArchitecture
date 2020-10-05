@@ -16,7 +16,7 @@ import { AuthInterceptor } from "app/gx/auth/auth-interceptor";
 import { CookieService } from 'ngx-cookie-service';
 import { VisibilityService } from "app/gx/base/visibility.service";
 
-import { RoutingModule, moduleRoutes } from "app/app.routing";
+import { AppRoutingModule } from "app/app.routing";
 import { AppComponent } from "app/app.component";
 import { AppHome } from 'app/app-home.component';
 
@@ -29,7 +29,7 @@ import { AppBarService } from "./gx/base/app-bar.service";
   imports: [
     BrowserModule,
     FormsModule,
-    RoutingModule,
+    AppRoutingModule,
     HttpClientModule,
     GxCommonModule,
     MainModule,
@@ -62,5 +62,4 @@ import { AppBarService } from "./gx/base/app-bar.service";
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {
-  routes = moduleRoutes;
 }

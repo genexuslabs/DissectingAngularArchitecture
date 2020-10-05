@@ -36,7 +36,7 @@ export class AppContainer {
 
   async initTheme(theme: string) {
     let currentTheme = this.getTheme();
-    if (currentTheme === '') {
+    if (theme && theme !== currentTheme) {
       currentTheme = theme.toLowerCase();
       ClientStorage.Set('gx.APP.theme', currentTheme);
     }

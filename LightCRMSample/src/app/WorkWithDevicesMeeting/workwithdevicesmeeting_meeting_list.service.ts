@@ -21,7 +21,6 @@ import { sdtMeetingData } from 'app/sdtMeeting/sdtmeeting.dt';
 import { UIEditElement } from 'app/gx/ui/model/ui-edit';
 import { UIListElement } from 'app/gx/ui/model/ui-list';
 import { UIButtonElement } from 'app/gx/ui/model/ui-button';
-import { UITableElement } from 'app/gx/ui/model/ui-table';
 
 @Injectable()
 export class WorkWithDevicesMeeting_Meeting_ListService extends PanelService {

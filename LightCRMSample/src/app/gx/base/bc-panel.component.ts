@@ -1,8 +1,10 @@
-import { Input } from '@angular/core';
+import { Directive } from '@angular/core';
 import { PanelComponent } from './panel.component';
 import { BusinessComponent, BusinessComponentService } from './business-component';
 import { msg } from '@genexus/web-standard-functions/dist/lib-esm/misc/msg';
 
+
+@Directive()
 export class BcPanelComponent<D, S extends BusinessComponentService<D>> extends PanelComponent {
 
   bcInstance: BusinessComponent<D, S>;

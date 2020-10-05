@@ -59,14 +59,14 @@ export class WorkWithDevicesCompany_Company_Section_ContactComponent extends Pan
       appBarResetFn: this.resetAppBar_ViewiPad.bind(this)
     }
     ,{
-      name: "ViewAny",
+      name: "ViewAnyiOS",
       type: "any",
       minShortestBound: 0,
       maxShortestBound: 0,
       minLongestBound: 0,
       maxLongestBound: 0,
-      appBarInitFn: this.initAppBar_ViewAny.bind(this),
-      appBarResetFn: this.resetAppBar_ViewAny.bind(this)
+      appBarInitFn: this.initAppBar_ViewAnyiOS.bind(this),
+      appBarResetFn: this.resetAppBar_ViewAnyiOS.bind(this)
     }
 
   ];
@@ -104,7 +104,7 @@ export class WorkWithDevicesCompany_Company_Section_ContactComponent extends Pan
     this.panelService.start();
   }
 
-  initAppBar_ViewAny(navigationStyle: NavigationStyle) {
+  initAppBar_ViewAnyiOS(navigationStyle: NavigationStyle) {
     if (this.canControlAppBar) {
       this.appBarService.setNavigation({
         className: "ApplicationBars",
@@ -127,7 +127,7 @@ export class WorkWithDevicesCompany_Company_Section_ContactComponent extends Pan
     }
   }
 
-  resetAppBar_ViewAny() {
+  resetAppBar_ViewAnyiOS() {
     if (this.showAsCard) {
       this.appBarService.setNavigation({
         showBackButton: false,

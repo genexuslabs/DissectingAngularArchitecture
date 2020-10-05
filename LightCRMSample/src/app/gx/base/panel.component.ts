@@ -5,6 +5,7 @@ import {
   Input,
   ViewChildren,
   QueryList,
+  Directive
 } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Subscription, BehaviorSubject, combineLatest } from "rxjs";
@@ -24,6 +25,7 @@ import { OutletsHelper } from "app/gx/navigation/outlets-helper";
 /**
  * Class implementing the base panel behaviour
  */
+@Directive()
 export class PanelComponent
   implements OnInit, OnChanges, AfterViewInit, IStateContainer {
   @Input() Mode: string;

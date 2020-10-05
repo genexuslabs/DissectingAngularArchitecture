@@ -1,13 +1,13 @@
   <section class="main-content">
     <gx-card
-      #ViewAnyAndroid
+      #ViewAnyiOS
       [showHeader]='showAsCard'
       [showBorder]='showAsCard'
       [showFooter]='showAsCard'
-      *ngIf="viewManager.view === 'ViewAnyAndroid'"
+      *ngIf="viewManager.view === 'ViewAnyiOS'"
       class="ApplicationBars"
     >
-      <div slot="body" *ngIf="viewManager.view === 'ViewAnyAndroid'">
+      <div slot="body" *ngIf="viewManager.view === 'ViewAnyiOS'">
           <gx-table
             #ctrlMaintable
             ngClass='Table'
@@ -39,8 +39,8 @@
                            #ctrlTable1
                            ngClass='TableTableGrid'
                            class="gx-grid-row"
-                           areas-template="'. cell01 . ' "
-                           columns-template="10px 1fr 5px"
+                           areas-template="'cell00 ' "
+                           columns-template="1fr"
                            rows-template="minmax(min-content, 44px)"
                             style="min-height: 44px; "
                            invisible-mode="keep-space"
@@ -49,7 +49,7 @@
 
                          >
                            <gx-table-cell 
-                             area="cell01"
+                             area="cell00"
                               overflow-mode="clip"
                              align="left" valign="top"
                              max-height="44px" min-height="44px"
@@ -77,7 +77,6 @@
 
 
                            </gx-table-cell>
-
 
 
                          </gx-table>
@@ -115,7 +114,7 @@
                min-height="60px"
             >
                 <gx-table
-                  #ctrlReciclebin
+                  #ctrlRecyclebin
                   ngClass='TableRecycleBin'
                   areas-template="'cell00 . cell02 ' "
                   columns-template="0.8fr 10px 0.2fr"
