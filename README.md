@@ -109,7 +109,10 @@ You can add your hand written code with the GeneXus generated code, actually you
 
 ## By Changing the Angular Generator
 
-The Angular generator is a Template-Based generator so you can touch the Generator itself ! Obviously you need to merge future generator changes but is a way to feel in control with the machine that creates software.
+You can modify the Generator according to your needs! Obviously you need to merge future generator updates, but you get control over the "machine" that creates software.
 
- 
- 
+The Angular generator is a Template-Based generator built on traditional generation technologies such as ASTs and string templates. 
+
+Starting from a high level metadata, the generator applies succesive transforms to acheive a metadata tree generable with a templating engine.
+
+
