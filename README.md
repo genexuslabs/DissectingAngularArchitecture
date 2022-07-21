@@ -42,12 +42,6 @@ is the particular logic of the panel. It is a TypeScript program. Events are gen
 - *.sercvice.ts : is the layer responsible for interacting with the server. It is a Typescript program where communication with the server is generated. Here, the structures are also generated with the data model that the panel will use.
 
 
-# Live Sample
-
-Courious what kind of application you can obtain. Here a live sample https://angular.genexus.com/gx29/Mobile/TodayTab-Level_Detail (Mobile First Design)
-
-![GeneXus 29 Sample](gx29.png)
-
 # Exploring a Sample
 
 In order to see the kind of code GeneXus is generating in this repository you have the full source code of an application. 
