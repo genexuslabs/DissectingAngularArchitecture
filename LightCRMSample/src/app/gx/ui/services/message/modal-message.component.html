@@ -1,0 +1,28 @@
+<gx-modal
+  [opened]="errorStatus != null"
+  (close)="errorStatus = null"
+  type="alert"
+>
+  <span slot="header">{{ appMessage?.title }}</span>
+  <div slot="body">{{ appMessage?.text }}</div>
+  @if(appMessage?.onCancel) {
+  <button
+    slot="secondary-action"
+    class="gx-modal-action gx-modal-secondary-action"
+    type="button"
+    (click)="appMessage?.onCancel()"
+  >
+    {{ appMessage?.cancelCaption | translate }}
+  </button>
+  }
+  @if(appMessage?.onConfirm) {
+  <button
+    slot="primary-action"
+    class="gx-modal-action gx-modal-primary-action"
+    type="button"
+    (click)="appMessage?.onConfirm()"
+  >
+    {{ appMessage?.confirmCaption | translate}}
+  </button>
+  }
+</gx-modal>

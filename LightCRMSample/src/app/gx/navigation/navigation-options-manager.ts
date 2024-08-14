@@ -18,6 +18,7 @@ export class NavigationOptionsManager {
   static TYPE_REPLACE_ID = 'replace';
   static TYPE_CALLOUT_ID = 'callout';
   static TYPE_PUSH_ID = 'push';
+  static TYPE_IGNORE_ID = 'no-push';
 
   // TARGET_SIZE option values
   static TARGET_SIZE_SMALL_ID = 'small';
@@ -82,7 +83,7 @@ export class NavigationOptionsManager {
       // [<target_name>-<section>, <parameters>]
       if (optionTarget.length > 0) {
         const optionTarget1 = optionTarget[0];
-        return this.normalizeOptionTarget( optionTarget1);
+        return this.normalizeOptionTarget(optionTarget1);
       }
     } else {
       // /<target_name>-<section>
@@ -121,6 +122,12 @@ export class NavigationOptionsManager {
     return this.navigationOptions[optionKey] === NavigationOptionsManager.TYPE_REPLACE_ID;
   }
 
+  isNavigationIgnore(optionTarget): boolean {
+    const optionTargetId = this.normalizeOptionTarget(optionTarget);
+    const optionKey = this.getOptionKey(optionTargetId, NavigationOptionsManager.TYPE_ID)
+    return this.navigationOptions[optionKey] === NavigationOptionsManager.TYPE_IGNORE_ID;
+  }
+
   appendIdToQueryParams(nvgExt: NavigationExtras) {
     const rnd = Math.floor(Math.random() * 1000 + 1);
     if (!nvgExt) {
@@ -131,14 +138,19 @@ export class NavigationOptionsManager {
     return nvgExt;
   }
 
-  processOutletOptions(outlet: string, url: string): OutletOptions {
-    const options = new OutletOptions();
-    options.size = this.get(url, NavigationOptionsManager.TARGET_SIZE_ID);
-    options.width = OutletOptions.convertSize(this.get(url, NavigationOptionsManager.TARGET_WIDTH_ID));
-    options.height = OutletOptions.convertSize(this.get(url, NavigationOptionsManager.TARGET_HEIGHT_ID));
-    return options;
-  }
+  outletOptionsToString(url: string): string {
+    const size = this.get(url, NavigationOptionsManager.TARGET_SIZE_ID);
+    if (size) {
+      return size;
+    }
+    const width = OutletOptions.convertSize(this.get(url, NavigationOptionsManager.TARGET_WIDTH_ID));
+    const height = OutletOptions.convertSize(this.get(url, NavigationOptionsManager.TARGET_HEIGHT_ID));
+    if (width && height) {
+      return width + ',' + height;
+    }
+    return null;
 
+  }
 }
 
 export class OutletOptions {
@@ -148,5 +160,21 @@ export class OutletOptions {
 
   static convertSize(s: string): string {
     return s ? s.replace("dip", "px") : null;
+  }
+
+  static parse(sOptions: string): OutletOptions {
+    // options = <width>,<height> | <size>
+    const options = new OutletOptions();
+    if (sOptions) {
+      const parms = sOptions.split(',');
+      if (parms.length === 2) {
+        options.width = OutletOptions.convertSize(parms[0]);
+        options.height = OutletOptions.convertSize(parms[1]);
+      }
+      if (parms.length === 1) {
+        options.size = OutletOptions.convertSize(parms[1]);
+      }
+    }
+    return options;
   }
 }

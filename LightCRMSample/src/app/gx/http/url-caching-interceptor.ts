@@ -1,14 +1,7 @@
 import { Injectable } from "@angular/core";
-import {
-  HttpHandler,
-  HttpInterceptor,
-  HttpRequest,
-  HttpResponse
-} from "@angular/common/http";
-
+import { HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from "@angular/common/http";
 import { concat } from "rxjs";
 import { tap } from "rxjs/operators";
-
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { IRequestCache } from './cache/request-cache-interface';
 import { RequestPersistentCacheStorage } from './cache/request-cache-storage';

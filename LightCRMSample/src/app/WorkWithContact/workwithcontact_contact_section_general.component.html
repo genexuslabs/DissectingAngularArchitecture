@@ -1,0 +1,514 @@
+@if (__viewManager.view === 'ViewOrEditAnyWebScreen') {
+<gx-card
+  #ViewOrEditAnyWebScreen id="ViewOrEditAnyWebScreen"
+  [showHeader]='__showAsCard'
+>
+  @if(__showAsCard) {
+  <gx-card-header
+    slot="header"
+    [cssClass]="state.uiModel.ctrlApplicationbar.class | default:'ApplicationBars' | classSplit">
+    <li slot="normal-priority-action" role="listitem">
+      <gx-button
+        #ctrlBtnupdate
+        [accessibleName]="'GXM_update' | translate"
+        [cssClass]="state.uiModel.ctrlBtnupdate.class | default:'Button button-primary' | classSplit"
+        caption="{{state.uiModel.ctrlBtnupdate.caption | default:translate('GXM_update')}}"
+        [hidden]="state.uiModel.ctrlBtnupdate?.visible | not"
+        [disabled]="(__actionsEnabled && state.uiModel.ctrlBtnupdate?.enabled) | not"
+        (click)="this._Update(); $event.stopPropagation()"
+      >
+      </gx-button>
+    </li>
+    <li slot="normal-priority-action" role="listitem">
+      <gx-button
+        #ctrlBtndelete
+        [accessibleName]="'GX_BtnDelete' | translate"
+        [cssClass]="state.uiModel.ctrlBtndelete.class | default:'Button button-tertiary' | classSplit"
+        caption="{{state.uiModel.ctrlBtndelete.caption | default:translate('GX_BtnDelete')}}"
+        [hidden]="state.uiModel.ctrlBtndelete?.visible | not"
+        [disabled]="(__actionsEnabled && state.uiModel.ctrlBtndelete?.enabled) | not"
+        (click)="this._Delete(); $event.stopPropagation()"
+      >
+      </gx-button>
+    </li>
+  </gx-card-header>
+  }
+  <gx-table
+    #ctrlMaintable
+    [cssClass]="'TableSection' | classSplit"
+    areas-template="'cell00 cell01 ' "
+    columns-template="0.5fr 0.5fr"
+    rows-template="min-content"
+    style="min-height: 150px; "
+    invisible-mode="keep-space"
+    slot="body"
+  >
+    <gx-table-cell
+      area="cell00"
+      auto-grow
+      min-height="150px"
+    >
+      <gx-table
+        #ctrlTable1
+        [cssClass]="'Table' | classSplit"
+        areas-template="'cell00 ' 'cell10 ' 'cell20 ' 'cell30 ' 'cell40 ' "
+        columns-template="1fr"
+        rows-template="min-content min-content min-content min-content min-content"
+        style="min-height: 320px; "
+        invisible-mode="keep-space"
+      >
+        <gx-table-cell
+          area="cell00"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Contact Id' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlContactid id="ctrlContactid"
+              [accessibleName]="'Contact Id' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              line-clamp
+              type="text"
+              max-length="4"
+              mode="numeric"
+
+              placeholder="{{'Contact Id' | translate}}"
+              [ngModel]="state.WorkWithContact_Contact_Section_General_data.ContactId"
+              ngDefaultControl
+              [attr.readonly]="((true || (state.localModel.Mode == 'DLT')) || (state.localModel.Mode == 'UPD'))"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell10"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'ID' | translate}}"
+            label-position="left"
+          >
+            <gx-select 
+              #ctrlCompanyid id="ctrlCompanyid"
+              [cssClass]="'Attribute' | classSplit"
+              area="field"
+              placeholder="{{'ID' | translate}}"
+              suggest="true"
+              [ngModel]="state.WorkWithContact_Contact_Section_General_data.Gxdesc_companyid"
+              ngDefaultControl
+              [attr.readonly]="((true || (state.localModel.Mode == 'DLT')) || (state.localModel.Mode == 'UPD'))"
+              (change)="this.get_ctrlCompanyid(state.WorkWithContact_Contact_Section_General_data.Gxdesc_companyid);$event.stopPropagation()">
+              @for (option of state.uiModel.ctrlCompanyid.items; track option) {
+              <gx-select-option>{{option}}</gx-select-option>
+              }
+            </gx-select>
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell20"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Company' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlCompanyname id="ctrlCompanyname"
+              [accessibleName]="'Company' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              line-clamp
+              type="text"
+              max-length="20"
+
+              placeholder="{{'Company' | translate}}"
+              [ngModel]="state.WorkWithContact_Contact_Section_General_data.CompanyName"
+              ngDefaultControl
+              [attr.readonly]="(true || (state.localModel.Mode == 'DLT'))"
+              show-trigger
+              (gxTriggerClick)="_promptCompanyName(); $event.stopPropagation()"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell30"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Contact Name' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlContactname id="ctrlContactname"
+              [accessibleName]="'Contact Name' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              line-clamp
+              type="text"
+              max-length="20"
+
+              placeholder="{{'Contact Name' | translate}}"
+              [ngModel]="state.WorkWithContact_Contact_Section_General_data.ContactName"
+              ngDefaultControl
+              [attr.readonly]="(true || (state.localModel.Mode == 'DLT'))"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell40"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Email' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlContactemail id="ctrlContactemail"
+              [accessibleName]="'Email' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              line-clamp
+              type="text"
+              max-length="100"
+
+              placeholder="{{'Email' | translate}}"
+              [ngModel]="state.WorkWithContact_Contact_Section_General_data.ContactEmail"
+              ngDefaultControl
+              [attr.readonly]="(true || (state.localModel.Mode == 'DLT'))"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+      </gx-table>
+    </gx-table-cell>
+
+    <gx-table-cell
+      area="cell01"
+      auto-grow
+      min-height="150px"
+    >
+      <gx-table
+        #ctrlTable2
+        [cssClass]="'Table' | classSplit"
+        areas-template="'cell00 ' "
+        columns-template="1fr"
+        rows-template="min-content"
+        style="min-height: 44px; "
+        invisible-mode="keep-space"
+      >
+        <gx-table-cell
+          area="cell00"
+          align="center" valign="middle"
+          min-height="44px" max-height="44px"
+        >
+          <gx-image
+            #ctrlContactphoto id="ctrlContactphoto"
+            [accessibleName]="'Logo' | translate"
+            [cssClass]="'Image' | classSplit"
+            [autoGrow]="false"
+            [srcset]="state.WorkWithContact_Contact_Section_General_data.ContactPhoto | imageToSrcset:this.app.uiContextKey"
+            alt="Logo"
+            invisible-mode="keep-space"
+          >
+          </gx-image>
+
+        </gx-table-cell>
+      </gx-table>
+    </gx-table-cell>
+  </gx-table>
+</gx-card>
+}
+@if (__viewManager.view === 'EditAnyWebScreen') {
+<gx-card
+  #EditAnyWebScreen id="EditAnyWebScreen"
+  [showHeader]='__showAsCard'
+>
+  @if(__showAsCard) {
+  <gx-card-header
+    slot="header"
+    [cssClass]="state.uiModel.ctrlApplicationbar.class | default:'ApplicationBars' | classSplit">
+    <li slot="normal-priority-action" role="listitem">
+      <gx-button
+        #ctrlBtnsave
+        [accessibleName]="'GXM_Save' | translate"
+        [cssClass]="state.uiModel.ctrlBtnsave.class | default:'Button button-primary' | classSplit"
+        caption="{{state.uiModel.ctrlBtnsave.caption | default:translate('GXM_Save')}}"
+        [hidden]="state.uiModel.ctrlBtnsave?.visible | not"
+        [disabled]="(__actionsEnabled && state.uiModel.ctrlBtnsave?.enabled) | not"
+        (click)="this._Save(); $event.stopPropagation()"
+      >
+      </gx-button>
+    </li>
+    <li slot="normal-priority-action" role="listitem">
+      <gx-button
+        #ctrlBtncancel
+        [accessibleName]="'GXM_cancel' | translate"
+        [cssClass]="state.uiModel.ctrlBtncancel.class | default:'Button button-tertiary' | classSplit"
+        caption="{{state.uiModel.ctrlBtncancel.caption | default:translate('GXM_cancel')}}"
+        [hidden]="state.uiModel.ctrlBtncancel?.visible | not"
+        [disabled]="(__actionsEnabled && state.uiModel.ctrlBtncancel?.enabled) | not"
+        (click)="this._Cancel(); $event.stopPropagation()"
+      >
+      </gx-button>
+    </li>
+  </gx-card-header>
+  }
+  <gx-table
+    #ctrlMaintable
+    [cssClass]="'TableSection' | classSplit"
+    areas-template="'cell00 cell01 ' "
+    columns-template="0.5fr 0.5fr"
+    rows-template="min-content"
+    style="min-height: 150px; "
+    invisible-mode="keep-space"
+    slot="body"
+  >
+    <gx-table-cell
+      area="cell00"
+      auto-grow
+      min-height="150px"
+    >
+      <gx-table
+        #ctrlTable1
+        [cssClass]="'Table' | classSplit"
+        areas-template="'cell00 ' 'cell10 ' 'cell20 ' 'cell30 ' 'cell40 ' "
+        columns-template="1fr"
+        rows-template="min-content min-content min-content min-content min-content"
+        style="min-height: 320px; "
+        invisible-mode="keep-space"
+      >
+        <gx-table-cell
+          area="cell00"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Contact Id' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlContactid id="ctrlContactid"
+              [accessibleName]="'Contact Id' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              type="text"
+              max-length="4"
+              mode="numeric"
+
+              placeholder="{{'Contact Id' | translate}}"
+              [ngModel]="state.WorkWithContact_Contact_Section_General_data.ContactId"
+              ngDefaultControl
+
+              (ngModelChange)="state.WorkWithContact_Contact_Section_General_data.ContactId = this.toNumber($event); "
+              [attr.readonly]="((false || (state.localModel.Mode == 'DLT')) || (state.localModel.Mode == 'UPD'))"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell10"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'ID' | translate}}"
+            label-position="left"
+          >
+            <gx-select 
+              #ctrlCompanyid id="ctrlCompanyid"
+              [cssClass]="'Attribute' | classSplit"
+              area="field"
+              placeholder="{{'ID' | translate}}"
+              suggest="true"
+              [ngModel]="state.WorkWithContact_Contact_Section_General_data.Gxdesc_companyid"
+              ngDefaultControl
+
+              (ngModelChange)="state.WorkWithContact_Contact_Section_General_data.Gxdesc_companyid = $event; this.load_ctrlCompanyid(state.WorkWithContact_Contact_Section_General_data.Gxdesc_companyid);"
+              [attr.readonly]="((false || (state.localModel.Mode == 'DLT')) || (state.localModel.Mode == 'UPD'))"
+              (change)="this.get_ctrlCompanyid(state.WorkWithContact_Contact_Section_General_data.Gxdesc_companyid);$event.stopPropagation()">
+              @for (option of state.uiModel.ctrlCompanyid.items; track option) {
+              <gx-select-option>{{option}}</gx-select-option>
+              }
+            </gx-select>
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell20"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Company' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlCompanyname id="ctrlCompanyname"
+              [accessibleName]="'Company' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              type="text"
+              max-length="20"
+
+              placeholder="{{'Company' | translate}}"
+              [ngModel]="state.WorkWithContact_Contact_Section_General_data.CompanyName"
+              ngDefaultControl
+
+              (ngModelChange)="state.WorkWithContact_Contact_Section_General_data.CompanyName = $event; "
+              [attr.readonly]="(false || (state.localModel.Mode == 'DLT'))"
+              show-trigger
+              (gxTriggerClick)="_promptCompanyName(); $event.stopPropagation()"
+            >
+              <gx-icon
+                slot="trigger-content"
+                aria-hidden="true"
+                type="search"
+              ></gx-icon>
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell30"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Contact Name' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlContactname id="ctrlContactname"
+              [accessibleName]="'Contact Name' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              type="text"
+              max-length="20"
+
+              placeholder="{{'Contact Name' | translate}}"
+              [ngModel]="state.WorkWithContact_Contact_Section_General_data.ContactName"
+              ngDefaultControl
+
+              (ngModelChange)="state.WorkWithContact_Contact_Section_General_data.ContactName = $event; "
+              [attr.readonly]="(false || (state.localModel.Mode == 'DLT'))"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell40"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Email' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlContactemail id="ctrlContactemail"
+              [accessibleName]="'Email' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              type="text"
+              max-length="100"
+
+              placeholder="{{'Email' | translate}}"
+              [ngModel]="state.WorkWithContact_Contact_Section_General_data.ContactEmail"
+              ngDefaultControl
+
+              (ngModelChange)="state.WorkWithContact_Contact_Section_General_data.ContactEmail = $event; "
+              [attr.readonly]="(false || (state.localModel.Mode == 'DLT'))"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+      </gx-table>
+    </gx-table-cell>
+
+    <gx-table-cell
+      area="cell01"
+      auto-grow
+      min-height="150px"
+    >
+      <gx-table
+        #ctrlTable2
+        [cssClass]="'Table' | classSplit"
+        areas-template="'cell00 ' "
+        columns-template="1fr"
+        rows-template="min-content"
+        style="min-height: 50px; "
+        invisible-mode="keep-space"
+      >
+        <gx-table-cell
+          area="cell00"
+          align="center" valign="middle"
+          min-height="50px" max-height="50px"
+        >
+          <gx-form-field
+            [cssClass]="'Image' | classSplit"
+            invisible-mode="keep-space"
+            label-position="none"
+          >
+            <gx-image-upload
+              #ctrlContactphoto id="ctrlContactphoto" 
+              [cssClass]="'Image' | classSplit"
+              [autoGrow]="false"
+              [srcset]="state.WorkWithContact_Contact_Section_General_data.ContactPhoto | imageToSrcset:this.app.uiContextKey"
+              [readonly]="(false || (state.localModel.Mode == 'DLT'))"
+              labelText="" 
+              (onImageChanged)="state.WorkWithContact_Contact_Section_General_data.ContactPhoto = createImageFromURL($event)"
+              alt="Logo"
+            >
+            </gx-image-upload>
+          </gx-form-field>
+
+        </gx-table-cell>
+      </gx-table>
+    </gx-table-cell>
+  </gx-table>
+</gx-card>
+}

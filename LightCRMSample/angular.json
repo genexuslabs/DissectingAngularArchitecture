@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": false
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -19,92 +22,87 @@
             "polyfills": "src/polyfills.ts",
             "assets": [
               "src/sass",
-              "src/images",
               "src/translations",
               "src/manifest.webmanifest",
               "src/assets",
+              "src/robots.txt",
               {
                 "glob": "**/*",
                 "input": "./node_modules/@genexus/web-controls-library/dist/gx-web-controls/assets",
                 "output": "/assets/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@genexus/reporting-controls-library/dist/reporting/assets",
+                "output": "/assets/"
               }
             ],
-            "extractCss": true,
             "styles": [
-              {"input": "src/sass/carmineios.scss", "inject": false, "bundleName": "carmineios"}
+              {"input": "src/sass/simpleios.scss", "inject": false, "bundleName": "SimpleIOS"},
+              {"input": "src/sass/GeneXusUnanimo/unanimoangular.scss", "inject": false, "bundleName": "GeneXusUnanimo.UnanimoAngular"},
+              {"input": "src/sass/GeneXusUnanimo/unanimo.scss", "inject": false, "bundleName": "GeneXusUnanimo.Unanimo"},
+              {"input": "src/sass/GeneXusUnanimo/unanimocontrols.scss", "inject": false, "bundleName": "GeneXusUnanimo.UnanimoControls"},
+              {"input": "src/sass/GeneXusUnanimo/actiongroup.scss", "inject": false, "bundleName": "GeneXusUnanimo.ActionGroup"},
+              {"input": "src/sass/GeneXusUnanimo/dropdown.scss", "inject": false, "bundleName": "GeneXusUnanimo.Dropdown"},
+              {"input": "src/sass/GeneXusUnanimo/unanimomobile.scss", "inject": false, "bundleName": "GeneXusUnanimo.UnanimoMobile"},
+              {"input": "src/sass/carmineweb.scss", "inject": false, "bundleName": "CarmineWeb"}
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "@tweenjs/tween.js",
+              "luxon",
+              "pubsub-js",
+              "jdu",
+              "unicode-substring"
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
-                "budgets": [
-                  {
-                    "type": "anyComponentStyle",
-                    "maximumWarning": "6kb"
-                  }
-                ],
-                "fileReplacements": [
-                    {
-                        "replace": "src/environments/environment.ts",
-                        "with": "src/environments/environment.prod.ts"
-                    }
-                ],
-                "optimization": true,
-                "outputHashing": "all",
-                "sourceMap": false,
-                "extractCss": true,
-                "namedChunks": false,
-                "aot": true,
-                "extractLicenses": true,
-                "vendorChunk": false,
-                "buildOptimizer": true,
-                "serviceWorker": true,
-                "ngswConfigPath": "ngsw-config.json"
-            }
-          }
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "serviceWorker": true,
+              "ngswConfigPath": "ngsw-config.json"
+            }}
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "proxyConfig": "proxy.conf.json",
-            "browserTarget": "genexus-web-application:build"
+            "buildTarget": "genexus-web-application:build"
           },
           "configurations": {
-            "prod": {
-              "browserTarget": "genexus-web-application:build:prod"
-            },
             "production": {
-              "browserTarget": "genexus-web-application:build:production"
+              "buildTarget": "genexus-web-application:build:production"
             }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "genexus-web-application:build"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
           }
         }
       }
-    },
-    "genexus-web-application-e2e": {
-      "root": "e2e",
-      "sourceRoot": "e2e",
-      "projectType": "application"
     }
   },
-  "defaultProject": "genexus-web-application",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",

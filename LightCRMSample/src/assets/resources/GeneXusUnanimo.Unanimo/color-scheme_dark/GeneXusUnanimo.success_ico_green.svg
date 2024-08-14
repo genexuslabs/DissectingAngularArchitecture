@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Success</title>
+    <g id="Success" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M12,4 C14.1217319,4 16.1565632,4.84285472 17.6568542,6.34314575 C19.1571453,7.84343678 20,9.87826808 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 Z M16.69,7.7 L10.11,14.21 L7.21,11.48 L6.21,12.57 L10.21,16.3 L17.75,8.76 L16.69,7.7 Z" fill="#50beae"></path>
+    </g>
+</svg>

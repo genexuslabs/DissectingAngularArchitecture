@@ -1,4 +1,4 @@
-import { UIEditElement } from './ui-edit';
+import { UIEditElement } from "./ui-edit";
 
 export interface IRatingElement {
   maxValue: number;
@@ -6,16 +6,6 @@ export interface IRatingElement {
 }
 
 export class UIRatingElement extends UIEditElement implements IRatingElement {
-  maxValue = 5;
-  step = 1;
-
-
-  setControlValueChangedAction(action: any) {
-    this.onControlValueChangedAction = action;
-  }
-
-  onControlValueChanged(eventInfo: any) {
-    this.onControlValueChangedAction(eventInfo);
-  }
-
+  maxValue = null;
+  step = null;
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { publish as gxPublish, subscribe as gxSubscribe, unSubscribe as gxUnSubscribe } from '@genexus/web-standard-functions/dist/lib-esm/web/GlobalEvents';
+import { publish as gxPublish, subscribe as gxSubscribe, unSubscribe as gxUnSubscribe } from '@genexus/web-standard-functions/dist/lib-esm/web/globalEvents';
 import EventSubscription from '@genexus/web-standard-functions/dist/lib-esm/pubSub/pubSubscription';
 
 @Injectable({

@@ -1,28 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Router } from "@angular/router";
 
 import { Settings } from 'app/app.settings';
-import { PanelService } from "app/gx/base/panel.service";
+import { AppContainer } from 'app/gx/base/app-container';
+import { PanelService, PanelServiceData } from "app/gx/base/panel.service";
 import { EndpointConnector } from "app/gx/base/endpoint.connector";
-import { LoginService } from "app/gx/auth/login.service";
-import { Type, Transform } from 'class-transformer';
-import { Observable, throwError } from "rxjs";
-import { catchError } from 'rxjs/operators';
+import { GAMService } from "app/gx/auth/gam.service";
+import { UriCacheService } from 'app/gx/utils/uri-cache/uri-cache.service';
+import { IBlob } from '@genexus/web-standard-functions/dist/lib-esm/types/IBlob';
 
 
-import { GlobalEvents } from 'app/gx/base/global-events';
 
 @Injectable()
 export class LightCRMService extends PanelService {
-
-    constructor(private http: HttpClient, private _router:Router, private _loginService: LoginService) {
-      super(_router, _loginService);
-    }
+  private http = inject(HttpClient);
+  private _uriCache = inject(UriCacheService);
 
 
-  // Actions
 
 }
 
-// Data structures

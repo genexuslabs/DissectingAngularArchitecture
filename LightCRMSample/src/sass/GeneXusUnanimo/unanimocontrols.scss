@@ -1,0 +1,14 @@
+@use "./../_common_functions" as gx_functions;
+@use "./_base_unanimocontrols" as genexusunanimo_unanimocontrols;
+
+// *** IMPORTS ***
+@use "../GeneXusUnanimo/unanimo";
+@use "../GeneXusUnanimo/actiongroup";
+@use "../GeneXusUnanimo/dropdown";
+
+// *** STYLES ***
+@include genexusunanimo_unanimocontrols.tokens();
+@include genexusunanimo_unanimocontrols.images(gx_functions.load-common-images());
+@include genexusunanimo_unanimocontrols.fonts();
+@include genexusunanimo_unanimocontrols.files();
+@include genexusunanimo_unanimocontrols.styles(); 

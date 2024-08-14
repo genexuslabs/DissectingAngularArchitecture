@@ -1,0 +1,347 @@
+@use  "../../../node_modules/@genexus/web-controls-library/dist/theming/theming-mixins" as gx_wcl;
+@use  "../../../node_modules/@genexus/reporting-controls-library/dist/theming/theming-mixins" as gx_rcl;
+@use  "./../common" as gx_common;
+@use  "./../_designsystem" as gx_dso;
+// *** TOKENS ***
+@mixin tokens()
+{
+
+	// prefers-color-scheme
+
+}
+
+// *** IMAGES ***
+@mixin images($load-common-images: true)
+{
+	// common images
+	@if $load-common-images
+	{
+		:root {
+			--gx-image_selectrow: url(^assets/resources/selectRow.png);
+			--gx-image_img_company: -webkit-image-set(url(^assets/resources/img_company.png) 1x,url(^assets/resources/img_company-2x.png) 2x);
+			--gx-image_img_contact: -webkit-image-set(url(^assets/resources/img_contact.png) 1x,url(^assets/resources/img_contact-2x.png) 2x);
+			--gx-image_img_meeting: -webkit-image-set(url(^assets/resources/img_meeting.png) 1x,url(^assets/resources/img_meeting-2x.png) 2x);
+			--gx-image_genexus: url(^assets/resources/genexus.png);
+			--gx-image_emp_brownsafe: url(^assets/resources/emp_brownsafe.jpg);
+			--gx-image_emp_fastcompany: url(^assets/resources/emp_fastcompany.jpg);
+			--gx-image_emp_ibm: url(^assets/resources/emp_ibm.jpg);
+			--gx-image_emp_kids: url(^assets/resources/emp_kids.png);
+			--gx-image_emp_languageexpress: url(^assets/resources/EMP_Languageexpress.jpg);
+			--gx-image_emp_laundrycompany: url(^assets/resources/emp_laundrycompany.jpg);
+			--gx-image_emp_lumesse: url(^assets/resources/emp_lumesse.png);
+			--gx-image_m1: url(^assets/resources/m1.jpg);
+			--gx-image_f1: url(^assets/resources/f1.jpg);
+			--gx-image_m2: url(^assets/resources/m2.jpg);
+			--gx-image_f2: url(^assets/resources/f2.jpg);
+			--gx-image_m3: url(^assets/resources/m3.jpg);
+			--gx-image_f3: url(^assets/resources/f3.jpg);
+			--gx-image_m4: url(^assets/resources/m4.jpg);
+			--gx-image_f4: url(^assets/resources/f4.jpg);
+			--gx-image_m5: url(^assets/resources/m5.jpg);
+			--gx-image_f5: url(^assets/resources/f5.jpg);
+			--gx-image_m6: url(^assets/resources/m6.jpg);
+			--gx-image_f6: url(^assets/resources/f6.jpg);
+			--gx-image_m7: url(^assets/resources/m7.jpg);
+			--gx-image_f7: url(^assets/resources/f7.jpg);
+			--gx-image_m8: url(^assets/resources/m8.jpg);
+			--gx-image_f8: url(^assets/resources/f8.jpg);
+			--gx-image_ico_android_140x140: url(^assets/resources/ico_android_140x140.png);
+			--gx-image_launch_android: url(^assets/resources/launch_android.png);
+			--gx-image_bin: url(^assets/resources/bin.png);
+			--gx-image_iosicon: url(^assets/resources/IOSIcon.png);
+			--gx-image_companyicon: url(^assets/resources/CompanyIcon.png);
+			--gx-image_contacts: url(^assets/resources/Contacts.png);
+			--gx-image_meetings: url(^assets/resources/Meetings.png);
+			--gx-image_group: url(^assets/resources/Group.png);
+		}
+
+	}
+
+	// style images
+
+	// prefers-color-scheme images
+
+}
+
+// *** FONTS ***
+@mixin fonts()
+{
+}
+
+// *** FILES ***
+@mixin files()
+{
+}
+
+// *** STYLES ***
+@mixin styles()
+{
+	.Application {
+		background-color:var(--colors_surface);
+		font-family:var(--fonts_primary-regular);
+		color:var(--colors_on-background);
+		@include gx_common.gx-application($target-background-color:var(--colors_surface));
+	}
+
+	.ApplicationBars {
+		background-color:var(--colors_header-bg);
+		font-family:var(--fonts_primary-bold);
+		color:var(--colors_on-secondary);
+		border-bottom:solid 2px var(--colors_header-separator-bg);
+	}
+
+	.Attribute, .AttributeSearch {
+		max-width:fit-content;
+	}
+
+	.Attribute.gx-disabled-custom {
+		color:var(--colors_gray03);
+		background-color:var(--colors_gray01);
+		border-color:var(--colors_border-gray-03);
+	}
+
+	.Attribute[type="date"], .Attribute[type="datetime-local"] {
+		width:fit-content;
+	}
+
+	select.Attribute {
+		max-width:fit-content;
+	}
+
+	.Attribute.gx-edit--multiline {
+		min-width:240px;
+		min-height:60px;
+	}
+
+	.attribute-checkbox {
+		--option-checked-color:var(--colors_primary);
+		--option-border-color:var(--colors_gray04);
+		--option-highlight-color:var(--colors_primary-active);
+		@include gx_wcl.gx-form-field-label($label:".attribute-label");
+	}
+
+	gx-checkbox.Attribute {
+		--option-checked-color:var(--colors_primary);
+		--option-border-color:var(--colors_gray04);
+		--option-highlight-color:var(--colors_primary-active);
+		@include gx_wcl.gx-form-field-label($label:".attribute-label");
+	}
+
+	.attribute-checkbox--disabled {
+		--option-checked-color:var(--colors_primary-disabled);
+		--option-border-color:var(--colors_border-primary-disabled);
+		--option-highlight-color:unset;
+		@include gx_wcl.gx-form-field-label($label:".attribute-label");
+	}
+
+	gx-radio-option {
+		--option-checked-color:var(--colors_primary);
+		--option-border-color:var(--colors_gray04);
+		--option-highlight-color:var(--colors_primary-active);
+	}
+
+	.attribute-radiobutton {
+		@include gx_wcl.gx-form-field-label($label:".attribute-label");
+	}
+
+	.attribute-radiobutton--disabled {
+		--option-checked-color:var(--colors_primary-disabled);
+		--option-border-color:var(--colors_border-primary-disabled);
+		--option-highlight-color:unset;
+		@include gx_wcl.gx-form-field-label($label:".attribute-label");
+	}
+
+	gx-radio-option .label-of-the-option {
+		font-family:var(--fonts_primary-regular);
+		font-size:var(--fontsizes_s);
+	}
+
+	.badge {
+		max-height:18px;
+		max-width:fit-content;
+	}
+
+	.badge-success, .badge-info, .badge-warning, .badge-danger, .badge-disabled {
+		max-height:18px;
+		max-width:fit-content;
+	}
+
+	.Button {
+		max-width:fit-content;
+	}
+
+	.Button::part(main-img) {
+		padding-inline-start:var(--spacing_inline-l);
+	}
+
+	.Button.gx-empty-caption {
+		min-width:28px;
+		padding:0px;
+	}
+
+	.Button.gx-empty-caption::part(main-img) {
+		padding:0px;
+	}
+
+	.button-primary::part(main-img) {
+		filter:brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7495%) hue-rotate(105deg) brightness(104%) contrast(100%);
+	}
+
+	.button-secondary::part(main-img) {
+		filter:brightness(0) saturate(100%) invert(39%) sepia(90%) saturate(693%) hue-rotate(207deg) brightness(96%) contrast(97%);
+	}
+
+	.button-tertiary::part(main-img) {
+		filter:brightness(0) saturate(100%) invert(39%) sepia(90%) saturate(693%) hue-rotate(207deg) brightness(96%) contrast(97%);
+	}
+
+	.button-rounded::part(main-img) {
+		filter:brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7495%) hue-rotate(105deg) brightness(104%) contrast(100%);
+	}
+
+	.button-primary--disabled::part(main-img) {
+		filter:brightness(0) saturate(100%) invert(94%) sepia(11%) saturate(66%) hue-rotate(191deg) brightness(83%) contrast(90%);
+	}
+
+	.button-secondary--disabled::part(main-img) {
+		filter:brightness(0) saturate(100%) invert(58%) sepia(10%) saturate(102%) hue-rotate(191deg) brightness(100%) contrast(84%);
+	}
+
+	.button-tertiary--disabled::part(main-img) {
+		filter:brightness(0) saturate(100%) invert(58%) sepia(10%) saturate(102%) hue-rotate(191deg) brightness(100%) contrast(84%);
+	}
+
+	.button-rounded--disabled::part(main-img) {
+		filter:brightness(0) saturate(100%) invert(94%) sepia(11%) saturate(66%) hue-rotate(191deg) brightness(83%) contrast(90%);
+	}
+
+	.gx-group-caption {
+		display:block;
+		color:var(--colors_on-background);
+		font-family:var(--fonts_primary-bold);
+		font-size:var(--fontsizes_m);
+		letter-spacing:var(--spacing_letter-spacing-s);
+		width:100%;
+		height:30px;
+		padding:0;
+		margin-bottom:var(--spacing_stack-l);
+		border:0;
+		border-bottom:1px solid var(--colors_gray01);
+		@include gx_wcl.custom-vars($class:"%gx-group-caption__gx_variables");
+	}
+	%gx-group-caption__gx_variables {
+		--width:100%;
+		--height:30px;
+	}
+
+
+	.Grid {
+		@include gx_dso.gx-grid-base($column:".grid-column", $row-header:".GridTitle", $row:".grid-row", $row-hover:".grid-row-highlight", $row-selected:".gx-row-selected");
+		@include gx_wcl.gx-grid-base();
+	}
+
+	.GridTitle {
+		font-family:var(--fonts_primary-bold);
+		font-size:var(--fontsizes_s);
+		color:var(--colors_on-background);
+		cursor:pointer;
+		border-bottom:var(--borders_extra-small) solid var(--colors_gray01);
+		padding-block:7px;
+		padding-inline:var(--spacing_inset-s);
+	}
+
+	.Image, .ViewImage {
+		@include gx_wcl.gx-form-field-label($label:".attribute-label");
+	}
+
+	.Switch {
+		--option-checked-color:var(--colors_primary-active);
+		--option-border-color:var(--colors_gray04);
+		--option-highlight-color:var(--colors_primary-active);
+		@include gx_wcl.gx-form-field-label($label:".attribute-label");
+	}
+
+	gx-switch>.gx-switch-container>.gx-switch-slider::before {
+		width:24px;
+		height:24px;
+	}
+
+	gx-switch>.gx-switch-container>.gx-switch-slider {
+		width:48px;
+		height:12px;
+		border-radius:12px;
+		background-color:var(--colors_gray03);
+	}
+
+	gx-switch>.gx-switch-container--checked>.gx-switch-slider {
+		background-color:var(--colors_primary);
+	}
+
+	gx-switch>.gx-switch-container:last-child {
+		font-family:var(--fonts_primary-regular);
+		font-size:var(--fontsizes_s);
+	}
+
+	.Tab {
+		margin-inline:var(--spacing_inline-xl);
+		@include gx_wcl.gx-tab($unselected-tab-caption:".tab-item", $selected-tab-caption:".tab-item--selected");
+	}
+
+	.Tab::part(tab-content) {
+		background-color:var(--colors_form-container-bg);
+	}
+
+	.Tab .ApplicationBars {
+		background-color:var(--colors_form-container-bg);
+		border-bottom:none;
+	}
+
+	.tab-item {
+		padding:10px;
+		border-block-end-width:3px;
+	}
+
+	.tab-item--selected {
+		padding:10px;
+	}
+
+	.tab-item:hover, tab-item--selected:hover {
+		box-shadow:0px 3px 0px 0px var(--colors_secondary);
+	}
+
+	.tab-item:focus, tab-item--selected:focus {
+		border:solid 1px var(--colors_secondary-active);
+	}
+
+	.gx-sections-container {
+		background-color:var(--colors_alt-surface);
+	}
+
+	.TableDetail {
+		background-color:var(--colors_alt-surface);
+	}
+
+	.TableSectioninsert {
+		margin:32px;
+		padding:32px;
+		background-color:var(--colors_form-container-bg);
+		border-radius:var(--radius_xl);
+		box-shadow:var(--shadows_xxs);
+		@include gx_wcl.horizontal-line($show-horizontal-line:true);
+	}
+
+	.TableSectioninsert gx-form-field {
+		border-bottom:solid 1px var(--colors_gray03);
+	}
+
+	.HeaderContainer {
+		margin:0px;
+	}
+
+	.TableSectioninsert gx-map {
+		--gx-map-width:200px;
+		--gx-map-height:80px;
+	}
+
+
+} 

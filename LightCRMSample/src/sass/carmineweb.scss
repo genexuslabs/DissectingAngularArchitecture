@@ -1,0 +1,11 @@
+@use "./_common_functions" as gx_functions;
+@use "./_base_carmineweb" as carmineweb;
+
+// *** IMPORTS ***
+
+// *** STYLES ***
+@include carmineweb.tokens();
+@include carmineweb.images(gx_functions.load-common-images());
+@include carmineweb.fonts();
+@include carmineweb.files();
+@include carmineweb.styles(); 

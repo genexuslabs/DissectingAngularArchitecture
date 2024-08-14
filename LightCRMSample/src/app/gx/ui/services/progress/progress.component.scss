@@ -1,0 +1,5 @@
+:host gx-progress-bar {
+  &::part(body) {
+    display:contents;
+  }
+}

@@ -1,0 +1,14 @@
+:host {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+:host([hidden]) {
+    display: none !important;
+}
+
+:host([hidden][invisible-mode="keep-space"]) {
+    display: flex !important;
+    visibility: hidden;
+}

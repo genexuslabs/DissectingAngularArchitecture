@@ -1,0 +1,85 @@
+@use "sass:map";
+
+$gx-grid-row-class: "--row";
+$gx-grid-header-row-class: "--header-row";
+$gx-grid-column-class: "--column";
+$gx-grid-column-header-class: "--column-header";
+$gx-grid-hover-row-class: "--hover-row";
+$gx-grid-selected-row-class: "--selected-row";
+$gx-grid-focused-row-class: "--focused-row";
+$gx-grid-column-size-var: "--column-size";
+$gx-grid-column-hidden-class: "--column-hidden";
+$gx-grid-column-hidden-value: (
+    "true": "none",
+    "false": "block",
+);
+
+@mixin gx-grid-base(
+    $column-header: null,
+    $column: null,
+    $row-header: null,
+    $row: null,
+    $row-even: null,
+    $row-odd: null,
+    $row-hover: null,
+    $row-selected: null,
+    $row-focused: null
+) {
+    @if ($row-hover != null) {
+        &#{$gx-grid-hover-row-class},
+        ch-grid-row[highlighted] > & {
+            @extend #{$row-hover} !optional;
+        }
+    }
+
+    @if ($row-selected != null) {
+        &#{$gx-grid-selected-row-class},
+        ch-grid-row[selected] > & {
+            @extend #{$row-selected} !optional;
+        }
+    }
+
+    @if ($row-focused != null) {
+        &#{$gx-grid-focused-row-class},
+        ch-grid-row[focused] > & {
+            @extend #{$row-focused} !optional;
+        }
+    }
+
+    @if ($column-header != null) {
+        &#{$gx-grid-column-header-class} {
+            @extend #{$column-header} !optional;
+        }
+    }
+
+    @if ($column != null) {
+        &#{$gx-grid-column-class} {
+            @extend #{$column} !optional;
+        }
+    }
+
+    @if ($row-header != null) {
+        &#{$gx-grid-header-row-class} {
+            @extend #{$row-header} !optional;
+        }
+    }
+
+    @if ($row != null) {
+        &#{$gx-grid-row-class} {
+            @extend #{$row} !optional;
+        }
+    }
+}
+
+@mixin gx-grid-column($name, $size: null, $hidden: null) {
+    @if ($size != null) {
+        ch-grid:has(&) {
+            --#{$name}#{$gx-grid-column-size-var}: #{$size};
+        }
+    }
+    @if ($hidden != null) {
+        &#{$gx-grid-column-hidden-class} {
+            display: #{map.get($gx-grid-column-hidden-value, $hidden)};
+        }
+    }
+}

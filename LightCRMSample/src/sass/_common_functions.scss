@@ -1,0 +1,11 @@
+$common_images_loaded: false;
+
+@function load-common-images()
+{
+    $result: not $common_images_loaded;
+    @if not $common_images_loaded {
+        $common_images_loaded: true !global;
+    }
+
+    @return $result;
+}

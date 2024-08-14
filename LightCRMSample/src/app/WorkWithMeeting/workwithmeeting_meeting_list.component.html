@@ -1,0 +1,606 @@
+@if (__viewManager.view === 'ViewAnyWebScreen') {
+<gx-card
+  #ViewAnyWebScreen id="ViewAnyWebScreen"
+>
+  <gx-table
+    #ctrlMaintable
+    [cssClass]="'TableDetail' | classSplit"
+    areas-template="'cell00 ' 'cell10 ' "
+    columns-template="1fr"
+    rows-template="min-content min-content"
+    invisible-mode="keep-space"
+    slot="body"
+  >
+    <gx-table-cell
+      area="cell00"
+      min-height="96px" max-height="96px"
+    >
+      <div
+        #ctrlTableactionscontainer
+        class="Table"
+        style="display: flex; width: 100%; height: 100%; flex-direction: row; flex-wrap: nowrap; justify-content: flex-end; align-items: center; "
+      >
+        <div class="flex-cell"
+          style="flex-grow: 1; min-height: 32px; "
+        >
+          <gx-textblock
+            #ctrlTxbtitle id="ctrlTxbtitle"
+            [cssClass]="'heading-01 stack-bottom-s' | classSplit"
+            invisible-mode="keep-space"
+            line-clamp
+          >{{'Meeting' | translate}}</gx-textblock
+          >
+        </div>
+
+
+        <div class="flex-cell"
+          style="min-height: 28px; "
+        >
+          <gx-button
+            #ctrlBtninsert
+            [accessibleName]="'Insert' | translate"
+            [cssClass]="'Button button-primary' | classSplit"
+            caption="{{'Insert' | translate}}"
+            [disabled]="(__actionsEnabled && true) | not"
+            invisible-mode="keep-space"
+            (click)="_Insert(); $event.stopPropagation()"
+          >
+          </gx-button>
+        </div>
+
+
+        <div class="flex-cell"
+          style="min-height: 28px; "
+        >
+          <gx-form-field
+            [cssClass]="'AttributeSearch inline-left-xl' | classSplit"
+            invisible-mode="keep-space"
+            label-position="none"
+          >
+            <gx-edit
+              #ctrlSearch id="ctrlSearch"
+              [accessibleName]="'search' | translate"
+              area="field"
+              [cssClass]="'AttributeSearch inline-left-xl' | classSplit"
+              type="text"
+              max-length="100"
+
+              placeholder="{{'MeetingTitle' | translate}}"
+              [ngModel]="state.WorkWithMeeting_Meeting_List_data.Search"
+              ngDefaultControl
+
+              (ngModelChange)="state.WorkWithMeeting_Meeting_List_data.Search = $event; this.ctrlGrid1AutoRefresh();"
+              [attr.readonly]="false"
+              (change)="this.ctrlGrid1AutoRefresh(true);$event.stopPropagation()"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </div>
+
+      </div>
+    </gx-table-cell>
+
+    <gx-table-cell
+      area="cell10"
+      auto-grow
+      min-height="60px"
+    >
+      <ch-grid
+          #ctrlGrid1 id="ctrlGrid1"
+          [ngClass]="'Grid card inset-m' | classSplit"
+          (rowClicked)="ctrlGrid1RowClicked($event.detail, this._GridSelect);"
+
+          (refreshClicked)="ctrlGrid1PageRefresh(); $event.stopPropagation()"
+          (pageNavigationRequested)="ctrlGrid1PageNavigate($event.detail.type, $event.detail.page); $event.stopPropagation()"
+
+          [keyboardNavigationMode]="'focus'"
+          [rowSelectionMode]="'single'"
+          [rowSelectedClass]="'Grid card inset-m' | classToGxClass:['gridSelectedRow']"
+          [rowHighlightedClass]="'Grid card inset-m' | classToGxClass:['gridHoverRow']"
+          [rowFocusedClass]="'Grid card inset-m' | classToGxClass:['gridFocusedRow']"
+      >
+          <ch-grid-columnset
+              [ngClass]="'Grid card inset-m' | classToGxClass:['gridHeaderRow']"
+          >
+              <ch-grid-column
+                  [columnType]="'plain'"
+                  [columnName]="'Meeting Id' | translate"
+                  [columnTooltip]="'Meeting Id' | translate"
+                  [columnNameHidden]="true | not"
+                  [ngClass]="['grid-column', 'grid-column' | classToGxClass:['gridColumnHeader']]"
+                  [displayObserverClass]="'grid-column' | classToGxClass:['gridColumnHidden']"
+                  size="max-content"
+                  hideable="true"
+                  resizable="true"
+                  sortable="true"
+                  settingable="false"
+                  [richRowSelector]="false"
+              >
+              </ch-grid-column>
+
+              <ch-grid-column
+                  [columnType]="'plain'"
+                  [columnName]="'Date' | translate"
+                  [columnTooltip]="'Date' | translate"
+                  [columnNameHidden]="true | not"
+                  [ngClass]="['grid-column', 'grid-column' | classToGxClass:['gridColumnHeader']]"
+                  [displayObserverClass]="'grid-column' | classToGxClass:['gridColumnHidden']"
+                  size="max-content"
+                  hideable="true"
+                  resizable="true"
+                  sortable="true"
+                  settingable="false"
+                  [richRowSelector]="false"
+              >
+              </ch-grid-column>
+
+              <ch-grid-column
+                  [columnType]="'plain'"
+                  [columnName]="'Meeting Title' | translate"
+                  [columnTooltip]="'' | translate"
+                  [columnNameHidden]="true | not"
+                  [ngClass]="['grid-column', 'grid-column' | classToGxClass:['gridColumnHeader']]"
+                  [displayObserverClass]="'grid-column' | classToGxClass:['gridColumnHidden']"
+                  size="auto"
+                  hideable="false"
+                  resizable="false"
+                  sortable="false"
+                  settingable="false"
+                  [richRowSelector]="false"
+              >
+              </ch-grid-column>
+
+              <ch-grid-column
+                  [columnType]="'plain'"
+                  [columnName]="'ID' | translate"
+                  [columnTooltip]="'ID' | translate"
+                  [columnNameHidden]="true | not"
+                  [ngClass]="['grid-column', 'grid-column' | classToGxClass:['gridColumnHeader']]"
+                  [displayObserverClass]="'grid-column' | classToGxClass:['gridColumnHidden']"
+                  size="max-content"
+                  hideable="true"
+                  resizable="true"
+                  sortable="true"
+                  settingable="false"
+                  [richRowSelector]="false"
+              >
+              </ch-grid-column>
+
+              <ch-grid-column
+                  [columnType]="'plain'"
+                  [columnName]="'Company' | translate"
+                  [columnTooltip]="'Company' | translate"
+                  [columnNameHidden]="true | not"
+                  [ngClass]="['grid-column', 'grid-column' | classToGxClass:['gridColumnHeader']]"
+                  [displayObserverClass]="'grid-column' | classToGxClass:['gridColumnHidden']"
+                  size="max-content"
+                  hideable="true"
+                  resizable="true"
+                  sortable="true"
+                  settingable="false"
+                  [richRowSelector]="false"
+              >
+              </ch-grid-column>
+
+              <ch-grid-column
+                  [columnType]="'plain'"
+                  [columnName]="'Contact Id' | translate"
+                  [columnTooltip]="'Contact Id' | translate"
+                  [columnNameHidden]="true | not"
+                  [ngClass]="['grid-column', 'grid-column' | classToGxClass:['gridColumnHeader']]"
+                  [displayObserverClass]="'grid-column' | classToGxClass:['gridColumnHidden']"
+                  size="max-content"
+                  hideable="true"
+                  resizable="true"
+                  sortable="true"
+                  settingable="false"
+                  [richRowSelector]="false"
+              >
+              </ch-grid-column>
+
+              <ch-grid-column
+                  [columnType]="'plain'"
+                  [columnName]="'Contact' | translate"
+                  [columnTooltip]="'Contact' | translate"
+                  [columnNameHidden]="true | not"
+                  [ngClass]="['grid-column', 'grid-column' | classToGxClass:['gridColumnHeader']]"
+                  [displayObserverClass]="'grid-column' | classToGxClass:['gridColumnHidden']"
+                  size="max-content"
+                  hideable="true"
+                  resizable="true"
+                  sortable="true"
+                  settingable="false"
+                  [richRowSelector]="false"
+              >
+              </ch-grid-column>
+
+              <ch-grid-column
+                  [columnType]="'plain'"
+                  [columnName]="'Notes' | translate"
+                  [columnTooltip]="'Notes' | translate"
+                  [columnNameHidden]="true | not"
+                  [ngClass]="['grid-column', 'grid-column' | classToGxClass:['gridColumnHeader']]"
+                  [displayObserverClass]="'grid-column' | classToGxClass:['gridColumnHidden']"
+                  size="max-content"
+                  hideable="true"
+                  resizable="true"
+                  sortable="true"
+                  settingable="false"
+                  [richRowSelector]="false"
+              >
+              </ch-grid-column>
+
+              <ch-grid-column
+                  [columnType]="'plain'"
+                  [columnName]="'Place' | translate"
+                  [columnTooltip]="'Place' | translate"
+                  [columnNameHidden]="true | not"
+                  [ngClass]="['grid-column', 'grid-column' | classToGxClass:['gridColumnHeader']]"
+                  [displayObserverClass]="'grid-column' | classToGxClass:['gridColumnHidden']"
+                  size="max-content"
+                  hideable="true"
+                  resizable="true"
+                  sortable="true"
+                  settingable="false"
+                  [richRowSelector]="false"
+              >
+              </ch-grid-column>
+
+              <ch-grid-column
+                  [columnType]="'plain'"
+                  [columnName]="'Address' | translate"
+                  [columnTooltip]="'Address' | translate"
+                  [columnNameHidden]="true | not"
+                  [ngClass]="['grid-column', 'grid-column' | classToGxClass:['gridColumnHeader']]"
+                  [displayObserverClass]="'grid-column' | classToGxClass:['gridColumnHidden']"
+                  size="max-content"
+                  hideable="true"
+                  resizable="true"
+                  sortable="true"
+                  settingable="false"
+                  [richRowSelector]="false"
+              >
+              </ch-grid-column>
+
+          </ch-grid-columnset>
+
+           @for (ctrlGrid1Item of ctrlGrid1Controller.gridData | collectionSlice:state.uiModel._ctrlGrid1Items.startRecordPage:state.uiModel._ctrlGrid1Items.endRecordPage;track ctrlGrid1Controller.identify ) {
+               <ch-grid-row
+                   [ngClass]="'Grid card inset-m' | classToGxClass:['gridRow',!(ctrlGrid1Item['_gxIndex'] % 2 === 0) ? 'gridEvenRow': 'gridOddRow']"
+                   [attr.rowid]="ctrlGrid1Item['_gxIndex']"
+                   [selected]="state.uiModel._ctrlGrid1Items[ctrlGrid1Item['_gxIndex']].Selected"
+               >
+                   <ch-grid-cell
+                       [ngClass]="[
+                           'Grid card inset-m' | classToGxClass:['gridColumn'],
+                           'grid-column',
+                           'grid-column' | classToGxClass:[!(ctrlGrid1Item['_gxIndex'] % 2 === 0) ? 'gridEvenRow': 'gridOddRow']
+                       ]"
+                   >
+                       <gx-form-field
+                         [cssClass]="'Attribute' | classSplit"
+                         invisible-mode="collapse"
+                         label-position="none"
+                       >
+                         <gx-edit
+                           #ctrlMeetingid id="ctrlMeetingid"
+                           area="field"
+                           [cssClass]="'Attribute' | classSplit"
+                           line-clamp
+                           type="text"
+                           max-length="4"
+                           mode="numeric"
+                           [picture]="'ZZZ9'"
+                           placeholder=""
+                           [ngModel]="ctrlGrid1Item.MeetingId"
+                           ngDefaultControl
+                           [attr.readonly]="true"
+                         >
+                         </gx-edit>
+
+                       </gx-form-field>
+                   </ch-grid-cell>
+
+                   <ch-grid-cell
+                       [ngClass]="[
+                           'Grid card inset-m' | classToGxClass:['gridColumn'],
+                           'grid-column',
+                           'grid-column' | classToGxClass:[!(ctrlGrid1Item['_gxIndex'] % 2 === 0) ? 'gridEvenRow': 'gridOddRow']
+                       ]"
+                   >
+                       <gx-form-field
+                         [cssClass]="'Attribute' | classSplit"
+                         invisible-mode="collapse"
+                         label-position="none"
+                       >
+                         <gx-edit
+                           #ctrlMeetingdate id="ctrlMeetingdate"
+                           area="field"
+                           [cssClass]="'Attribute' | classSplit"
+                           line-clamp
+                           type="datetime-local"
+
+                           placeholder=""
+                           [ngModel]="ctrlGrid1Item.MeetingDate | datetimeToISOString"
+                           ngDefaultControl
+                           [attr.readonly]="true"
+                         >
+                         </gx-edit>
+
+                       </gx-form-field>
+                   </ch-grid-cell>
+
+                   <ch-grid-cell
+                       [ngClass]="[
+                           'Grid card inset-m' | classToGxClass:['gridColumn'],
+                           'grid-column',
+                           'grid-column' | classToGxClass:[!(ctrlGrid1Item['_gxIndex'] % 2 === 0) ? 'gridEvenRow': 'gridOddRow']
+                       ]"
+                   >
+                       <gx-form-field
+                         [cssClass]="'Attribute' | classSplit"
+                         [hidden]="state.uiModel._ctrlGrid1Items[ctrlGrid1Item['_gxIndex']].ctrlMeetingtitle?.visible | not"
+                         invisible-mode="collapse"
+                         label-position="none"
+                       >
+                         <gx-edit
+                           #ctrlMeetingtitle id="ctrlMeetingtitle"
+                           area="field"
+                           [cssClass]="'Attribute' | classSplit"
+                           [disabled]="(__actionsEnabled && true) | not"
+                           line-clamp
+                           type="text"
+                           max-length="100"
+
+                           placeholder=""
+                           [ngModel]="ctrlGrid1Item.MeetingTitle"
+                           ngDefaultControl
+                           [attr.readonly]="true"
+                           (click) = "this.ctrlGrid1SetContext(ctrlGrid1Item['_gxIndex']+1);this.ctrlMeetingtitle_Tap();$event.stopPropagation()"
+
+                           data-has-action=""
+                           highlightable
+                         >
+                         </gx-edit>
+
+                       </gx-form-field>
+                   </ch-grid-cell>
+
+                   <ch-grid-cell
+                       [ngClass]="[
+                           'Grid card inset-m' | classToGxClass:['gridColumn'],
+                           'grid-column',
+                           'grid-column' | classToGxClass:[!(ctrlGrid1Item['_gxIndex'] % 2 === 0) ? 'gridEvenRow': 'gridOddRow']
+                       ]"
+                   >
+                       <gx-form-field
+                         [cssClass]="'Attribute' | classSplit"
+                         invisible-mode="collapse"
+                         label-position="none"
+                       >
+                         <gx-edit
+                           #ctrlCompanyid id="ctrlCompanyid"
+                           area="field"
+                           [cssClass]="'Attribute' | classSplit"
+                           line-clamp
+                           type="text"
+                           max-length="4"
+                           mode="numeric"
+                           [picture]="'ZZZ9'"
+                           placeholder=""
+                           [ngModel]="ctrlGrid1Item.CompanyId"
+                           ngDefaultControl
+                           [attr.readonly]="true"
+                         >
+                         </gx-edit>
+
+                       </gx-form-field>
+                   </ch-grid-cell>
+
+                   <ch-grid-cell
+                       [ngClass]="[
+                           'Grid card inset-m' | classToGxClass:['gridColumn'],
+                           'grid-column',
+                           'grid-column' | classToGxClass:[!(ctrlGrid1Item['_gxIndex'] % 2 === 0) ? 'gridEvenRow': 'gridOddRow']
+                       ]"
+                   >
+                       <gx-form-field
+                         [cssClass]="'Attribute' | classSplit"
+                         invisible-mode="collapse"
+                         label-position="none"
+                       >
+                         <gx-edit
+                           #ctrlCompanyname id="ctrlCompanyname"
+                           area="field"
+                           [cssClass]="'Attribute' | classSplit"
+                           line-clamp
+                           type="text"
+                           max-length="20"
+
+                           placeholder=""
+                           [ngModel]="ctrlGrid1Item.CompanyName"
+                           ngDefaultControl
+                           [attr.readonly]="true"
+                         >
+                         </gx-edit>
+
+                       </gx-form-field>
+                   </ch-grid-cell>
+
+                   <ch-grid-cell
+                       [ngClass]="[
+                           'Grid card inset-m' | classToGxClass:['gridColumn'],
+                           'grid-column',
+                           'grid-column' | classToGxClass:[!(ctrlGrid1Item['_gxIndex'] % 2 === 0) ? 'gridEvenRow': 'gridOddRow']
+                       ]"
+                   >
+                       <gx-form-field
+                         [cssClass]="'Attribute' | classSplit"
+                         invisible-mode="collapse"
+                         label-position="none"
+                       >
+                         <gx-edit
+                           #ctrlContactid id="ctrlContactid"
+                           area="field"
+                           [cssClass]="'Attribute' | classSplit"
+                           line-clamp
+                           type="text"
+                           max-length="4"
+                           mode="numeric"
+                           [picture]="'ZZZ9'"
+                           placeholder=""
+                           [ngModel]="ctrlGrid1Item.ContactId"
+                           ngDefaultControl
+                           [attr.readonly]="true"
+                         >
+                         </gx-edit>
+
+                       </gx-form-field>
+                   </ch-grid-cell>
+
+                   <ch-grid-cell
+                       [ngClass]="[
+                           'Grid card inset-m' | classToGxClass:['gridColumn'],
+                           'grid-column',
+                           'grid-column' | classToGxClass:[!(ctrlGrid1Item['_gxIndex'] % 2 === 0) ? 'gridEvenRow': 'gridOddRow']
+                       ]"
+                   >
+                       <gx-form-field
+                         [cssClass]="'Attribute' | classSplit"
+                         invisible-mode="collapse"
+                         label-position="none"
+                       >
+                         <gx-edit
+                           #ctrlContactname id="ctrlContactname"
+                           area="field"
+                           [cssClass]="'Attribute' | classSplit"
+                           line-clamp
+                           type="text"
+                           max-length="20"
+
+                           placeholder=""
+                           [ngModel]="ctrlGrid1Item.ContactName"
+                           ngDefaultControl
+                           [attr.readonly]="true"
+                         >
+                         </gx-edit>
+
+                       </gx-form-field>
+                   </ch-grid-cell>
+
+                   <ch-grid-cell
+                       [ngClass]="[
+                           'Grid card inset-m' | classToGxClass:['gridColumn'],
+                           'grid-column',
+                           'grid-column' | classToGxClass:[!(ctrlGrid1Item['_gxIndex'] % 2 === 0) ? 'gridEvenRow': 'gridOddRow']
+                       ]"
+                   >
+                       <gx-form-field
+                         [cssClass]="'Attribute' | classSplit"
+                         invisible-mode="collapse"
+                         label-position="none"
+                       >
+                         <gx-edit
+                           #ctrlMeetingnote id="ctrlMeetingnote"
+                           area="field"
+                           [cssClass]="'Attribute' | classSplit"
+                           line-clamp
+                           type="text"
+                           multiline
+
+                           placeholder=""
+                           [ngModel]="ctrlGrid1Item.MeetingNote"
+                           ngDefaultControl
+                           [attr.readonly]="true"
+                         >
+                         </gx-edit>
+
+                       </gx-form-field>
+                   </ch-grid-cell>
+
+                   <ch-grid-cell
+                       [ngClass]="[
+                           'Grid card inset-m' | classToGxClass:['gridColumn'],
+                           'grid-column',
+                           'grid-column' | classToGxClass:[!(ctrlGrid1Item['_gxIndex'] % 2 === 0) ? 'gridEvenRow': 'gridOddRow']
+                       ]"
+                   >
+                       <gx-form-field
+                         [cssClass]="'Attribute' | classSplit"
+                         invisible-mode="collapse"
+                         label-position="none"
+                       >
+                         <gx-geolocation
+                           #ctrlMeetinggeolocation id="ctrlMeetinggeolocation"
+                           [coords]="ctrlGrid1Item.MeetingGeolocation"
+                           [readonly]="true"
+                           (onGeolocationChanged) = "ctrlGrid1Item.MeetingGeolocation = $event;"
+                           area="field"
+                         >
+                         </gx-geolocation>
+                       </gx-form-field>
+                   </ch-grid-cell>
+
+                   <ch-grid-cell
+                       [ngClass]="[
+                           'Grid card inset-m' | classToGxClass:['gridColumn'],
+                           'grid-column',
+                           'grid-column' | classToGxClass:[!(ctrlGrid1Item['_gxIndex'] % 2 === 0) ? 'gridEvenRow': 'gridOddRow']
+                       ]"
+                   >
+                       <gx-form-field
+                         [cssClass]="'Attribute' | classSplit"
+                         invisible-mode="collapse"
+                         label-position="none"
+                       >
+                         <gx-edit
+                           #ctrlMeetingaddress id="ctrlMeetingaddress"
+                           area="field"
+                           [cssClass]="'Attribute' | classSplit"
+                           line-clamp
+                           type="text"
+                           max-length="1024"
+
+                           placeholder=""
+                           [ngModel]="ctrlGrid1Item.MeetingAddress"
+                           ngDefaultControl
+                           [attr.readonly]="true"
+                         >
+                         </gx-edit>
+
+                       </gx-form-field>
+                   </ch-grid-cell>
+
+               </ch-grid-row>
+           }
+
+          <ch-grid-actionbar slot="footer">
+              <ch-grid-action-refresh>{{'GX_BtnRefresh' | translate}}</ch-grid-action-refresh>
+              <ch-grid-action-settings>{{ "GXM_Settings" | translate }}</ch-grid-action-settings>
+          </ch-grid-actionbar>
+
+          <ch-paginator
+              slot="footer"
+              [activePage]="state.uiModel._ctrlGrid1Items.currentPage"
+              [totalPages]="state.uiModel._ctrlGrid1Items.totalPages"
+              [hasNextPage]="state.uiModel._ctrlGrid1Items.hasNextPage"
+          >
+              <ch-paginator-navigate type="first">{{ "GXM_first" | translate }}</ch-paginator-navigate>
+              <ch-paginator-navigate type="previous">{{ "GXM_previous" | translate }}</ch-paginator-navigate>
+              @if (state.uiModel._ctrlGrid1Items.recordCountSupported) {
+              <ch-paginator-pages></ch-paginator-pages>
+              }
+              <ch-paginator-navigate type="next">{{ "GXM_next" | translate }}</ch-paginator-navigate>
+              @if (state.uiModel._ctrlGrid1Items.recordCountSupported) {
+              <ch-paginator-navigate type="last">
+                  {{ "GXM_last" | translate }}
+              </ch-paginator-navigate>
+              }
+          </ch-paginator>
+
+      </ch-grid>
+    </gx-table-cell>
+  </gx-table>
+</gx-card>
+}

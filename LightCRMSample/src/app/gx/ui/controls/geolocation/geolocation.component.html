@@ -1,11 +1,8 @@
-<gx-map
-	[selectionLayer]="!(readonly || disabled)"
-	[center]="convertCoords(coords)"
-	[zoom]="zoom"
-	(selectionChange)="coordsChanged($event.detail)"
->
-	<gx-map-marker
-		*ngIf="readonly || disabled"
-		[coords]="convertCoords(coords)"
-	></gx-map-marker>
+<gx-map [selectionLayer]="!(readonly || disabled)"
+        [center]="coords | geographyToCoords"
+        [zoom]="zoom"
+        (selectionChange)="coordsChanged($event.detail)">
+    @if (readonly || disabled) {
+    <gx-map-marker [coords]="coords | geographyToCoords"></gx-map-marker>
+    }
 </gx-map>

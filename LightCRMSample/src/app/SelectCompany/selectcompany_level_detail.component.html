@@ -1,150 +1,132 @@
-  <section class="main-content">
-    <gx-card
-      #ViewAnyiOS
-      [showHeader]='showAsCard'
-      [showBorder]='showAsCard'
-      [showFooter]='showAsCard'
-      *ngIf="viewManager.view === 'ViewAnyiOS'"
-      class="ApplicationBars"
+@if (__viewManager.view === 'ViewAny') {
+<gx-card
+  #ViewAny id="ViewAny"
+>
+  <gx-table
+    #ctrlMaintable
+    [cssClass]="'TableDetail' | classSplit"
+    areas-template="'cell00 ' "
+    columns-template="1fr"
+    rows-template="1fr"
+    invisible-mode="keep-space"
+    slot="body"
+  >
+    <gx-table-cell
+      area="cell00"
     >
-      <div slot="body" *ngIf="viewManager.view === 'ViewAnyiOS'">
-          <gx-table
-            #ctrlMaintable
-            ngClass='TableDetail'
-            areas-template="'cell00 ' "
-            columns-template="1fr"
-            rows-template="minmax(min-content, 1fr)"
-            invisible-mode="keep-space"
-          >
-            <gx-table-cell 
-              area="cell00"
-               overflow-mode="scroll"
-              align="left" valign="top"
-               
+      <gx-grid-smart-css
+        #ctrlGrid1 
+        [cssClass]="'Grid' | classSplit"
+        invisible-mode="keep-space"
+        [loadingState]='state.uiModel._ctrlGrid1Items.loadingState || false'    
+        [recordCount]="state.SelectCompany_Grid1_collection.length"
+        style="
+          --gx-grid-css-items:1; 
+        "
+        item-layout-mode="single"
+        direction='vertical'
+      >
+        <virtual-scroller 
+          #ctrlGrid1_VScroll
+          slot="grid-content"
+          [bufferAmount]="50" 
+          [items]="ctrlGrid1Controller.gridData"
+        >
+           @for (ctrlGrid1Item of ctrlGrid1_VScroll.viewPortItems; track ctrlGrid1Controller.identify(ctrlGrid1Item['_gxIndex'], ctrlGrid1Item) ) {
+            <gx-grid-smart-cell
+              [cssClass]="'Grid' | classSplit"
+              [isRowEven]="ctrlGrid1Item['_gxIndex'] % 2 === 0" 
+              show-horizontal-line="true"
+              (click)=" this.ctrlGrid1SetContext(ctrlGrid1Item['_gxIndex']+1); ctrlGrid1Action( ctrlGrid1Item['_gxIndex']+1, this._Select); $event.stopPropagation()"
+              data-has-action=""
+
+
             >
-              <gx-grid-fs
-                 #ctrlGrid1 
-                 ngClass='Grid'
-                 invisible-mode="keep-space"
-                 [loadingState]='this.uiModel._ctrlGrid1Items.loadingState || false'    
-                 [recordCount]="this.SelectCompany_Grid1_collection.length"
+              <gx-table
+                #ctrlGrid1table
+                [cssClass]="'Table' | classSplit"
+                areas-template="'cell00 cell01 ' "
+                columns-template="1fr 64px"
+                rows-template="min-content"
+                style="min-height: 44px; min-height: 44px; "
+                invisible-mode="keep-space"
+              >
+                <gx-table-cell
+                  area="cell00"
+                  valign="middle"
+                  min-height="44px" max-height="44px"
                 >
-                  <virtual-scroller 
-                        #ctrlGrid1_VScroll
-                        [bufferAmount]="6" 
-                        slot="grid-content"
-                        [items]="this.ctrlGrid1Controller.gridData$ | async">
-                    <ng-container  *ngFor="let ctrlGrid1Item of ctrlGrid1_VScroll.viewPortItems; trackBy:this.ctrlGrid1Controller.identify" >
-                         <gx-table
-                           #ctrlGrid1table
-                           ngClass='Table'
-                           class="gx-grid-row"
-                           areas-template="'cell00 ' "
-                           columns-template="1fr"
-                           rows-template="var(--gx-table-row-autogrow)"
-                            style="min-height: 44px; "
-                           invisible-mode="keep-space"
-                           (click)=" this.ctrlGrid1SetContext(ctrlGrid1Item.gxIndex); ctrlGrid1Action( ctrlGrid1Item.gxIndex, this._Select); $event.stopPropagation()"
-                           data-has-action=""
+                  <gx-form-field
+                    [cssClass]="'AttributeTitle' | classSplit"
+                    invisible-mode="keep-space"
+                    label-position="none"
+                  >
+                    <gx-edit
+                      #ctrlCompanyname id="ctrlCompanyname"
+                      [accessibleName]="'Company' | translate"
+                      area="field"
+                      [cssClass]="'AttributeTitle' | classSplit"
+                      line-clamp
+                      type="text"
+                      max-length="20"
 
-                         >
-                           <gx-table-cell 
-                             area="cell00"
-                              overflow-mode="clip"
-                             align="left" valign="top"
-                              min-height="44px"
-                           >
-                               <gx-table
-                                 #ctrlTable2
-                                 ngClass='TableTableGrid'
-                                 areas-template="'cell00 cell01 ' "
-                                 columns-template="1fr 53px"
-                                 rows-template="minmax(min-content, 44px)"
-                                  style="min-height: 44px; "
-                                 invisible-mode="keep-space"
-                               >
-                                 <gx-table-cell 
-                                   area="cell00"
-                                    overflow-mode="clip"
-                                   align="left" valign="middle"
-                                   max-height="44px" min-height="44px"
-                                 >
-                                     <gx-edit
-                                       #ctrlCompanyname
-                                       name="ctrlCompanyname"
-                                       ngClass='AttributeTitle'
-                                       invisible-mode="keep-space"
-
-                                       type="text"
-                                       placeholder="Company"
-
-                                       [ngModel]="ctrlGrid1Item.CompanyName"
-                                       ngDefaultControl
-                                       [attr.readonly]="(true || (this.Mode == 'DLT'))"
-                                       line-clamp
-                                       area="field"
-                                     >
-                                     </gx-edit>
-
-
-                                 </gx-table-cell>
-
-
-                                 <gx-table-cell 
-                                   area="cell01"
-                                    overflow-mode="clip"
-                                   align="center" valign="middle"
-                                   max-height="44px" min-height="44px"
-                                 >
-                                   <gx-image
-                                     #ctrlCompanylogo
-                                     [autoGrow]="false"
-                                     ngClass='ImageScaleToFitKA'
-                                     [src]="ctrlGrid1Item.CompanyLogo | loadCachedUri | resolveRelativeUrl"
-                                     alt="Logo"
-                                     invisible-mode="keep-space"
-                                   >
-                                   </gx-image>
-
-
-                                 </gx-table-cell>
-
-
-                               </gx-table>
-
-                           </gx-table-cell>
-
-
-                         </gx-table>
-                        
-                     </ng-container>
-                    <gx-grid-infinite-scroll
-                                 threshold="150px"
-                                 viewport-selector="virtual-scroller"
-                                 [itemCount]="this.SelectCompany_Grid1_collection.length" (gxInfinite)="this.fetchNextPagectrlGrid1($event)">
-                             <gx-grid-infinite-scroll-content>
-                                <div>
-                                  <span class="gx-loading-text">{{translate("GXM_Loading")}}</span>
-                                </div>
-                             </gx-grid-infinite-scroll-content>
-                    </gx-grid-infinite-scroll>
-                  </virtual-scroller>
-
-                <div slot="grid-empty-loading-placeholder">
-                  <span class="gx-loading-text">{{translate("GXM_Loading")}}</span>
-                </div>
-                <div slot="grid-content-empty">
-                  <gx-grid-empty-indicator
+                      placeholder="{{'Company' | translate}}"
+                      [ngModel]="ctrlGrid1Item.CompanyName"
+                      ngDefaultControl
+                      [attr.readonly]="true"
                     >
-                  </gx-grid-empty-indicator>  
-                </div>
-              </gx-grid-fs>
+                    </gx-edit>
 
-            </gx-table-cell>
+                  </gx-form-field>
+                </gx-table-cell>
 
+                <gx-table-cell
+                  area="cell01"
+                  align="center" valign="middle"
+                  min-height="44px" max-height="44px"
+                >
+                  <gx-image
+                    #ctrlCompanylogo id="ctrlCompanylogo"
+                    [accessibleName]="'Logo' | translate"
+                    [cssClass]="'Image' | classSplit"
+                    [autoGrow]="false"
+                    [srcset]="ctrlGrid1Item.CompanyLogo | imageToSrcset:this.app.uiContextKey"
+                    alt="Logo"
+                    invisible-mode="keep-space"
+                  >
+                  </gx-image>
 
-          </gx-table>
+                </gx-table-cell>
+              </gx-table>
+            </gx-grid-smart-cell>
+             
+          }
+          <gx-grid-infinite-scroll
+            data-provider
+            [dataState]="ctrlGrid1Controller.dataState"
 
-      </div>
-    </gx-card>
-  </section>
+            [recordCount]="state.SelectCompany_Grid1_collection.length"
+            style="--gx-grid-css-items: 1;"
+            threshold="150px"
+            (gxInfinite)="this.fetchNextPagectrlGrid1($event)"
+          >
+            <gx-loading
+              [cssClass]="'Grid' | classSplit"
+              [presented]='state.uiModel._ctrlGrid1Items.loadingState == "loading" && state.SelectCompany_Grid1_collection.length > 0'
+            >
+            </gx-loading>
+          </gx-grid-infinite-scroll>
+        </virtual-scroller>
+
+        <gx-loading
+          slot="grid-empty-loading-placeholder"
+          [cssClass]="'Grid' | classSplit"
+          [presented]='state.uiModel._ctrlGrid1Items.loadingState == "loading" && state.SelectCompany_Grid1_collection.length <= 0'
+        >
+        </gx-loading>
+      </gx-grid-smart-css>
+
+    </gx-table-cell>
+  </gx-table>
+</gx-card>
+}

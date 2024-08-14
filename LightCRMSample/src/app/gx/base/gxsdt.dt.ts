@@ -1,13 +1,27 @@
-﻿import { GxCollectionData } from "./gxcollection.dt";
+import { TypeConversions } from "./type-conversion";
+import { ISerializable } from "@genexus/web-standard-functions/dist/lib-esm/types/type-serialization";
 
-export class GxSdtData extends GxCollectionData<any> {
+export class GxSdtData implements ISerializable {
 
-  static fromJson(obj: any, json: string, ) {
-    Object.assign(obj, JSON.parse(json));
+  toJson(): string {
+    return JSON.stringify(this.serialize());
   }
 
-  static toJson(obj: any): string {
-    return JSON.stringify(obj)
+  fromJson(json: string) {
+    this.initialize();
+    Object.assign(this, this.deserialize(JSON.parse(json)));
+  }
+
+  initialize() {
+  }
+
+  serialize() {
+    return TypeConversions.sweepClassToObject(this);
+  }
+
+  deserialize(obj) {
+    return TypeConversions.sweepObjectToClass(obj, this);
   }
 
 }
+

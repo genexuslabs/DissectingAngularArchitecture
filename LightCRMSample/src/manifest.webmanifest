@@ -1,9 +1,5 @@
 {
-    "name": "GeneXus web application",
-    "short_name": "GeneXus web application",
-    "theme_color": "#1976d2",
-    "background_color": "#fafafa",
-    "display": "standalone",
+    "name": "LightCRM",
     "scope": "./",
     "start_url": "./",
     "icons": [
@@ -15,7 +11,8 @@
         {
             "src": "assets/icons/icon-512x512.png",
             "sizes": "512x512",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any maskable"
         }
     ]
 }

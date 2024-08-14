@@ -1,3 +1,4 @@
+import { GxImage } from "@genexus/web-standard-functions/dist/lib-esm/types/gximage";
 import { Subject } from "rxjs";
 
 export interface IButtonElement {
@@ -6,14 +7,12 @@ export interface IButtonElement {
   caption?: string;
   visible?: boolean;
   enabled?: boolean;
-  iconSrc?: string;
+  icon?: GxImage;
   priority?: string;
-
   BadgeText?: string;
+  slotName?: string
 
-  onClick?: (eventInfo: any) => void;
-
-  setClickAction?: (action: any) => void;
+  onClick: () => void;
 }
 
 export class UIButtonElement implements IButtonElement {
@@ -35,26 +34,17 @@ export class UIButtonElement implements IButtonElement {
     });
   }
 
-  id = null;
-  class = null;
-  caption = null;
-  visible = null;
-  enabled = null;
-  iconSrc = null;
-  priority = null;
-
+  id: string = null;
+  class: string = null;
+  caption: string = null;
+  visible: boolean = null;
+  enabled: boolean = null;
+  icon: GxImage = null;
+  priority: string = null;
   BadgeText: string;
+  slotName: string
 
-  onClickAction = null;
-
-  onClick(eventInfo: any) {
-    eventInfo.stopPropagation();
-    this.onClickAction();
-  }
-
-  setClickAction(action: any) {
-    this.onClickAction = action;
-  }
+  onClick: () => void;
 
   propertyChange: Subject<UIButtonElement>;
 }

@@ -1,0 +1,12 @@
+@use "./../_common_functions" as gx_functions;
+@use "./_base_unanimomobile" as genexusunanimo_unanimomobile;
+
+// *** IMPORTS ***
+@use "../GeneXusUnanimo/unanimo";
+
+// *** STYLES ***
+@include genexusunanimo_unanimomobile.tokens();
+@include genexusunanimo_unanimomobile.images(gx_functions.load-common-images());
+@include genexusunanimo_unanimomobile.fonts();
+@include genexusunanimo_unanimomobile.files();
+@include genexusunanimo_unanimomobile.styles(); 

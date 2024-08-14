@@ -1,65 +1,91 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from "@angular/common/http"
 
+import { AppContainer } from 'app/gx/base/app-container';
 import { EndpointConnector } from 'app/gx/base/endpoint.connector';
 import { Settings } from 'app/app.settings';
 import { BusinessComponentService } from 'app/gx/base/business-component';
+import { UriCacheService } from 'app/gx/utils/uri-cache/uri-cache.service';
+import { IBlob } from '@genexus/web-standard-functions/dist/lib-esm/types/IBlob';
 import { ContactData } from './contact.dt';
+import { GxImage } from '@genexus/web-standard-functions/dist/lib-esm/types/gximage';
+import { TypeConversions } from 'app/gx/base/type-conversion';
+import { Std_TypeConversions } from '@genexus/web-standard-functions/dist/lib-esm/types/std-type-conversion';
 
 @Injectable()
 export class ContactService extends BusinessComponentService<ContactData>{
-
-  constructor(protected http: HttpClient) {
-    super( http);
-  }
+  protected http = inject(HttpClient);
+  protected app = inject(AppContainer);
+  private _uriCache = inject(UriCacheService);
 
   async initialize(): Promise<ContactData> {
     try {
-      return await EndpointConnector.getDataForType<ContactData>(this.http, Settings.SERVICE_API_ENDPOINT + 'Contact/_default', ContactData)
+      this.setError(0) ;
+      const data = await EndpointConnector.getData(this.http, Settings.SERVICE_API_ENDPOINT + 'Contact/_default');
+      return this.objectToClass(data, ContactData);
     }
     catch (error) {
-      this.handleError(error);
+      this.setError(1, error);
     }
   }
-
-  async get( ContactId:number , CompanyId:number ): Promise<ContactData> {
+  async get(ContactId:number , CompanyId:number ): Promise<ContactData> {
     try {
-      return await EndpointConnector.getDataForType<ContactData>(this.http, Settings.SERVICE_API_ENDPOINT + 'Contact/'+ ContactId + ',' + CompanyId , ContactData)
+      this.setError(0);
+      const data = await EndpointConnector.getData(this.http, Settings.SERVICE_API_ENDPOINT + 'Contact/'+ '' + ContactId + ',' + '' + CompanyId );
+      return this.objectToClass(data, ContactData);
     }
     catch (error) {
-      this.handleError(error);
+      this.setError(1, error);
+      const data = new ContactData();
+      data.ContactId = ContactId;
+      data.CompanyId = CompanyId;
+      return data;
     }
   }
-
-  async delete( Contact:ContactData): Promise<ContactData> {
+  async delete(Contact:ContactData): Promise<ContactData> {
     try {
-      var response = await this.http.delete(Settings.SERVICE_API_ENDPOINT + 'Contact/'+ Contact.ContactId+ ',' + + Contact.CompanyId).toPromise();
-      return response as ContactData;
+      this.setError(0);
+      const data = await EndpointConnector.deleteData(this.http, Settings.SERVICE_API_ENDPOINT + 'Contact/'+ '' + Contact.ContactId+ ','+ '' + Contact.CompanyId);
+      return this.objectToClass(data, ContactData);
     }
     catch (error) {
-      this.handleError(error);
+      this.setError(1, error);
     }
   }
-
-  async post( Contact:ContactData): Promise<ContactData> {
+  async post(bcContact:ContactData): Promise<ContactData> {
     try {
-      var response = await this.http.post(Settings.SERVICE_API_ENDPOINT + 'Contact/'+ Contact.ContactId+ ',' + + Contact.CompanyId, JSON.stringify(Contact), { headers: this.getHeaders('post')}).toPromise();
-      return response as ContactData;
+      this.setError(0);
+      const Contact = TypeConversions.CloneInstance(bcContact);
+      Contact.ContactPhoto = await this._upload_for_Contact(Contact.ContactPhoto) as GxImage;
+
+      const data = await EndpointConnector.postData1(this.http, Settings.SERVICE_API_ENDPOINT + 'Contact/'+ '' + Contact.ContactId+ ','+ '' + Contact.CompanyId, TypeConversions.serializeClass(Contact));
+      return this.objectToClass(data, ContactData);
     }
     catch (error) {
-      this.handleError(error);
+      this.setError(1, error);
     }
   }
-
-  async put( Contact:ContactData): Promise<ContactData> {
+  async put(bcContact:ContactData): Promise<ContactData> {
     try {
-      var response = await this.http.put(Settings.SERVICE_API_ENDPOINT + 'Contact/'+ Contact.ContactId+ ',' + + Contact.CompanyId, JSON.stringify(Contact), { headers: this.getHeaders('put')}).toPromise();
-      return response as ContactData;
+      this.setError(0);
+      const Contact = TypeConversions.CloneInstance(bcContact);
+      Contact.ContactPhoto = await this._upload_for_Contact(Contact.ContactPhoto) as GxImage;
+
+      const data = await EndpointConnector.putData(this.http, Settings.SERVICE_API_ENDPOINT + 'Contact/'+ '' + Contact.ContactId+ ','+ '' + Contact.CompanyId, TypeConversions.serializeClass(Contact));
+      return this.objectToClass(data, ContactData);
     }
     catch (error) {
-      this.handleError(error);
+      this.setError(1, error);
     }
   }
-
-
-}
+  async _upload_for_Contact(blob: IBlob): Promise<IBlob> {
+    const file = await this._uriCache.getFile(blob.uri);
+    if (file) {
+      const response = await EndpointConnector.uploadGXobject(this.http, 'Contact', file);
+      const blob1 = TypeConversions.CloneInstance(blob);
+      blob1.uri = response.object_id;
+      return blob1;
+    }
+    return blob;
+  }
+} 

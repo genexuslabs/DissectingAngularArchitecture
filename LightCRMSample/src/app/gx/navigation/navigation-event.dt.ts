@@ -7,8 +7,13 @@ export class NavigationEvent {
   navigationCommand: any;
   outlet: string;
   restoredId: number;
+  stackBehavior: string;
 
   nvgExtras: any;
   appExtras: any;
+
+  fromActionIID: number;
+  fromActionId: number;
+  fromActionOutlet: string;
 
 }

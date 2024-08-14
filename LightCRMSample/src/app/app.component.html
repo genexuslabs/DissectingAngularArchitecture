@@ -1,124 +1,80 @@
+@if (topApplicationBarVisible) {
 <gx-navbar
+  [backButtonLabel]="'Back' | translate"
   caption="{{ appBarNavigation.caption }}"
-  [ngClass]="appBarNavigation.className"
-  [showToggleButton]="appBarNavigation.navigationStyle === 'slide'"
+  [cssClass]="appBarNavigation.class"
+  [enableHeaderRowPattern]="appBarNavigation.enableHeaderRowPattern"
+  [headerRowPatternCssClass]="appBarNavigation.headerRowPatternCssClass"
+  [layoutSize]="currentLayoutSize"
+  [leftTargetVisible]="layoutState.leftVisible"
+  [rightTargetVisible]="layoutState.rightVisible"
   [showBackButton]="appBarNavigation.showBackButton"
-  [backButtonLabel]="app.translate('Back')"
-  [singleLine]="applicationBarSingleLine"
-  toggleButtonLabel="{{ appBarNavigation.toggleButtonLabel }}"
-  (toggleButtonClick)="handleToggleButtonClick()"
-  (backButtonClick)="handleBackButtonClick()"
-  data-menu=""
-  gx-form-properties
-  caption=""
-  *ngIf="applicationBarVisible"
->
-  <gx-navbar-item
-    *ngFor="let item of appBarNavigation.items; trackBy: trackAppBarItemById"
-    (click)="item.onClick()"
-    class="{{ item.className }}"
-    iconSrc="{{ item.iconSrc }}"
-    slot="navigation"
-  >
-    {{ item.caption }}
-  </gx-navbar-item>
-  <gx-navbar-item
-    *ngFor="let item of appBarActions; trackBy: trackAppBarItemById"
-    (click)="item.onClick()"
-    class="{{ item.class }}"
-    iconSrc="{{ item.iconSrc }}"
-    slot="{{ item.slotName }}"
-  >
-    {{ item.caption }}
-  </gx-navbar-item>
-</gx-navbar>
-<gx-layout
-  [ngClass]="{
-    'main-layout': true,
-    'main-layout--with-navbar': applicationBarVisible,
-    'main-layout--with-navbar-single-line':
-      applicationBarVisible && applicationBarSingleLine
-  }"
-  [topHidden]="!topVisible"
-  [rightHidden]="!rightVisible"
-  [bottomHidden]="!bottomVisible"
-  [leftHidden]="!leftVisible"
-  (leftHiddenChange)="handleLeftTargetHiddenChange($event)"
-  (rightHiddenChange)="handleRightTargetHiddenChange($event)"
-  (verticalTargetsBreakpointMatchChange)="
-    handleTargetsBreakpointMatchCange($event)
+  [showHeaderRowPatternClass]="app.showHeaderRowPatternClass"
+  [showToggleButton]="
+    appBarNavigation.navigationStyle === 'slide' && layoutState.leftComponent !== null
   "
+  toggleButtonLabel="{{ appBarNavigation.toggleButtonLabel }}"
+  gx-form-properties
+  (backButtonClick)="handleBackButtonClick()"
+  (toggleButtonClick)="handleToggleButtonClick()">
+  @for (item of appBarNavigation.navigationItems; track item.id) {
+  <gx-navbar-item
+    slot="navigation"
+    cssClass="{{ item.class }}"
+    iconSrcset="{{ item?.icon | imageToSrcset:this.app.uiContextKey }}"
+    [layoutSize]="currentLayoutSize"
+    [@appBarItemEnterLeaveAnimation]
+    (click)="item.onClick()"
+  >
+    {{ item.caption }}
+  </gx-navbar-item>
+  }
+  @for (item of appBarNavigation.actionItems; track item.id) {
+  <gx-navbar-item
+    slot="{{ item?.slotName }}"
+    cssClass="{{ item?.class }}"
+    [hidden]="item?.visible | not"
+    [disabled]="item?.enabled | not"
+    iconSrcset="{{ item?.icon | imageToSrcset:this.app.uiContextKey }}"
+    [layoutSize]="currentLayoutSize"
+    (click)="item.onClick()"
+  >
+    {{ item?.caption }}
+  </gx-navbar-item>
+  }
+</gx-navbar>
+}
+
+<gx-ng-multi-outlet
+  [layoutSize]="currentLayoutSize"
+  [enableHeaderRowPattern]="appBarNavigation.enableHeaderRowPattern"
+  [topNavbarVisible]="topApplicationBarVisible"
+  [bottomNavbarVisible]="bottomApplicationBarVisible"
+  [isLoading]="isLoading"
+  (layoutChange)="handleLayoutChange($event)"
 >
-  <div class="ph-item" *ngIf="isLoading">
-    <div class="ph-col-12">
-      <div class="ph-picture"></div>
-      <div class="ph-row">
-        <div class="ph-col-6 big"></div>
-        <div class="ph-col-4 empty big"></div>
-        <div class="ph-col-2 big"></div>
-        <div class="ph-col-4"></div>
-        <div class="ph-col-8 empty"></div>
-        <div class="ph-col-6"></div>
-        <div class="ph-col-6 empty"></div>
-        <div class="ph-col-12"></div>
-      </div>
-    </div>
-    <div class="ph-col-12">
-      <div class="ph-picture"></div>
-      <div class="ph-row">
-        <div class="ph-col-6 big"></div>
-        <div class="ph-col-4 empty big"></div>
-        <div class="ph-col-2 big"></div>
-        <div class="ph-col-4"></div>
-        <div class="ph-col-8 empty"></div>
-        <div class="ph-col-6"></div>
-        <div class="ph-col-6 empty"></div>
-        <div class="ph-col-12"></div>
-      </div>
-    </div>
-  </div>
-  <router-outlet *ngIf="!isLoading"></router-outlet>
-  <gx-component-host
-    slot="top"
-    #topOutlet
-    id="top"
-    [componentUri]="topComponent"
+  @if(!isLoading) {
+  <router-outlet></router-outlet>
+  }
+</gx-ng-multi-outlet>
+
+@if(bottomApplicationBarVisible) {
+<gx-navbar
+  [cssClass]="appBarNavigation.class"
+  position="bottom"
+  gx-form-properties
+>
+  @for (item of appBarNavigation.navigationItems; track trackAppBarItemById) {
+  <gx-navbar-item
+    slot="navigation"
+    cssClass="{{ item.class }}"
+    iconSrcset="{{ item?.icon | imageToSrcset:this.app.uiContextKey }}"
+    [layoutSize]="currentLayoutSize"
+    [@appBarItemEnterLeaveAnimation]
+    (click)="item.onClick()"
   >
-  </gx-component-host>
-  <gx-messages [message]="appMessage"></gx-messages>
-  <gx-progress [updateSettings]="appProgress"></gx-progress>
-  <gx-component-host
-    slot="left"
-    #leftOutlet
-    id="left"
-    [componentUri]="leftComponent"
-    class="vertical-target"
-  >
-  </gx-component-host>
-  <gx-component-host
-    slot="right"
-    #rightOutlet
-    id="right"
-    [componentUri]="rightComponent"
-    class="vertical-target"
-  >
-  </gx-component-host>
-  <gx-component-host
-    slot="bottom"
-    #bottomOutlet
-    id="bottom"
-    [componentUri]="bottomComponent"
-  >
-  </gx-component-host>
-</gx-layout>
-<gx-modal [opened]="popupVisible" (close)="onPopupClose()">
-  <div slot="body">
-    <gx-component-host
-      #popupOutlet
-      id="popup"
-      [ngStyle]="popupStyle"
-      [componentUri]="popupComponent"
-    >
-    </gx-component-host>
-  </div>
-</gx-modal>
+    {{ item.caption }}
+  </gx-navbar-item>
+  }
+</gx-navbar>
+}

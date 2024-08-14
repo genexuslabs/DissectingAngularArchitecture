@@ -1,0 +1,746 @@
+@if (__viewManager.view === 'ViewOrEditAnyWebScreen') {
+<gx-card
+  #ViewOrEditAnyWebScreen id="ViewOrEditAnyWebScreen"
+  [showHeader]='__showAsCard'
+>
+  @if(__showAsCard) {
+  <gx-card-header
+    slot="header"
+    [cssClass]="state.uiModel.ctrlApplicationbar.class | default:'ApplicationBars' | classSplit">
+    <li slot="normal-priority-action" role="listitem">
+      <gx-button
+        #ctrlBtnupdate
+        [accessibleName]="'GXM_update' | translate"
+        [cssClass]="state.uiModel.ctrlBtnupdate.class | default:'Button button-primary' | classSplit"
+        caption="{{state.uiModel.ctrlBtnupdate.caption | default:translate('GXM_update')}}"
+        [hidden]="state.uiModel.ctrlBtnupdate?.visible | not"
+        [disabled]="(__actionsEnabled && state.uiModel.ctrlBtnupdate?.enabled) | not"
+        (click)="this._Update(); $event.stopPropagation()"
+      >
+      </gx-button>
+    </li>
+    <li slot="normal-priority-action" role="listitem">
+      <gx-button
+        #ctrlBtndelete
+        [accessibleName]="'GX_BtnDelete' | translate"
+        [cssClass]="state.uiModel.ctrlBtndelete.class | default:'Button button-tertiary' | classSplit"
+        caption="{{state.uiModel.ctrlBtndelete.caption | default:translate('GX_BtnDelete')}}"
+        [hidden]="state.uiModel.ctrlBtndelete?.visible | not"
+        [disabled]="(__actionsEnabled && state.uiModel.ctrlBtndelete?.enabled) | not"
+        (click)="this._Delete(); $event.stopPropagation()"
+      >
+      </gx-button>
+    </li>
+  </gx-card-header>
+  }
+  <gx-table
+    #ctrlMaintable
+    [cssClass]="'TableSection' | classSplit"
+    areas-template="'cell00 ' "
+    columns-template="1fr"
+    rows-template="min-content"
+    style="min-height: 150px; "
+    invisible-mode="keep-space"
+    slot="body"
+  >
+    <gx-table-cell
+      area="cell00"
+      auto-grow
+      min-height="150px"
+    >
+      <gx-table
+        #ctrlTable1
+        [cssClass]="'Table' | classSplit"
+        areas-template="'cell00 ' 'cell10 ' 'cell20 ' 'cell30 ' 'cell40 ' 'cell50 ' 'cell60 ' 'cell70 ' 'cell80 ' 'cell90 ' "
+        columns-template="1fr"
+        rows-template="min-content min-content min-content min-content min-content min-content min-content min-content min-content min-content"
+        style="min-height: 640px; "
+        invisible-mode="keep-space"
+      >
+        <gx-table-cell
+          area="cell00"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Meeting Id' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlMeetingid id="ctrlMeetingid"
+              [accessibleName]="'Meeting Id' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              line-clamp
+              type="text"
+              max-length="4"
+              mode="numeric"
+
+              placeholder="{{'Meeting Id' | translate}}"
+              [ngModel]="state.WorkWithMeeting_Meeting_Section_General_data.MeetingId"
+              ngDefaultControl
+              [attr.readonly]="((true || (state.localModel.Mode == 'DLT')) || (state.localModel.Mode == 'UPD'))"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell10"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Date' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlMeetingdate id="ctrlMeetingdate"
+              [accessibleName]="'Date' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              line-clamp
+              type="datetime-local"
+
+              placeholder="{{'Date' | translate}}"
+              [ngModel]="state.WorkWithMeeting_Meeting_Section_General_data.MeetingDate | datetimeToISOString"
+              ngDefaultControl
+              [attr.readonly]="(true || (state.localModel.Mode == 'DLT'))"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell20"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Meeting Title' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlMeetingtitle id="ctrlMeetingtitle"
+              [accessibleName]="'Meeting Title' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              line-clamp
+              type="text"
+              max-length="100"
+
+              placeholder="{{'Meeting Title' | translate}}"
+              [ngModel]="state.WorkWithMeeting_Meeting_Section_General_data.MeetingTitle"
+              ngDefaultControl
+              [attr.readonly]="(true || (state.localModel.Mode == 'DLT'))"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell30"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'ID' | translate}}"
+            label-position="left"
+          >
+            <gx-select 
+              #ctrlCompanyid id="ctrlCompanyid"
+              [cssClass]="'Attribute' | classSplit"
+              area="field"
+              placeholder="{{'ID' | translate}}"
+              suggest="true"
+              [ngModel]="state.WorkWithMeeting_Meeting_Section_General_data.Gxdesc_companyid"
+              ngDefaultControl
+              [attr.readonly]="(true || (state.localModel.Mode == 'DLT'))"
+              (change)="this.get_ctrlCompanyid(state.WorkWithMeeting_Meeting_Section_General_data.Gxdesc_companyid);$event.stopPropagation()">
+              @for (option of state.uiModel.ctrlCompanyid.items; track option) {
+              <gx-select-option>{{option}}</gx-select-option>
+              }
+            </gx-select>
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell40"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Company' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlCompanyname id="ctrlCompanyname"
+              [accessibleName]="'Company' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              line-clamp
+              type="text"
+              max-length="20"
+
+              placeholder="{{'Company' | translate}}"
+              [ngModel]="state.WorkWithMeeting_Meeting_Section_General_data.CompanyName"
+              ngDefaultControl
+              [attr.readonly]="(true || (state.localModel.Mode == 'DLT'))"
+              show-trigger
+              (gxTriggerClick)="_promptCompanyName(); $event.stopPropagation()"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell50"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Contact Id' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlContactid id="ctrlContactid"
+              [accessibleName]="'Contact Id' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              line-clamp
+              type="text"
+              max-length="4"
+              mode="numeric"
+              [picture]="'ZZZ9'"
+              placeholder="{{'Contact Id' | translate}}"
+              [ngModel]="state.WorkWithMeeting_Meeting_Section_General_data.ContactId"
+              ngDefaultControl
+              [attr.readonly]="(true || (state.localModel.Mode == 'DLT'))"
+              show-trigger
+              (gxTriggerClick)="_promptContactId(); $event.stopPropagation()"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell60"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Contact Name' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlContactname id="ctrlContactname"
+              [accessibleName]="'Contact Name' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              line-clamp
+              type="text"
+              max-length="20"
+
+              placeholder="{{'Contact Name' | translate}}"
+              [ngModel]="state.WorkWithMeeting_Meeting_Section_General_data.ContactName"
+              ngDefaultControl
+              [attr.readonly]="(true || (state.localModel.Mode == 'DLT'))"
+              show-trigger
+              (gxTriggerClick)="_promptContactId(); $event.stopPropagation()"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell70"
+          auto-grow
+          valign="middle"
+          min-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Notes' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlMeetingnote id="ctrlMeetingnote"
+              [accessibleName]="'Notes' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              type="text"
+              multiline
+
+              placeholder="{{'Notes' | translate}}"
+              [ngModel]="state.WorkWithMeeting_Meeting_Section_General_data.MeetingNote"
+              ngDefaultControl
+              [attr.readonly]="(true || (state.localModel.Mode == 'DLT'))"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell80"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Place' | translate}}"
+            label-position="left"
+          >
+            <gx-geolocation
+              #ctrlMeetinggeolocation id="ctrlMeetinggeolocation"
+              [coords]="state.WorkWithMeeting_Meeting_Section_General_data.MeetingGeolocation"
+              [readonly]="true"
+              (onGeolocationChanged) = "state.WorkWithMeeting_Meeting_Section_General_data.MeetingGeolocation = $event;"
+              area="field"
+            >
+            </gx-geolocation>
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell90"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Address' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlMeetingaddress id="ctrlMeetingaddress"
+              [accessibleName]="'Address' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              line-clamp
+              type="text"
+              max-length="1024"
+
+              placeholder="{{'Address' | translate}}"
+              [ngModel]="state.WorkWithMeeting_Meeting_Section_General_data.MeetingAddress"
+              ngDefaultControl
+              [attr.readonly]="(true || (state.localModel.Mode == 'DLT'))"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+      </gx-table>
+    </gx-table-cell>
+  </gx-table>
+</gx-card>
+}
+@if (__viewManager.view === 'EditAnyWebScreen') {
+<gx-card
+  #EditAnyWebScreen id="EditAnyWebScreen"
+  [showHeader]='__showAsCard'
+>
+  @if(__showAsCard) {
+  <gx-card-header
+    slot="header"
+    [cssClass]="state.uiModel.ctrlApplicationbar.class | default:'ApplicationBars' | classSplit">
+    <li slot="normal-priority-action" role="listitem">
+      <gx-button
+        #ctrlBtnsave
+        [accessibleName]="'GXM_Save' | translate"
+        [cssClass]="state.uiModel.ctrlBtnsave.class | default:'Button button-primary' | classSplit"
+        caption="{{state.uiModel.ctrlBtnsave.caption | default:translate('GXM_Save')}}"
+        [hidden]="state.uiModel.ctrlBtnsave?.visible | not"
+        [disabled]="(__actionsEnabled && state.uiModel.ctrlBtnsave?.enabled) | not"
+        (click)="this._Save(); $event.stopPropagation()"
+      >
+      </gx-button>
+    </li>
+    <li slot="normal-priority-action" role="listitem">
+      <gx-button
+        #ctrlBtncancel
+        [accessibleName]="'GXM_cancel' | translate"
+        [cssClass]="state.uiModel.ctrlBtncancel.class | default:'Button button-tertiary' | classSplit"
+        caption="{{state.uiModel.ctrlBtncancel.caption | default:translate('GXM_cancel')}}"
+        [hidden]="state.uiModel.ctrlBtncancel?.visible | not"
+        [disabled]="(__actionsEnabled && state.uiModel.ctrlBtncancel?.enabled) | not"
+        (click)="this._Cancel(); $event.stopPropagation()"
+      >
+      </gx-button>
+    </li>
+  </gx-card-header>
+  }
+  <gx-table
+    #ctrlMaintable
+    [cssClass]="'TableSection' | classSplit"
+    areas-template="'cell00 ' "
+    columns-template="1fr"
+    rows-template="min-content"
+    style="min-height: 150px; "
+    invisible-mode="keep-space"
+    slot="body"
+  >
+    <gx-table-cell
+      area="cell00"
+      auto-grow
+      min-height="150px"
+    >
+      <gx-table
+        #ctrlTable1
+        [cssClass]="'Table' | classSplit"
+        areas-template="'cell00 ' 'cell10 ' 'cell20 ' 'cell30 ' 'cell40 ' 'cell50 ' 'cell60 ' 'cell70 ' 'cell80 ' 'cell90 ' "
+        columns-template="1fr"
+        rows-template="min-content min-content min-content min-content min-content min-content min-content min-content min-content min-content"
+        style="min-height: 640px; "
+        invisible-mode="keep-space"
+      >
+        <gx-table-cell
+          area="cell00"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Meeting Id' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlMeetingid id="ctrlMeetingid"
+              [accessibleName]="'Meeting Id' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              type="text"
+              max-length="4"
+              mode="numeric"
+
+              placeholder="{{'Meeting Id' | translate}}"
+              [ngModel]="state.WorkWithMeeting_Meeting_Section_General_data.MeetingId"
+              ngDefaultControl
+
+              (ngModelChange)="state.WorkWithMeeting_Meeting_Section_General_data.MeetingId = this.toNumber($event); "
+              [attr.readonly]="((false || (state.localModel.Mode == 'DLT')) || (state.localModel.Mode == 'UPD'))"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell10"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Date' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlMeetingdate id="ctrlMeetingdate"
+              [accessibleName]="'Date' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              type="datetime-local"
+
+              placeholder="{{'Date' | translate}}"
+              [ngModel]="state.WorkWithMeeting_Meeting_Section_General_data.MeetingDate | datetimeToISOString"
+              ngDefaultControl
+
+              (ngModelChange)="state.WorkWithMeeting_Meeting_Section_General_data.MeetingDate = state.WorkWithMeeting_Meeting_Section_General_data.MeetingDate.fromISOString($event); "
+              [attr.readonly]="(false || (state.localModel.Mode == 'DLT'))"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell20"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Meeting Title' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlMeetingtitle id="ctrlMeetingtitle"
+              [accessibleName]="'Meeting Title' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              type="text"
+              max-length="100"
+
+              placeholder="{{'Meeting Title' | translate}}"
+              [ngModel]="state.WorkWithMeeting_Meeting_Section_General_data.MeetingTitle"
+              ngDefaultControl
+
+              (ngModelChange)="state.WorkWithMeeting_Meeting_Section_General_data.MeetingTitle = $event; "
+              [attr.readonly]="(false || (state.localModel.Mode == 'DLT'))"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell30"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'ID' | translate}}"
+            label-position="left"
+          >
+            <gx-select 
+              #ctrlCompanyid id="ctrlCompanyid"
+              [cssClass]="'Attribute' | classSplit"
+              area="field"
+              placeholder="{{'ID' | translate}}"
+              suggest="true"
+              [ngModel]="state.WorkWithMeeting_Meeting_Section_General_data.Gxdesc_companyid"
+              ngDefaultControl
+
+              (ngModelChange)="state.WorkWithMeeting_Meeting_Section_General_data.Gxdesc_companyid = $event; this.load_ctrlCompanyid(state.WorkWithMeeting_Meeting_Section_General_data.Gxdesc_companyid);"
+              [attr.readonly]="(false || (state.localModel.Mode == 'DLT'))"
+              (change)="this.get_ctrlCompanyid(state.WorkWithMeeting_Meeting_Section_General_data.Gxdesc_companyid);$event.stopPropagation()">
+              @for (option of state.uiModel.ctrlCompanyid.items; track option) {
+              <gx-select-option>{{option}}</gx-select-option>
+              }
+            </gx-select>
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell40"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Company' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlCompanyname id="ctrlCompanyname"
+              [accessibleName]="'Company' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              type="text"
+              max-length="20"
+
+              placeholder="{{'Company' | translate}}"
+              [ngModel]="state.WorkWithMeeting_Meeting_Section_General_data.CompanyName"
+              ngDefaultControl
+
+              (ngModelChange)="state.WorkWithMeeting_Meeting_Section_General_data.CompanyName = $event; "
+              [attr.readonly]="(false || (state.localModel.Mode == 'DLT'))"
+              show-trigger
+              (gxTriggerClick)="_promptCompanyName(); $event.stopPropagation()"
+            >
+              <gx-icon
+                slot="trigger-content"
+                aria-hidden="true"
+                type="search"
+              ></gx-icon>
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell50"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Contact Id' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlContactid id="ctrlContactid"
+              [accessibleName]="'Contact Id' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              type="text"
+              max-length="4"
+              mode="numeric"
+              [picture]="'ZZZ9'"
+              placeholder="{{'Contact Id' | translate}}"
+              [ngModel]="state.WorkWithMeeting_Meeting_Section_General_data.ContactId"
+              ngDefaultControl
+
+              (ngModelChange)="state.WorkWithMeeting_Meeting_Section_General_data.ContactId = this.toNumber($event); "
+              [attr.readonly]="(false || (state.localModel.Mode == 'DLT'))"
+              show-trigger
+              (gxTriggerClick)="_promptContactId(); $event.stopPropagation()"
+            >
+              <gx-icon
+                slot="trigger-content"
+                aria-hidden="true"
+                type="search"
+              ></gx-icon>
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell60"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Contact Name' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlContactname id="ctrlContactname"
+              [accessibleName]="'Contact Name' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              type="text"
+              max-length="20"
+
+              placeholder="{{'Contact Name' | translate}}"
+              [ngModel]="state.WorkWithMeeting_Meeting_Section_General_data.ContactName"
+              ngDefaultControl
+
+              (ngModelChange)="state.WorkWithMeeting_Meeting_Section_General_data.ContactName = $event; "
+              [attr.readonly]="(false || (state.localModel.Mode == 'DLT'))"
+              show-trigger
+              (gxTriggerClick)="_promptContactId(); $event.stopPropagation()"
+            >
+              <gx-icon
+                slot="trigger-content"
+                aria-hidden="true"
+                type="search"
+              ></gx-icon>
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell70"
+          auto-grow
+          valign="middle"
+          min-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Notes' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlMeetingnote id="ctrlMeetingnote"
+              [accessibleName]="'Notes' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              type="text"
+              multiline
+
+              placeholder="{{'Notes' | translate}}"
+              [ngModel]="state.WorkWithMeeting_Meeting_Section_General_data.MeetingNote"
+              ngDefaultControl
+
+              (ngModelChange)="state.WorkWithMeeting_Meeting_Section_General_data.MeetingNote = $event; "
+              [attr.readonly]="(false || (state.localModel.Mode == 'DLT'))"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell80"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Place' | translate}}"
+            label-position="left"
+          >
+            <gx-geolocation
+              #ctrlMeetinggeolocation id="ctrlMeetinggeolocation"
+              [coords]="state.WorkWithMeeting_Meeting_Section_General_data.MeetingGeolocation"
+              [readonly]="false"
+              (onGeolocationChanged) = "state.WorkWithMeeting_Meeting_Section_General_data.MeetingGeolocation = $event;"
+              area="field"
+            >
+            </gx-geolocation>
+          </gx-form-field>
+        </gx-table-cell>
+
+        <gx-table-cell
+          area="cell90"
+          valign="middle"
+          min-height="64px" max-height="64px"
+        >
+          <gx-form-field
+            [cssClass]="'Attribute' | classSplit"
+            invisible-mode="keep-space"
+            labelCaption="{{'Address' | translate}}"
+            label-position="left"
+          >
+            <gx-edit
+              #ctrlMeetingaddress id="ctrlMeetingaddress"
+              [accessibleName]="'Address' | translate"
+              area="field"
+              [cssClass]="'Attribute' | classSplit"
+              type="text"
+              max-length="1024"
+
+              placeholder="{{'Address' | translate}}"
+              [ngModel]="state.WorkWithMeeting_Meeting_Section_General_data.MeetingAddress"
+              ngDefaultControl
+
+              (ngModelChange)="state.WorkWithMeeting_Meeting_Section_General_data.MeetingAddress = $event; "
+              [attr.readonly]="(false || (state.localModel.Mode == 'DLT'))"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </gx-table-cell>
+      </gx-table>
+    </gx-table-cell>
+  </gx-table>
+</gx-card>
+}

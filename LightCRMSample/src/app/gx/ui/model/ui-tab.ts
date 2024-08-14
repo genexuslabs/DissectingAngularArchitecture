@@ -1,29 +1,20 @@
 export interface ITabElement {
-
   class: string;
   visible: boolean;
   enabled: boolean;
-
   pages: Array<ITabPageElement>;
   activePage: number;
 
   select(page: number);
-
-  setActivePageChangedAction(action: any)
 }
 
 export class UITabElement implements ITabElement {
-
   class = null;
   visible = null;
   enabled = null;
-
-  private _activePage = 0;
-
   pages = new Array<ITabPageElement>();
 
-  onActivePageChangedAction = null;
-
+  private _activePage = 0;
   get activePage(): number {
     return this._activePage;
   }
@@ -33,30 +24,21 @@ export class UITabElement implements ITabElement {
       if (i === ix - 1) {
         this.pages[i].selected = true;
         this.pages[i].active = true;
-      }
-      else {
+      } else {
         this.pages[i].selected = false;
       }
     }
     this._activePage = ix;
-
-    if (this.onActivePageChangedAction) {
-      this.onActivePageChangedAction();
-    }
   }
 
   select(ix: number) {
     this.activePage = ix;
   }
-
-  setActivePageChangedAction(action: any) {
-    this.onActivePageChangedAction = action;
-  }
 }
 
 export interface ITabPageElement {
-
   class: string;
+  selectedClass: string;
   caption: string;
   visible: boolean;
   enabled: boolean;
@@ -66,8 +48,8 @@ export interface ITabPageElement {
 }
 
 export class UITabpageElement implements ITabPageElement {
-
   class = null;
+  selectedClass = null;
   caption = null;
   visible = null;
   enabled = null;
@@ -85,4 +67,3 @@ export class UITabpageElement implements ITabPageElement {
     return this._parent;
   }
 }
-

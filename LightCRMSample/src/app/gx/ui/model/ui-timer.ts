@@ -1,46 +1,28 @@
-﻿import { UIEditElement } from './ui-edit';
+import { UIEditElement } from "./ui-edit";
 
 export interface ITimerElement {
-  state: string;  
-  maxValue: number;
-  maxValueText: string;
-  
-  onTick(eventInfo: any);
-
-  start();
-  stop();
-  reset();
-
-  setTickAction(action: any);
-
+  state: string;
+  maxValue: number | null;
+  maxValueText: string | null;
+  interval: number | null;
 }
-
 
 export class UITimerElement extends UIEditElement implements ITimerElement {
   onTickAction = null;
-  state = 'stopped';  
+  state = "stopped";
   maxValue = null;
-  maxValueText =  null;
-  
-  onTick(eventInfo: any) {
-    if (this.onTickAction) {
-      this.onTickAction();
-    }
-  }
+  maxValueText = null;
+  interval = null;
 
   start() {
-    this.state = 'running';
+    this.state = "running";
   }
 
   stop() {
-    this.state = 'stopped';
+    this.state = "stopped";
   }
 
   reset() {
-    this.state = 'reset';
-  }
-
-  setTickAction(action: any) {
-    this.onTickAction = action;
+    this.state = "reset";
   }
 }

@@ -1,25 +1,98 @@
-<div class="file-viewer">
-    <a [href]="fileSource" class="file-viewer-file" *ngIf="fileSource && fileSource.length > 0">Download</a>
-    <gx-button class="Button" *ngIf="!readonly" 
-        [disabled] = "disabled || uploading" 
-        (click)="updateFileAction($event)">
-        {{updateButtonCaption}}
-    </gx-button>
-    <gx-button class="Button" *ngIf="!readonly && clearButtonVisible"
-        [disabled]="disabled || uploading"
-        (click)="clearFileAction($event)">
-        Clear
-    </gx-button>
-</div>
+<div [ngClass]="{ 'click-capture': true, disabled: disabled }">
+    <div class="file-viewer">
+        @if (fileSource && fileSource.length > 0 && accept !== 'audio/*' && accept !== 'video/*') {
+        <div [ngClass]="{
+                'file-viewer-file': true,
+                'display-file': fileSource !== ''
+            }"
+             (click)="viewFile(); $event.stopPropagation()">
+             {{ fileShowName }}
+        </div>
+        }
+        @if (!readonly) {
+        <div class="file-picker-state-container">
+            <button class="file-picker-button"
+                    [disabled]="disabled || uploading"
+                    (click)="triggerAction(); $event.stopPropagation()">
+                @if (fileSource === '') {
+                <svg class="image-icon"
+                     xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 24 24">
+                    <path d="M5.70821345,5.73660301 C7.38668916,4.04663089 9.91888939,3.53618808 12.1210095,4.4439068 C14.3231297,5.35162552 15.7601123,7.49817411 15.7601674,9.88004029 C15.7629418,11.0873594 15.3888889,12.2654513 14.6901674,13.2500403 L14.6901674,13.2500403 L19.0401674,17.5900403 C19.3007187,17.8187734 19.3317557,18.2133861 19.1101674,18.4800403 L19.1101674,18.4800403 L18.2401674,19.3500403 C17.9874191,19.5977832 17.5829157,19.5977832 17.3301674,19.3500403 L17.3301674,19.3500403 L12.9201674,14.9400403 C12.014476,15.4837576 10.9765056,15.7674695 9.92016742,15.7600403 C7.53835636,15.7762435 5.38204913,14.3539464 4.4593202,12.1580735 C3.53659126,9.96220058 4.02973773,7.42657513 5.70821345,5.73660301 Z M9.88023584,5.50014279 C7.46515257,5.50563046 5.51016742,7.4649508 5.51016742,9.88004029 C5.51016742,11.0469051 5.97571888,12.1655459 6.8036281,12.987823 C7.63153732,13.8101002 8.75333,14.2680325 9.92016742,14.2600403 C12.3352003,14.2434986 14.2811309,12.2752416 14.2701684,9.86017719 C14.2591129,7.4451128 12.2953191,5.49467812 9.88023584,5.50014279 Z" />
+                </svg>
+                } @else {
+                <svg class="image-icon"
+                     xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 24 24">
+                    <path d="M5.58,14.38 L9.58,18.38 L4.77,19.23 L5.58,14.38 Z M13.31,6.66 L17.3,10.65 L10.64,17.32 L6.64,13.32 L13.31,6.66 Z M15.95,4.64302445 C16.3442299,4.64302445 16.722168,4.80030987 17,5.08 L17,5.08 L18.84,6.94 C19.3860552,7.51810735 19.3860552,8.42189265 18.84,9 L18.84,9 L18.39,9.6 L14.39,5.6 L14.9,5.08 C15.177832,4.80030987 15.5557701,4.64302445 15.95,4.64302445 Z" />
+                </svg>
+                }
+            </button>
+        </div>
+        }
+    </div>
 
-<gx-modal [opened]="show" (onClose)="closeAction()">
-    <div slot="header">{{modalTitle}}</div>
-    <div slot="body">
-        <input #fileInput type="file" (change)="fileSelectedAction()"/>
-    </div>
-    <div slot="secondary-action">
-        <gx-button (click)="closeAction()" class="Button">
-            {{translate('GXM_cancel')}}
-        </gx-button>
-    </div>
-</gx-modal>
+    <gx-modal [opened]="showDialog" (close)="closeAction()">
+        <div class="body-container" slot="body">
+            <label class="picker-container">
+                <input
+                    #fileInput
+                    role="button"
+                    [attr.aria-label]="'Change file' | translate"
+                    class="file-picker"
+                    type="file"
+                    (change)="
+                        onFileSelected();
+                        closeAction();
+                        $event.stopPropagation()
+                    "
+                    [attr.accept]="accept"
+                />
+                <svg
+                    aria-hidden="true"
+                    class="download"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 1200 1200"
+                >
+                    <path
+                        d="M0,1037.516h1200V1200H0V1037.516z M820.785,0h-441.57v496.632H103.233  L600,959.265l496.768-462.633H820.785V0z"
+                    />
+                </svg>
+                <span aria-hidden="true" class="custom-file-picker">
+                    {{ "Change file" | translate }}
+                </span>
+            </label>
+
+            <button
+                class="remove-image-button"
+                type="button"
+                (click)="
+                    clearFileAction(); closeAction(); $event.stopPropagation()
+                "
+            >
+                <svg
+                    aria-hidden="true"
+                    class="trash-can"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        d="M 10 2 L 9 3 L 5 3 C 4.448 3 4 3.448 4 4 C 4 4.552 4.448 5 5 5 L 7 5 L 17 5 L 19 5 C 19.552 5 20 4.552 20 4 C 20 3.448 19.552 3 19 3 L 15 3 L 14 2 L 10 2 z M 5 7 L 5 20 C 5 21.105 5.895 22 7 22 L 17 22 C 18.105 22 19 21.105 19 20 L 19 7 L 5 7 z"
+                    />
+                </svg>
+                {{ "Remove file" | translate }}
+            </button>
+        </div>
+        <span slot="header">
+            {{ modalTitle }}
+        </span>
+        <button
+            class="cancel-button"
+            type="button"
+            slot="secondary-action"
+            (click)="closeAction(); $event.stopPropagation()"
+        >
+            {{ "GXM_cancel" | translate }}
+        </button>
+    </gx-modal>
+</div>

@@ -1,15 +1,17 @@
-import { Component, Input, OnChanges, ViewChild, Output, EventEmitter } from '@angular/core';
-import { AppContainer } from 'app/gx/base/app-container';
-import { FileUploadService } from './file-upload.service';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, EventEmitter, Input, OnChanges, Output, ViewChild } from "@angular/core";
 import { Title } from '@angular/platform-browser';
+import { AppContainer } from 'app/gx/base/app-container';
+import { UriCacheService } from "app/gx/utils/uri-cache/uri-cache.service";
+import { TranslatePipe } from "app/gx/utils/translate.pipe";
+import { NgClass, NgIf } from "@angular/common";
 
 @Component({
   selector: 'gx-file-upload',
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.scss'],
-  providers: [
-    FileUploadService,
-  ]
+  standalone: true,
+  imports: [NgClass, NgIf, TranslatePipe],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 
 export class FileUploadComponent implements OnChanges {
@@ -17,93 +19,71 @@ export class FileUploadComponent implements OnChanges {
   @Input() fileSource = '';
   @Input() disabled = false;
   @Input() readonly = false;
+  @Input() accept = '';
 
-  @Output() onFileChanged: EventEmitter<string> = new EventEmitter<string>();
+  @Output() onFileChanged: EventEmitter<object> = new EventEmitter<object>();
 
   @ViewChild('fileInput', { static: false }) file;
 
-  src1 = '';
-  show = false;
+  showDialog = false;
   modalTitle: string;
   uploading = false;
-
-  updateButtonCaption = "Add File";
-  clearButtonVisible = false;
+  fileShowName = '';
 
   constructor(
-    protected uploadService: FileUploadService,
+    protected uriCacheService: UriCacheService,
     protected app: AppContainer,
     protected titleService: Title) {
   }
 
   ngOnChanges() {
     this.modalTitle = this.titleService.getTitle();
-    this.updateButtons();
-  }
-
-  updateButtons() {
-    if (!this.fileSource || this.fileSource === '') {
-      this.updateButtonCaption = 'Add File';
-      this.clearButtonVisible = false;
-    }
-    else {
-      this.updateButtonCaption = 'Change File';
-      this.clearButtonVisible = true;
+    if (!this.fileShowName) {
+      this.fileShowName = this.fileSource.slice(this.fileSource.lastIndexOf("/") + 1);
     }
   }
 
-  updateFileAction() {
-    this.show = !this.show;
+  triggerAction() {
+    if (this.fileSource === '') {
+      this.file.nativeElement.click();
+    } else {
+      this.showDialog = !this.showDialog;
+    }
+  }
+
+  viewFile() {
+    if (!this.showDialog) {
+      this.app.open(this.fileSource);
+    }
   }
 
   clearFileAction() {
-    this.fileSource = null;
-    this.updateButtons();
-    this.onFileChanged.emit('');
+    this.file.nativeElement.value = ''
+    this.fileSource = '';
+    this.uploading = false;
+    this.onFileChanged.emit({ uri: '', name: '' });
   }
 
-  async fileSelectedAction() {
+  async onFileSelected() {
     const files: { [key: string]: File } = this.file.nativeElement.files;
     for (let key in files) {
       if (!isNaN(parseInt(key))) {
         this.uploading = true;
-        let result = await this.uploadService.uploadFile(files[key]);
-        if (result.object_id) {
-          await this.updateFileSrc(files[key]);
-          this.updateFileUrl(result);
-        }
-        this.updateButtons();
+        const fileURL = await this.uriCacheService.store(files[key]);
+        this.onFileChanged.emit({ uri: fileURL, name: files[key].name });
         this.uploading = false;
-        this.show = false;
+        this.showDialog = false;
+        this.fileShowName = files[key].name;
         return;
       }
     }
   }
 
   closeAction() {
-    this.show = false;
+    this.showDialog = false;
   }
 
   translate(key: string) {
     return this.app.translate(key);
-  }
-
-  updateFileSrc(file): Promise<any> {
-    return new Promise(complete => {
-      if (FileReader && file) {
-        const fr = new FileReader();
-        fr.onload = () => {
-          this.file = fr.result.toString();
-          complete();
-        }
-        fr.readAsDataURL(file);
-      }
-    });
-  }
-
-  updateFileUrl(uploadResult) {
-    if (uploadResult.object_id) {
-      this.onFileChanged.emit(uploadResult.object_id);
-    }
   }
 }

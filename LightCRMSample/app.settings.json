@@ -1,12 +1,11 @@
 {
   "SERVICE_DEBUG": true,
-  "SERVICE_HOSTNAME": "globantdemoservices/",
-  "SERVICE_BASE_PATH": "",
+  "SERVICE_BASE_PATH": "/LightCRM.NetEnviroment/",
   "SERVICE_REST_PATH": "rest/",
   "SERVICE_OAUTH_PATH": "oauth/",
 
-  "WEB_RELATIVE_PATH": "servlet/",
-  "WEB_MAIN_OBJECT": "com.kbgenng.dashboard",
+  "SERVICE_URL":"/LightCRM.NetEnviroment/",
+  "SERVICE_ORIGINAL_URL":"http://10.122.172.114:8082/LightCRM.NetEnviroment/",
 
   "GAM_CLIENT_ID": "",
   "GAM_CLIENT_SECRET": "",
@@ -15,194 +14,29 @@
   "GAM_CLIENT_CHANGEPASSWORD": "",
   "GAM_ANONYMOUS_USER": false,
 
-  "DEFAULT_LANGUAGE": "English",
-  "DEFAULT_APPBAR_UPDATE_DELAY": 300,
   "DEFAULT_ISLOADING_UPDATE_DELAY": 300,
 
-  "APPLICATION_LAYOUTS": [
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 0,
-        "maxShortestBound": 0,
-        "minLongestBound": 0,
-        "maxLongestBound": 599
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 0,
-        "maxShortestBound": 0,
-        "minLongestBound": 600,
-        "maxLongestBound": 719
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 0,
-        "maxShortestBound": 0,
-        "minLongestBound": 1200,
-        "maxLongestBound": 0
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 0,
-        "maxShortestBound": 0,
-        "minLongestBound": 720,
-        "maxLongestBound": 1199
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 0,
-        "maxShortestBound": 0,
-        "minLongestBound": 0,
-        "maxLongestBound": 0
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 414,
-        "maxShortestBound": 414,
-        "minLongestBound": 896,
-        "maxLongestBound": 896
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 414,
-        "maxShortestBound": 414,
-        "minLongestBound": 736,
-        "maxLongestBound": 736
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 375,
-        "maxShortestBound": 375,
-        "minLongestBound": 667,
-        "maxLongestBound": 667
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 0,
-        "maxShortestBound": 0,
-        "minLongestBound": 0,
-        "maxLongestBound": 0
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 768,
-        "maxShortestBound": 0,
-        "minLongestBound": 0,
-        "maxLongestBound": 0
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 320,
-        "maxShortestBound": 320,
-        "minLongestBound": 568,
-        "maxLongestBound": 568
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 0,
-        "maxShortestBound": 767,
-        "minLongestBound": 0,
-        "maxLongestBound": 0
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 0,
-        "maxShortestBound": 0,
-        "minLongestBound": 0,
-        "maxLongestBound": 0
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 375,
-        "maxShortestBound": 375,
-        "minLongestBound": 812,
-        "maxLongestBound": 812
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 184,
-        "maxShortestBound": 184,
-        "minLongestBound": 0,
-        "maxLongestBound": 0
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 162,
-        "maxShortestBound": 162,
-        "minLongestBound": 0,
-        "maxLongestBound": 0
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 156,
-        "maxShortestBound": 156,
-        "minLongestBound": 0,
-        "maxLongestBound": 0
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 136,
-        "maxShortestBound": 136,
-        "minLongestBound": 0,
-        "maxLongestBound": 0
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 320,
-        "maxShortestBound": 320,
-        "minLongestBound": 480,
-        "maxLongestBound": 480
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 0,
-        "maxShortestBound": 0,
-        "minLongestBound": 0,
-        "maxLongestBound": 0
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 0,
-        "maxShortestBound": 0,
-        "minLongestBound": 0,
-        "maxLongestBound": 0
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 0,
-        "maxShortestBound": 0,
-        "minLongestBound": 0,
-        "maxLongestBound": 0
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 720,
-        "maxShortestBound": 0,
-        "minLongestBound": 0,
-        "maxLongestBound": 0
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 600,
-        "maxShortestBound": 719,
-        "minLongestBound": 0,
-        "maxLongestBound": 0
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 0,
-        "maxShortestBound": 599,
-        "minLongestBound": 0,
-        "maxLongestBound": 0
-    },
-    {
-        "navigationStyle": "default",
-        "minShortestBound": 0,
-        "maxShortestBound": 0,
-        "minLongestBound": 0,
-        "maxLongestBound": 0
-    }
+  "DEFAULT_LANGUAGE": "English",
+  "TRANSLATION_TYPE": "None",
+  "APPLICATION_LANGUAGES": [
+    { "name": "english", "gxName": "English", "isRightToLeft":false, "dateFormat": "MDY", "timeFormat": 12 }
   ],
 
-  "DEFAULT_NAVIGATION_STYLE": "flip"
+  "APPLICATION_THEMES": [
+    { "name": "simpleios", "gxName": "SimpleIOS" },
+    { "name": "unanimoangular", "gxName": "UnanimoAngular" },
+    { "name": "unanimo", "gxName": "Unanimo" },
+    { "name": "unanimocontrols", "gxName": "UnanimoControls" },
+    { "name": "actiongroup", "gxName": "ActionGroup" },
+    { "name": "dropdown", "gxName": "Dropdown" },
+    { "name": "unanimomobile", "gxName": "UnanimoMobile" },
+    { "name": "carmineweb", "gxName": "CarmineWeb" }
+  ],
+
+  "CONVERT_TIME_FROM_UTC": true,
+
+  "DEFAULT_NAVIGATION_STYLE": "flip",
+
+  "APPLICATION_VERSION_CODE": "1.0",
+  "APPLICATION_VERSION_NAME": "1.0"
 }

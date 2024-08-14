@@ -1,9 +1,9 @@
 import { Directive, ViewContainerRef, Input, OnChanges } from '@angular/core';
 import { Meta, Title } from "@angular/platform-browser";
 
-
 @Directive({
   selector: '[gx-form-properties]',
+  standalone: true
 })
 export class FormPropertiesDirective implements OnChanges {
   constructor(

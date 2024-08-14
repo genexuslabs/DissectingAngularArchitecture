@@ -1,199 +1,253 @@
-$ph-animation-duration: 1.2s !default;
+@use "../../node_modules/@genexus/reporting-controls-library/dist/reporting/reporting.css";
+@use "../../node_modules/@genexus/web-controls-library/dist/gx-web-controls/gx-web-controls.css";
 
-@import "../../node_modules/placeholder-loading/src/scss/placeholder-loading";
+$gx-xsmall-device-breakpoint: 768px;
 
 :root {
-  --gx-table-row-autogrow-collapse: minmax(min-content, max-content);
-  --gx-table-row-autogrow: min-content;
-  --gx-table-row-collapse: minmax(min-content, min-content);
-  --gx-table-components-column: 1fr;
-  --gx-table-components-row: auto;
-  --gx-scrollbar-background-color: #f5f5f5;
-  --gx-scrollbar-thumb-color: #555;
+    --gx-scrollbar-background-color: #f5f5f5;
+    --gx-scrollbar-thumb-color: #555;
+
+    // - - - - gx-layout and gx-navbar config - - - -
+    --gx-navbar-main-height: 60px;
+    --gx-navbar-sub-height: 48px;
 }
 
-@mixin gx-image-attribute(
-  $class,
-  $label: null,
-  $highlighted: null,
-  $accept-drag-class: null,
-  $no-accept-drag-class: null,
-  $start-dragging-class: null,
-  $drag-over-class: null
-) {
-  @include gx-image(
-    $class: $class,
-    $highlighted: $highlighted,
-    $accept-drag-class: $accept-drag-class,
-    $no-accept-drag-class: $no-accept-drag-class,
-    $start-dragging-class: $start-dragging-class,
-    $drag-over-class: $drag-over-class
-  );
-
-  @include gx-form-field(
-    $class: $class,
-    $label: $label,
-    $highlighted: $highlighted,
-    $accept-drag-class: $accept-drag-class,
-    $no-accept-drag-class: $no-accept-drag-class,
-    $start-dragging-class: $start-dragging-class,
-    $drag-over-class: $drag-over-class
-  );
-}
-
-@mixin gx-application-bar($class, $back-button: null, $default-button: null) {
-  @include gx-card($bars: $class);
-  @include gx-navbar(
-    $class: $class,
-    $back-button: $back-button,
-    $default-button: $default-button
-  );
-}
-
-@mixin gx-application($class) {
-  background-color: var(--gx-application-background-color);
-  @extend #{$class} !optional;
-
-  .main-layout {
-    & > .vertical {
-      background-color: var(--gx-application-background-color);
+@mixin gx-application($target-background-color: null) {
+    .main-layout {
+        & > .vertical {
+            background-color: $target-background-color;
+        }
     }
-  }
 
-  gx-action-sheet {
-    --gx-action-sheet-color: var(--action-tint-color);
-  }
-}
-
-.main-layout {
-  min-height: 100vh;
-  --gx-layout-base-z-index: 1000;
-
-  &--with-navbar {
-    min-height: calc(100vh - 108px);
-
-    &-single-line {
-      min-height: calc(100vh - 60px);
+    gx-action-sheet {
+        --gx-action-sheet-color: var(--action-tint-color);
     }
-  }
 
-  & > .vertical {
-    min-width: 320px;
-  }
+    gx-message {
+        background-color: var(
+            --primary-color-dark,
+            var(--primary-color, #d1ecf1)
+        );
+    }
+
+    gx-modal {
+        --gx-modal-accent-color: var(--accent-color, rgb(255, 167, 192));
+
+        &::part(header) {
+            background-color: var(
+                --primary-color,
+                var(--primary-color-dark, #212121)
+            );
+        }
+    }
+
+    gx-progress-bar {
+        --gx-progress-bar-primary-color: var(--primary-color);
+        --gx-progress-bar-primary-color-dark: var(--primary-color-dark);
+        --gx-progress-bar-accent-color: var(--accent-color);
+    }
 }
 
-.main-content {
-  display: flex;
-  flex: 1;
+// - - - - - - - - - - - - -  Messages customization  - - - - - - - - - - - - -
+gx-message.gx-message-error {
+    background-color: #ffeaee; // Error light from Unanimo
+    border: 1px solid #f02031; // Error dark from Unanimo
+    color: #000;
+}
 
-  & > gx-card {
+gx-modal {
+    &[type="alert"].gx-modal-error {
+        &::part(dialog) {
+            box-shadow: 0 0 12px #f0203180, #00000040 0px 8px 22px,
+                #00000040 0px 0px 6px -3px inset; // Error dark (with opacity) from Unanimo
+        }
+
+        &::part(header) {
+            background-color: rgb(239, 154, 154);
+        }
+    }
+
+    & > .gx-modal-action {
+        appearance: none;
+        border: 1px solid var(--gx-modal-accent-color);
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 8px;
+        outline: 0;
+        padding: 8px 20px;
+        transition: filter 250ms;
+
+        & + .gx-modal-action {
+            margin-inline-start: 16px;
+        }
+
+        &:active {
+            filter: brightness(80%);
+        }
+
+        &:hover:not(:active) {
+            filter: brightness(90%);
+        }
+    }
+
+    & > .gx-modal-primary-action {
+        background-color: var(--gx-modal-accent-color);
+        box-shadow: 0 0 9px -2px var(--gx-modal-accent-color);
+        color: var(--accent-contrast-color);
+    }
+
+    & > .gx-modal-secondary-action {
+        background-color: inherit;
+        box-shadow: 0 0 9px -3px var(--gx-modal-accent-color);
+        color: var(--gx-modal-accent-color);
+    }
+}
+
+// - - - - - - - - - - - - - -    Load skeleton    - - - - - - - - - - - - - -
+gx-loading > .gx-loading-skeleton {
+    --gradient: linear-gradient(
+        90deg,
+        #00000000,
+        var(--accent-color, var(--action-tint-color, #fff)),
+        #00000000
+    );
+
     display: flex;
-    flex: 1;
-  }
-}
-
-[data-has-action] {
-  cursor: pointer;
-}
-
-.flex-cell {
-  overflow: hidden;
-
-  & > gx-textblock {
+    align-self: stretch;
     width: 100%;
-    height: 100%;
-  }
-}
+    background: var(--primary-color-dark, var(--primary-color, #bbb));
+    border-radius: 16px;
+    margin: 16px;
+    opacity: 0.5;
+    overflow: hidden;
 
-gx-textblock .content:empty {
-  min-height: 1em;
-}
-
-gx-edit {
-  .form-control {
-    &,
-    &:focus,
-    &:active {
-      border: unset;
-      background-color: unset;
-      padding: unset;
+    &::after {
+        content: "";
+        background: var(--gradient), var(--gradient);
+        width: 64%;
+        transform: translateX(-128%);
+        animation: gx-skeleton-load 1.25s ease-in-out infinite;
     }
-  }
-}
 
-gx-select {
-  .custom-select {
-    &,
-    &:focus,
-    &:active {
-      border: unset;
-      background-color: unset;
-      padding: unset;
-      height: calc(1.5em + 2px);
-      box-shadow: none;
+    html[dir="rtl"] &::after {
+        transform: translateX(128%);
+        animation-name: gx-skeleton-load-rtl;
     }
-  }
 }
 
-// Scrollbars customization
-body {
-  scrollbar-width: thin;
-  scrollbar-color: var(--gx-scrollbar-thumb-color)
-    var(--gx-scrollbar-background-color);
+@keyframes gx-skeleton-load {
+    to {
+        transform: translateX(192%);
+    }
+}
+
+@keyframes gx-skeleton-load-rtl {
+    to {
+        transform: translateX(-192%);
+    }
+}
+
+// - - - - - - - - - - - - - - Layout customization - - - - - - - - - - - - - -
+// Used to correctly place the gx-navbar and the gx-layout components.
+my-app {
+    display: flex;
+    flex-direction: column;
+
+    // This ensures that the application will have all the available height when
+    // the address bar is visible and when it is not
+    min-height: var(--vh, 100vh);
+}
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// - - - - - - - - - - - - - Scrollbars customization - - - - - - - - - - - - -
+html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--gx-scrollbar-thumb-color)
+        var(--gx-scrollbar-background-color);
 }
 
 ::-webkit-scrollbar {
-  width: 11px;
+    width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--gx-scrollbar-background-color);
+    background: var(--gx-scrollbar-background-color);
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--gx-scrollbar-thumb-color);
-  border-radius: 6px;
-  border: 3px solid var(--gx-scrollbar-background-color);
+    background-color: var(--gx-scrollbar-thumb-color);
 }
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-gx-canvas-cell {
-  pointer-events: none;
+// - - - - - - - - - - - - Style applied to flex cells - - - - - - - - - - - -
+.flex-cell {
+    display: flex;
+    overflow: hidden;
+
+    & > gx-textblock {
+        width: 100%;
+        height: 100%;
+    }
+
+    & > gx-button {
+        flex: 1;
+    }
 }
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-gx-table,
-gx-image,
-gx-form-field,
-gx-textblock,
-gx-grid-smart,
-gx-grid-fs,
-gx-map,
-gx-tab,
-gx-button,
-gx-group {
-  pointer-events: auto;
-}
-
-/* Temporal WA for Virtual Scroller Scroll Jumping when First Item has margin bottom*/
-virtual-scroller > .scrollable-content > .gx-grid-row {
-  margin-bottom: 0px;
-}
-/****************************/
-
-gx-card {
-  .card {
-    border: 0;
-  }
-}
-
-gx-select {
-  flex: 1;
+gx-canvas,
+gx-table {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 
 .gx-sections-container {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
-.gx-loading-text {
-  text-align: center;
+// Customization of the control's option
+gx-checkbox,
+gx-radio-option,
+gx-switch {
+    --option-checked-color: var(--accent-color);
+    --option-border-color: var(--control-normal-color);
+    --option-highlight-color: var(--control-highlight-color);
 }
+
+gx-map {
+    width: 100%;
+    height: 100%;
+}
+
+gx-map .popup-data-container > div {
+    position: static !important;
+}
+
+// Style applied to GeneXus' Panels
+.gx-panel {
+    display: contents;
+}
+
+// Start - Moved from Theme.stg
+// Horizontal grid items must fill its given area
+.gx-horizontal-grid-item {
+    width: 100%;
+    height: 100%;
+    & > div {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+// Fix horizontal grid elements sizing (AGS version)
+// If this rule is not specified, grid elements in horizontal
+// grids won't grow, and would depend on container size. This
+// won't work if container size depends on contained items size
+.gx-horizontal-grid-item .image-viewer {
+    min-width: 100%;
+    min-height: 100%;
+}
+// End - Moved from Theme.stg

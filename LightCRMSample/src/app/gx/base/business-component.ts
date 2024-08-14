@@ -1,5 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from "@angular/common/http"
+import { inject } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { AppContainer } from 'app/gx/base/app-container';
+import { TypeConversions } from "app/gx/base/type-conversion";
+import { Messages, Message } from 'app/gx/std/messages.dt';
 
 export class BusinessComponent<D, S extends BusinessComponentService<D>> {
 
@@ -29,12 +32,12 @@ export class BusinessComponent<D, S extends BusinessComponentService<D>> {
   }
 
   async insert(): Promise<D> {
-    await this.service.post(this.data);
+    this.data = await this.service.post(this.data) ?? this.data;
     return this.data;
   }
 
   async update(): Promise<D> {
-    await this.service.put(this.data);
+    this.data = await this.service.put(this.data) ?? this.data;
     return this.data;
   }
 
@@ -53,15 +56,34 @@ export class BusinessComponent<D, S extends BusinessComponentService<D>> {
     await this.service.delete(this.data);
   }
 
+  success(): boolean {
+    return this.service.err === 0;
+  }
+
+  fail(): boolean {
+    return this.service.err !== 0;
+  }
+
+  getmessages() {
+    if (this.service.err !== 0) {
+      const errors = new Messages();
+      const message = new Message();
+      message.Description = this.service.errMsg;
+      errors.add(message);
+      return errors;
+    } else {
+      return new Messages();
+    }
+  }
 }
 
 export class BusinessComponentService<D> {
 
-  constructor(protected http: HttpClient) {
-  }
+  protected http = inject(HttpClient);
+  protected app = inject(AppContainer);
 
-  getHeaders(type: string): HttpHeaders {
-    let headers: HttpHeaders = null;
+  getHeaders(type: string): HttpHeaders | null {
+    let headers: HttpHeaders | null = null;
     if (type.toLowerCase() === 'post' || type.toLowerCase() === 'put') {
       headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     }
@@ -88,8 +110,21 @@ export class BusinessComponentService<D> {
     return new Promise(null);
   }
 
-  protected handleError(error: any): Promise<any> {
-    throw new Error(error.statusText);
+  setError(errorCode: number, error = null) {
+    if (error) {
+      this.app.setError(errorCode, error.error?.error?.message ?? error.statusText);
+    } else {
+      this.app.setError(errorCode, "");
+    }
   }
 
+  get err() {
+    return this.app.err;
+  }
+
+  get errMsg() {
+    return this.app.errMsg;
+  }
+
+  objectToClass = TypeConversions.objectToClass;
 }

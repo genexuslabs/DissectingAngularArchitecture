@@ -1,0 +1,14 @@
+<gx-progress-bar
+  [cssClass]="
+    appProgress?.cssClass != undefined
+      ? (appProgress.cssClass | classSplit)
+      : ''
+  "
+  [caption]="appProgress?.title"
+  [description]="appProgress?.description"
+  [maxValue]="appProgress?.maxValue"
+  [value]="appProgress?.value"
+  [presented]="appProgress != undefined"
+  [type]="appProgress?.type === 1 ? 'determinate' : 'indeterminate'"
+>
+</gx-progress-bar>

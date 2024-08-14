@@ -1,196 +1,117 @@
-import { Component, OnInit, Inject, ViewChild } from "@angular/core";
-import {
-  publish as gxPublish,
-  subscribe as gxSubscribe,
-  unSubscribe as gxUnSubscribe,
-} from "@genexus/web-standard-functions/dist/lib-esm/web/GlobalEvents";
+import * as app_settings from "../../app.settings.json";
+import { Component, OnInit, Inject, CUSTOM_ELEMENTS_SCHEMA, ViewContainerRef, inject } from "@angular/core";
 import { ConfigurationState } from "@genexus/web-standard-functions/dist/lib-esm/config/configurationState";
-import { DOCUMENT } from "@angular/common";
+import { DOCUMENT, NgClass } from "@angular/common";
 import { Subscription, timer } from "rxjs";
 import { debounce } from "rxjs/operators";
 
 import { AppContainer } from "app/gx/base/app-container";
 import { CompositeNavigation } from "app/gx/navigation/composite-navigation";
-import {
-  ProgressService,
-  UIProgress,
-} from "app/gx/ui/controls/progress/progress.service";
 import { UIMessage } from "app/gx/ui/controls/messages/ui-message.dt";
-import * as app_settings from "./../../app.settings.json";
-import {
-  NavigationOptionsManager,
-  OutletOptions,
-} from "app/gx/navigation/navigation-options-manager";
-import {
-  AppBarService,
-  AppBarNavigation,
-  AppBarNavigationItem,
-} from "app/gx/base/app-bar.service";
+import { UIActionBarElement } from "app/gx/ui/model/ui-actionbar";
+import { Settings } from "app/app.settings";
+import { AppBarService, AppBarNavigationItem } from "app/gx/base/app-bar.service";
 import { IButtonElement } from "app/gx/ui/model/ui-button";
 import { NavigationStyle } from "app/gx/base/view-manager";
+import { PrefersColorScheme } from "./gx/std/prefers-color-scheme";
+import { TranslatePipe } from "./gx/utils/translate.pipe";
+import { ClassSplitPipe } from "./gx/utils/class-split.pipe";
+import { ImageToSrcsetPipe } from "./gx/utils/image-to-srcset.pipe";
+import { RouterOutlet } from "@angular/router";
+import { NotPipe } from "./gx/utils/not.pipe";
+import { WsfSubscriptionsService } from "./gx/ui/services/wsf/wsf-subscriptions.service";
+import { PopupService } from "./gx/ui/services/popup/popup.service";
+import { MultiLayoutState, MultiOutletComponent } from "./gx/ui/services/multi-outlet-layout/multi-outlet.component";
+import { LayoutSize, MediaQueryService, SMALL_LAYOUT, LARGE_LAYOUT } from "./gx/ui/services/media-query/media-query.service";
+import { ProgressService } from "./gx/ui/services/progress/progress.service";
 
 const ApplicationSettings = app_settings["default"];
-const DEFAULT_APPBAR_UPDATE_DELAY =
-  ApplicationSettings.DEFAULT_APPBAR_UPDATE_DELAY || 300;
+
 const DEFAULT_ISLOADING_UPDATE_DELAY =
   ApplicationSettings.DEFAULT_ISLOADING_UPDATE_DELAY || 300;
 
 @Component({
   selector: "my-app",
   templateUrl: "app.component.html",
-  styles: [":host { display: block; }"],
   styleUrls: ["./styles.css"],
+  standalone: true,
+    imports: [
+        NgClass,
+        RouterOutlet,
+        ImageToSrcsetPipe,
+        ClassSplitPipe,
+        TranslatePipe,
+        NotPipe,
+        MultiOutletComponent
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppComponent implements OnInit {
-  appMessage: UIMessage;
-  appProgress: UIProgress;
 
-  msgSubscription: any;
-  confirmSubscription: any;
+  appBarNavigation: UIActionBarElement;
+  errorStatus = null;
 
-  leftVisible = false;
-  rightVisible = false;
-  topVisible = false;
-  bottomVisible = false;
-  popupVisible = false;
-  applicationBarVisible = false;
-  applicationBarSingleLine = true;
+  currentLayoutSize: LayoutSize = "large";
+    layoutState: MultiLayoutState = {
+    leftVisible: false,
+    rightVisible:false,
+    topVisible: false,
+    bottomVisible: false,
+    leftComponent:null,
+    rightComponent: null,
+    topComponent: null,
+    bottomComponent: null
+  };
 
-  leftComponent = null;
-  rightComponent = null;
-  topComponent = null;
-  bottomComponent = null;
-  popupComponent = null;
+  topApplicationBarVisible = false;
+  bottomApplicationBarVisible = false;
 
-  popupStyle = null;
-
-  setOutletSubscription: any;
-  @ViewChild("leftOutlet", { static: false }) leftOutlet;
-  @ViewChild("rightOutlet", { static: false }) rightOutlet;
-  @ViewChild("topOutlet", { static: false }) topOutlet;
-  @ViewChild("bottomOutlet", { static: false }) bottomOutlet;
-  @ViewChild("popupOutlet", { static: false }) popupOutlet;
-  showTargetSubscription: any;
-  hideTargetSubscription: any;
+  prefersColorSchemeSubscription: any;
 
   isLoading = false;
 
+  viewContainerRef = inject(ViewContainerRef);
+  wsfSubscriptionsService = inject(WsfSubscriptionsService);
+  popupService = inject(PopupService);
+  mediaQueryService = inject(MediaQueryService);
+  progressService = inject(ProgressService);
+
   constructor(
-    private app: AppContainer,
+    public app: AppContainer,
     private nvg: CompositeNavigation,
-    private progress: ProgressService,
     @Inject(DOCUMENT) private document: Document,
     private appBarService: AppBarService
   ) {
+    this.appBarNavigation = { ...new UIActionBarElement(), ...{ navigationItems: [], actionItems: [] } };
     this.appBarNavigationSubscription = this.appBarService.navigationChange.subscribe(
-      (navigation) => {
-        setTimeout(() => {
-          this.appBarNavigation = {
-            ...this.appBarNavigation,
-            ...navigation,
-          };
-          this.updateApplicationBarVisibility();
-        });
+      (navigation:UIActionBarElement) => {
+        this.appBarNavigation = navigation;
+        this.updateApplicationBarVisibility();
       }
     );
-    this.appBarActionsSubscription = this.appBarService.actionsChange
-      .pipe(debounce(() => timer(DEFAULT_APPBAR_UPDATE_DELAY)))
-      .subscribe((actions) => {
-        setTimeout(() => {
-          this.appBarActions = actions.map((action) => ({
-            ...action,
-            slotName: `${action.priority.toLowerCase()}-priority-action`,
-          }));
-          this.updateApplicationBarVisibility();
-        });
-      });
   }
 
   private appBarNavigationSubscription: Subscription;
-  private appBarNavigation: AppBarNavigation = {
-    items: [],
-  };
-
-  private appBarActionsSubscription: Subscription;
-  private appBarActions: IButtonElement[] = [];
 
   async ngOnInit() {
-    this.app.setLanguage("English");
     this.document.documentElement.lang = "en";
-    this.app.initApp("lightcrm2");
-    this.app.initTheme("carmineios");
-    this.app.initTranslations();
 
-    this.msgSubscription = gxSubscribe(
-      "gx-standard-api-to-generator_msg",
-      (id: string, msg: string, type: string) => {
-        if (
-          type.toLocaleLowerCase() === "nowait" ||
-          type.toLocaleLowerCase() === "status"
-        )
-          this.appMessage = {
-            id: id,
-            text: msg,
-            type: "message",
-            onConfirm: () => {
-              gxPublish("gx-standard-api-to-generator_msg_" + id + "_ok");
-            },
-          };
-        else {
-          this.appMessage = {
-            id: id,
-            text: msg,
-            type: "error",
-            onConfirm: () => {
-              gxPublish("gx-standard-api-to-generator_msg_" + id + "_ok");
-            },
-          };
-        }
-      }
-    );
 
-    this.confirmSubscription = gxSubscribe(
-      "gx-standard-api-to-generator_confirm",
-      (id: string, msg: string) => {
-        this.appMessage = {
-          id: id,
-          text: msg,
-          type: "confirm",
-          onConfirm: () => {
-            gxPublish("gx-standard-api-to-generator_confirm_" + id + "_ok");
-          },
-          onCancel: () => {
-            gxPublish("gx-standard-api-to-generator_confirm_" + id + "_cancel");
-          },
-        };
-      }
-    );
+    // Start w-s-f interface services
+    this.wsfSubscriptionsService.start(this.viewContainerRef);
 
-    this.showTargetSubscription = gxSubscribe(
-      "gx-standard-api-to-generator_showTarget",
-      (id: string, element: string) => {
-        this.showOutlet(element, true);
-        gxPublish("gx-standard-api-to-generator_showTarget_" + id + "_ok");
-      }
-    );
+    // Start media query breakpoints service
+    this.mediaQueryService.start();
+    this.mediaQueryService.updateCurrentLayoutSize.subscribe(
+      (update) => {
+        this.updateCurrentLayoutSize(update.layoutSize, update.isCurrentLayout)
+      });
 
-    this.hideTargetSubscription = gxSubscribe(
-      "gx-standard-api-to-generator_hideTarget",
-      (id: string, element: string) => {
-        this.showOutlet(element, false);
-        gxPublish("gx-standard-api-to-generator_hideTarget_" + id + "_ok");
-      }
-    );
+    // Start progressbar service
+    this.progressService.start(this.viewContainerRef);
 
-    this.setOutletSubscription = gxSubscribe(
-      "gx-app-setOutlet",
-      (outlet: string, component: string, options: OutletOptions) => {
-        this.setOutlet(outlet, component, options);
-      }
-    );
-
-    this.progress.getObservable().subscribe((prog) => {
-      this.appProgress = prog;
+    this.prefersColorSchemeSubscription = PrefersColorScheme.getObservable().subscribe(() => {
+      this.app.refreshUIContext();
     });
 
     this.nvg.loadingStateChange$
@@ -201,121 +122,48 @@ export class AppComponent implements OnInit {
         });
       });
 
-    ConfigurationState.loadApplicationSettings(ApplicationSettings);
+    ConfigurationState.loadApplicationSettings(Settings);
 
     this.app.setSession();
   }
 
   ngOnDestroy() {
-    gxUnSubscribe(this.msgSubscription);
-    gxUnSubscribe(this.confirmSubscription);
-    gxUnSubscribe(this.showTargetSubscription);
-    gxUnSubscribe(this.hideTargetSubscription);
-    gxUnSubscribe(this.setOutletSubscription);
     this.appBarNavigationSubscription.unsubscribe();
-    this.appBarActionsSubscription.unsubscribe();
-  }
-
-  onPopupClose() {
-    if (this.popupVisible) {
-      this.popupOutlet.cancel();
-    }
-  }
-
-  showOutlet(target: string, value: boolean) {
-    if (target === null) {
-      // primary outlet
-      if (value) {
-        // hide secondaries to show it
-        this.leftVisible = false;
-        this.rightVisible = false;
-        this.topVisible = false;
-        this.bottomVisible = false;
-      }
-    } else {
-      // secondary outlets
-      target = target.toLowerCase();
-      if (target === "left") {
-        this.leftVisible = value;
-      } else if (target === "right") {
-        this.rightVisible = value;
-      } else if (target === "top") {
-        this.topVisible = value;
-      } else if (target === "bottom") {
-        this.bottomVisible = value;
-      }
-    }
-  }
-
-  setOutlet(target: string, component: string, options: OutletOptions = null) {
-    target = target.toLowerCase();
-    if (target === "left") {
-      this.leftComponent = component;
-      this.leftOutlet.start();
-    } else if (target === "right") {
-      this.rightComponent = component;
-      this.rightOutlet.start();
-    } else if (target === "top") {
-      this.topComponent = component;
-      this.topOutlet.start();
-    } else if (target === "bottom") {
-      this.bottomComponent = component;
-      this.bottomOutlet.start();
-    } else if (target === "popup") {
-      if (component) {
-        this.setPopupOptions(options);
-        this.popupComponent = component;
-        this.popupVisible = true;
-        this.popupOutlet.start();
-      } else {
-        this.setPopupOptions(options);
-        this.popupComponent = null;
-        this.popupVisible = false;
-      }
-    }
-  }
-
-  setPopupOptions(options: OutletOptions) {
-    if (options) {
-      this.popupStyle = {};
-      this.popupStyle["max-width"] = "90vw";
-      this.popupStyle["max-height"] = "70vh";
-
-      if (options.size) {
-        if (options.size === NavigationOptionsManager.TARGET_SIZE_SMALL_ID) {
-          this.popupStyle["height"] = "400px";
-        } else if (
-          options.size === NavigationOptionsManager.TARGET_SIZE_MEDIUM_ID
-        ) {
-          this.popupStyle["height"] = "500px";
-        } else if (
-          options.size === NavigationOptionsManager.TARGET_SIZE_LARGE_ID
-        ) {
-          this.popupStyle["height"] = "800px";
-        }
-      } else {
-        this.popupStyle["min-height"] = "50vh";
-      }
-      if (options.width) {
-        this.popupStyle["width"] = options.width;
-      }
-      if (options.width) {
-        this.popupStyle["height"] = options.height;
-      }
-    }
+    this.prefersColorSchemeSubscription.unsubscribe();
+    this.mediaQueryService.end();
   }
 
   updateApplicationBarVisibility() {
-    const { appBarNavigation, appBarActions } = this;
-    this.applicationBarVisible =
+    const { appBarNavigation } = this;
+
+    this.topApplicationBarVisible =
       appBarNavigation.visible &&
+      (appBarNavigation.caption != null && appBarNavigation.caption.length > 0) ||
       (appBarNavigation.navigationStyle === NavigationStyle.Slide ||
-        appBarNavigation.items.length > 0 ||
-        appBarActions.length > 0);
+       appBarNavigation.navigationItems.length > 0 ||
+       appBarNavigation.actionItems.length > 0);
+
+      this.bottomApplicationBarVisible =
+        appBarNavigation.visible &&
+        this.currentLayoutSize === SMALL_LAYOUT &&
+        appBarNavigation.navigationItems.length > 0;
+  }
+
+  /**
+   * Update the `currentLayoutSize` variable with the layout size `layoutSize` if `isTheCurrentLayout == true`.
+   * @param layoutSize Number of breakpoint.
+   * @param isTheCurrentLayout `true` if the current the window matches the layout size.
+   */
+  private updateCurrentLayoutSize(layoutSize: LayoutSize, isTheCurrentLayout: boolean) {
+    if (isTheCurrentLayout) {
+      this.currentLayoutSize = layoutSize;
+      this.updateApplicationBarVisibility();
+      this.nvg.updateVerticalTargetsBreakpointMatched(layoutSize != LARGE_LAYOUT);
+    }
   }
 
   handleToggleButtonClick() {
-    this.leftVisible = !this.leftVisible;
+    this.layoutState.leftVisible = !this.layoutState.leftVisible;
   }
 
   handleBackButtonClick() {
@@ -324,16 +172,8 @@ export class AppComponent implements OnInit {
     }
   }
 
-  handleLeftTargetHiddenChange(event: CustomEvent) {
-    this.leftVisible = !event.detail;
-  }
-
-  handleRightTargetHiddenChange(event: CustomEvent) {
-    this.rightVisible = !event.detail;
-  }
-
-  handleTargetsBreakpointMatchCange(event: CustomEvent) {
-    this.nvg.updateVerticalTargetsBreakpointMatched(event.detail.matches);
+  handleLayoutChange( layoutState:MultiLayoutState) {
+    this.layoutState = layoutState;
   }
 
   trackAppBarItemById(

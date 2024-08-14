@@ -5,7 +5,7 @@ export class ClientStorage {
   }
 
   static Get(key: string): string {
-    return window.localStorage.getItem(key);
+    return window.localStorage.getItem(key) ?? "";
   }
 
   static Remove(key: string): void {

@@ -1,140 +1,165 @@
 import { GxCollectionData } from "./gxcollection.dt";
-import { plainToClassFromExist, classToPlain } from "class-transformer";
-import { gxRowNumberId } from './grid-dataset';
+import { ISerializable, isSerializable } from "@genexus/web-standard-functions/dist/lib-esm/types/type-serialization";
+import { GxBigNumber } from "@genexus/web-standard-functions/dist/lib-esm/types/gxbignumber";
+import { HttpHeaders } from "@angular/common/http";
+import { PanelServiceMetadata } from "./panel.service";
 
 export class TypeConversions {
+  ///////////////////////////////////////////////////////////////////////////////////////
+  // Object <-> Class conversion and serialization
 
-  static arrayToCollection<T>(items?: Array<any>, c?: { new(): T; }): GxCollectionData<T> {
-    const collection: GxCollectionData<T> = Object.create(
-      GxCollectionData.prototype
-    );
-    if (items) {
-      let idx = 0;
-      items.forEach(element => {
-        const item = TypeConversions.objectToClass<T>(element, c);
-        item[gxRowNumberId] = idx++;
-        collection.push(item);
-      });
+  static objectToClass<T>(obj, type: { new(): T }): any {
+    const inst = TypeConversions.CreateInstance(type, Array.isArray(obj));
+    if (isSerializable(inst)) {
+      return (inst as ISerializable).deserialize(obj);
+    } else if (obj && typeof obj === "object") {
+      return TypeConversions.sweepObjectToClass(obj, inst);
+    } else {
+      return obj;
     }
-    return collection;
-
   }
 
-  static objectToClass<T>(obj: any, c: { new(): T; }) {
-    const obj1 = plainToClassFromExist(new c(), obj);
-    return TypeConversions.convertDateContent(obj1, new c());
-  }
-
-  static classToObject(obj: any) {
-    return classToPlain(obj);
-  }
-
-  static convertDateContent(o1: any, c: any): any {
-    for (let p in o1) {
-      if (c[p] && c[p] instanceof Date) {
-        let d = new Date(0, 0, 0, 0, 0, 0);
-        if (o1[p] instanceof Date) continue; // hack , this should be handled in previous phases.
-        if (o1[p].indexOf("T") > -1) {
-          // Format = yyyy-mm-ddThh:mm:ss -> UTC
-          const datetimeS = o1[p].split("T");
-          const dateS = datetimeS[0].split("-");
-          const timeS = datetimeS[1].split(":");
-          if (+dateS[0] === 1) {
-            d = new Date();
-            d.setUTCHours(+timeS[0]);
-            d.setUTCMinutes(+timeS[1]);
-            d.setUTCSeconds(+timeS[2] || 0);
-          } else {
-            d = new Date(Date.UTC(+dateS[0], +dateS[1] - 1, +dateS[2], +timeS[0], +timeS[1] || 0, +timeS[2] || 0));
+  static sweepObjectToClass<T>(obj, inst: T) {
+    for (const pty of Object.keys(obj)) {
+      if (obj[pty] === null || obj[pty] === undefined) {
+        inst[pty] = obj[pty];
+      } else {
+        const instPtyValue = TypeConversions.getClassPropertyDefault(inst, pty);
+        if (typeof instPtyValue === "object") {
+          let ptyType = instPtyValue.constructor;
+          if (instPtyValue instanceof GxCollectionData) {
+            ptyType = (instPtyValue as GxCollectionData<any>).itemClass;
           }
+          inst[pty] = TypeConversions.objectToClass(obj[pty], ptyType);
         } else {
-          // Format = yyyy-mm-dd -> local
-          if (o1[p] !== "0000-00-00") {
-            const dateS = o1[p].split("-");
-            d = new Date(+dateS[0], +dateS[1] - 1, +dateS[2], 0, 0, 0);
-          } else {
-            d = null;
-          }
-        }
-        o1[p] = d;
-      }
-    }
-    return o1;
-  }
-
-  static timeToISOString(d: Date): string {
-    let s = '';
-    if (d) {
-      const tzo = d.getTimezoneOffset();
-      const d1 = new Date(d.getTime() - tzo * 60000);
-      const s1 = d1.toISOString();
-      const t = s1.indexOf('T');
-      if (t > -1) {
-        s = s1.substring(t + 1, s1.length);
-        s = s.replace('Z', '');
-        if (s.indexOf(".") > -1) {
-          s = s.substring(0, s.indexOf("."));
+          inst[pty] = TypeConversions.fixTypeToClass(obj[pty], inst[pty]);
         }
       }
     }
-    return s;
+    return inst;
   }
 
-  static dateToISOString(d: Date): string {
-    let s = ''
-    if (d) {
-      try {
-        const tzo = d.getTimezoneOffset();
-        const d1 = new Date(d.getTime() - tzo * 60000);
-        const s1 = d1.toISOString();
-        s = s1.substring(0, s1.indexOf('T'));
-        return s
-      } catch {
-        s = '';
+  static getClassPropertyDefault(inst, pty) {
+    if (inst[`\$${pty}`]) {
+      return inst[`\$${pty}`][0];
+    }
+    return inst[`_${pty}`] ?? inst[pty]
+  }
+
+  static fixTypeToClass(sourceValue, targetValue) {
+    if (typeof sourceValue === "string" && typeof targetValue === "number") {
+      // Numbers should need conversion from string to number type
+      return +sourceValue;
+    }
+    return sourceValue;
+  }
+
+  static classToObject<T>(obj, type: { new(): T } = null) {
+    if (isSerializable(obj)) {
+      return (obj as ISerializable).serialize();
+    } else if (typeof obj === "object") {
+      return TypeConversions.sweepClassToObject(obj);
+    } else {
+      return obj;
+    }
+  }
+
+  static sweepClassToObject(inst) {
+    const obj = {};
+    for (const pty in inst) {
+      if (pty.startsWith("_gx")) continue; // Exclude '_gx' properties
+      if (inst[pty] === null || inst[pty] === undefined) {
+        obj[pty] = inst[pty];
+      } else if (typeof inst[pty] === "object") {
+        let ptyType = inst[pty].constructor;
+        if (inst[pty] instanceof GxCollectionData) {
+          const itemType = (inst[pty] as GxCollectionData<any>).itemClass;
+          ptyType = itemType;
+        }
+        obj[pty] = TypeConversions.classToObject(inst[pty], ptyType);
+      } else {
+        obj[pty] = TypeConversions.fixTypeToObject(inst[pty], obj[pty]);
       }
     }
-    return s;
+    return obj;
   }
 
-  static datetimeToISOString(d: Date): string {
-    let s = '';
-    if (d) {
-      const tzo = d.getTimezoneOffset();
-      const d1 = new Date(d.getTime() - tzo * 60000);
-      s = d1.toISOString().replace('Z', '');
-    }
-    return s;
+  static fixTypeToObject(sourceValue, targetValue) {
+    return sourceValue;
   }
 
-  static datetimeFromISOString(s: string): Date {
-    let d: Date;
-    const datetimeS = s.split("T");
-    if (datetimeS.length > 1) {
-      const dateS = datetimeS[0].split("-");
-      const timeS = datetimeS[1].split(":");
-      d = new Date(Date.UTC(+dateS[0], +dateS[1] - 1, +dateS[2], +timeS[0], +timeS[1], +timeS[2]));
-    }
-    else if (s.indexOf("-") > 1) {
-      const dateS = datetimeS[0].split("-");
-      d = new Date(Date.UTC(+dateS[0], +dateS[1] - 1, +dateS[2]));
-    }
-    else if (s.indexOf(":") > -1) {
-      const timeS = datetimeS[0].split(":");
-      d = new Date(Date.UTC(1, 1, 1, +timeS[0], +timeS[1] || 0, +timeS[2] || 0));
-    }
-    else {
-      d = new Date(0, 0, 0);
-    }
-    if (!TypeConversions.isValidDate(d)) {
-      // Nos ISO, try to convert from any supported fromat
-      d = new Date(s);
-    }
-    const tzo = d.getTimezoneOffset();
-    d = new Date(d.getTime() + tzo * 60000);
-    return d;
+  static serializeClass(obj): string {
+    return JSON.stringify(this.classToObject(obj));
   }
 
-  static isValidDate(d: any) {
-    return d instanceof Date && !isNaN(d.getTime());
+  ///////////////////////////////////////////////////////////////////////////////////////
+  // Type management helpers
+  static isTypeOf(type, targetType): boolean {
+    const obj = TypeConversions.CreateInstance(type);
+    return obj instanceof targetType;
   }
+
+  static CreateInstance<T>(
+    type: { new(): T; name: string },
+    isCollection = false
+  ) {
+    if (isCollection) {
+      return new GxCollectionData<T>().setType(type);
+    } else {
+      return type ? new type() : {};
+    }
+  }
+
+  static CloneInstance(obj) {
+    if (typeof obj === "object") {
+      const type = obj.constructor;
+      return Object.assign(TypeConversions.CreateInstance(type), obj);
+    } else {
+      return obj;
+    }
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////////////
+  // UI date/datetime/time functions
+  // * Empty date/datetime/time = ''
+
+  static UINumberFromString(s): number {
+    if (Number.isNaN(+s)) {
+      return 0;
+    }
+    return +s;
+  }
+
+  static bigNumberFromString(s: string) {
+    return new GxBigNumber(s);
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////////////
+  // DATE equality comparer
+  static eqDate(d1: Date, d2: Date): boolean {
+    return d1.getTime() == d2.getTime();
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////////////
+  // HTTP helpers
+  static httpHeadersToResponseMetadata(
+    headers: HttpHeaders
+  ): PanelServiceMetadata {
+    return {
+      hasNextPage: headers.get("Hasnextpage")
+        ? headers.get("Hasnextpage") === "true"
+        : null,
+      recordCount:
+        headers.get("Recordcount") && headers.get("Recordcount") != "-1"
+          ? parseInt(headers.get("Recordcount"))
+          : null,
+      recordCountSupported:
+        headers.get("Recordcountsupported")?.toLowerCase() !== "false",
+    };
+  }
+}
+
+export class Typespec {
+  isCollection: boolean;
+  type: any;
 }

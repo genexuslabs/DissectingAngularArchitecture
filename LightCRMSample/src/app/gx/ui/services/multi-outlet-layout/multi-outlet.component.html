@@ -1,0 +1,59 @@
+  <gx-layout
+    [ngClass]="{
+      'main-layout': true
+    }"
+    [bottomNavbarVisible]="bottomNavbarVisible"
+    [bottomVisible]="layoutState.bottomVisible"
+    [enableHeaderRowPattern]="enableHeaderRowPattern"
+    [layoutSize]="layoutSize"
+    [leftVisible]="layoutState.leftVisible"
+    [rightVisible]="layoutState.rightVisible"
+    [topNavbarVisible]="topNavbarVisible"
+    [topVisible]="layoutState.topVisible"
+    (leftHiddenChange)="handleLeftTargetHiddenChange($event)"
+    (rightHiddenChange)="handleRightTargetHiddenChange($event)"
+  >
+    @if(isLoading) {
+    <gx-loading 
+      [cssClass]="'Application'"
+      [showSlotAnimation]="true"
+      presented
+    >
+      <div class="gx-loading-skeleton"></div>
+    </gx-loading>
+    }
+    @if(!isLoading) {
+      <ng-content></ng-content>
+    }
+    <gx-component-host
+      slot="top"
+      #topOutlet
+      id="top"
+      [componentUri]="layoutState.topComponent"
+    >
+    </gx-component-host>
+    <gx-component-host
+      slot="left"
+      #leftOutlet
+      id="left"
+      [componentUri]="layoutState.leftComponent"
+      class="vertical-target"
+    >
+    </gx-component-host>
+    <gx-component-host
+      slot="right"
+      #rightOutlet
+      id="right"
+      [componentUri]="layoutState.rightComponent"
+      class="vertical-target"
+    >
+    </gx-component-host>
+    <gx-component-host
+      slot="bottom"
+      #bottomOutlet
+      id="bottom"
+      [componentUri]="layoutState.bottomComponent"
+    >
+    </gx-component-host>
+  </gx-layout>
+  

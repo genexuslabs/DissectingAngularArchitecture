@@ -1,19 +1,235 @@
+$transition-duration: 250ms;
+
 :host {
+    /**
+     * @prop --gx-file-upload-icon-background-color: Icon background color of the file upload button.
+     */
+    --gx-file-upload-icon-background-color: #efefefc0;
+
+    /**
+     * @prop --gx-file-upload-icon-background-color: Icon background color of the file upload button in light mode.
+     */
+    --gx-file-upload-icon-background-color--light: #efefefc0;
+
+    /**
+     * @prop --gx-file-upload-icon-background-color: Icon background color of the file upload button in dark mode.
+     */
+    --gx-file-upload-icon-background-color--dark: #22222280;
+
+    /**
+     * @prop --gx-file-upload-icon-color: Icon color of the file upload button.
+     */
+    --gx-file-upload-icon-color: #000;
+
+    /**
+     * @prop --gx-file-upload-icon-color: Icon color of the file upload button in light mode.
+     */
+    --gx-file-upload-icon-color--light: #000;
+
+    /**
+     * @prop --gx-file-upload-icon-color: Icon color of the file upload button in dark mode.
+     */
+    --gx-file-upload-icon-color--dark: #fff;
+
+    @media (prefers-color-scheme: light) {
+        // Color
+        --gx-file-upload-icon-color: var(--gx-file-upload-icon-color--light);
+
+        // Background color
+        --gx-file-upload-icon-background-color: var(
+            --gx-file-upload-icon-background-color--light
+        );
+    }
+
+    @media (prefers-color-scheme: dark) {
+        // Color
+        --gx-file-upload-icon-color: var(--gx-file-upload-icon-color--dark);
+
+        // Background color
+        --gx-file-upload-icon-background-color: var(
+            --gx-file-upload-icon-background-color--dark
+        );
+    }
+
     display: flex;
     flex: 1;
+    align-self: stretch;
+    pointer-events: none;
 }
 
-.image-viewer {
+.click-capture {
     display: flex;
-	flex: 1;
-    max-height: 100%;
-}
+    flex: 1;
+    align-self: stretch;
+    pointer-events: auto;
 
-.file-viewer > gx-button {
-    margin: 2px;
-}
+    &.disabled {
+        pointer-events: none;
+    }
 
-.file-viewer-file {
-    display: block;
-	flex: 1;
+    & > .file-viewer {
+        display: flex;
+        flex: 1;
+        max-height: 100%;
+        position: relative;
+        width: 100%;
+
+        & > .file-viewer-file {
+            align-self: center;
+            flex: 1;
+            max-width: 100%;
+            max-height: 100%;
+            text-align: center;
+            text-decoration: underline;
+            word-break: break-word; // Improve long file names
+        }
+
+        & > .display-file {
+            cursor: pointer;
+            color: #888;
+        }
+
+        & > .file-picker-state-container {
+            display: flex;
+            align-items: stretch;
+            position: absolute;
+            inset-inline-end: 2px; // Necessary since the button has box-shadow when focused
+            inset-block-end: 2px;
+            min-width: 30px;
+            min-height: 30px;
+            border-radius: 50%;
+
+            & > .file-picker-button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                background-color: var(--gx-file-upload-icon-background-color);
+                border: unset;
+                border-radius: 50%;
+                padding: 0;
+                pointer-events: all;
+                outline: none;
+                transition-property: background-color, color, box-shadow, filter;
+                transition-duration: $transition-duration;
+
+                &:hover {
+                    filter: brightness(90%);
+                }
+
+                &:focus {
+                    box-shadow: 0 0 0px 2px #000000c0;
+                }
+
+                &:active {
+                    filter: brightness(80%);
+                }
+
+                &[disabled] {
+                    filter: opacity(0.5);
+                    pointer-events: none;
+                }
+
+                & > .image-icon {
+                    width: 24px;
+                    height: 24px;
+                    fill: var(--gx-file-upload-icon-color);
+                }
+            }
+        }
+    }
+
+    & > gx-modal {
+        &::part(dialog) {
+            max-width: 512px;
+        }
+
+        & > .body-container {
+            display: flex;
+            align-content: space-between;
+            justify-content: center;
+            flex-wrap: wrap;
+            background-color: inherit;
+            width: 100%;
+
+            & > .picker-container {
+                display: flex;
+                position: relative;
+                background-color: var(--gx-modal-accent-color);
+                box-shadow: 0 0 9px var(--gx-modal-accent-color);
+                color: var(--accent-contrast-color, inherit);
+                overflow: hidden;
+                padding: 0;
+
+                & > .file-picker {
+                    position: absolute;
+                    width: 100%;
+                    height: 0;
+                    opacity: 0;
+                }
+
+                & > .download {
+                    fill: currentColor;
+                    width: 0.9em;
+                    margin-inline-start: 16px;
+                }
+
+                & > .custom-file-picker {
+                    padding: 8px 16px 8px 12px;
+                    pointer-events: none;
+                }
+            }
+
+            & > .remove-image-button {
+                display: flex;
+                appearance: none;
+                background-color: inherit;
+                border: 1px solid;
+                box-shadow: 0 0 9px -3px var(--gx-modal-accent-color);
+                color: var(--gx-modal-accent-color);
+                font-size: inherit;
+                outline: 0;
+                padding: 8px 16px 8px 13px;
+
+                & > .trash-can {
+                    fill: currentColor;
+                    width: 1.1em;
+                    margin-inline-end: 8px;
+                }
+            }
+
+            & > .picker-container,
+            & > .remove-image-button {
+                display: flex;
+                align-items: center;
+                border-radius: 8px;
+                cursor: pointer;
+                min-height: 2em;
+                margin: 16px 16px 8px 16px;
+                transition: filter $transition-duration;
+
+                &:active {
+                    filter: brightness(0.8);
+                }
+            }
+        }
+
+        & > .cancel-button {
+            display: flex;
+            align-items: center;
+            appearance: none;
+            background-color: transparent;
+            border: 1px solid;
+            border-radius: 8px;
+            box-shadow: 0 0 9px -3px var(--gx-modal-accent-color);
+            color: var(--gx-modal-accent-color);
+            cursor: pointer;
+            padding: 8px 16px;
+            transition: filter $transition-duration;
+
+            &:active {
+                filter: brightness(0.8);
+            }
+        }
+    }
 }

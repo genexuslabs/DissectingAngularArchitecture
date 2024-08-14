@@ -1,0 +1,13 @@
+<gx-modal
+  type="popup"
+  [showFooter]="false"
+  [showHeader]="false"
+  [opened]="popupVisible"
+  [width]="popupStyle?.width"
+  [height]="popupStyle?.height"
+  (close)="close()"
+>
+<div slot="body">
+    <ng-template #component></ng-template>    
+</div>
+</gx-modal>

@@ -1,0 +1,11 @@
+@use "./../_common_functions" as gx_functions;
+@use "./_base_unanimo" as genexusunanimo_unanimo;
+
+// *** IMPORTS ***
+
+// *** STYLES ***
+@include genexusunanimo_unanimo.tokens();
+@include genexusunanimo_unanimo.images(gx_functions.load-common-images());
+@include genexusunanimo_unanimo.fonts();
+@include genexusunanimo_unanimo.files();
+@include genexusunanimo_unanimo.styles(); 

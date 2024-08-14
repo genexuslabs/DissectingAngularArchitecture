@@ -1,12 +1,13 @@
-import { Pipe, PipeTransform } from "@angular/core";
+import { Pipe, PipeTransform, inject } from "@angular/core";
 import { AppContainer } from "../base/app-container";
 
 @Pipe({
-    name: 'translate'
+  name: 'translate',
+  standalone: true
 })
 export class TranslatePipe implements PipeTransform {
 
-  constructor( private app: AppContainer ) { }
+  private app = inject(AppContainer);
   
   transform(s: string, args?: any): any {
     return this.app.translate(s);

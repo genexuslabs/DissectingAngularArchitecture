@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProgressService {
 
-  private progressSource = new BehaviorSubject<UIProgress>(null);
+  private progressSource = new Subject<UIProgress>();
 
   private currentSettings: UIProgress = {};
 
@@ -72,15 +72,8 @@ export class ProgressService {
     this.updateProgress({});
   }
 
-  showWithTitle(title: string): Promise<any> {
-    return new Promise<any>(complete => {
-      this.updateProgress(
-        {
-          title: title,
-          description: null,
-          callback: complete
-        });
-    });
+  showWithTitle(title: string) {
+    this.updateProgress({ title: title, description: null });
   }
 
   showWithTitleAndDescription(title: string, description: string) {
@@ -94,7 +87,7 @@ export class ProgressService {
 
   private updateProgress(settings?: UIProgress) {
     if (settings) {
-      for (let st in settings) {
+      for (const st in settings) {
         this.currentSettings[st] = settings[st];
       }
       this.progressSource.next(Object.assign({}, this.currentSettings));

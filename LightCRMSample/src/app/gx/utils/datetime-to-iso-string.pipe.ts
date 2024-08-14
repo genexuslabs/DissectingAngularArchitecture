@@ -1,14 +1,17 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { TypeConversions } from "app/gx/base/type-conversion";
+import { Std_TypeConversions } from "@genexus/web-standard-functions/dist/lib-esm/types/std-type-conversion";
 
 @Pipe({
-    name: 'datetimeToISOString'
+  name: 'datetimeToISOString',
+  standalone: true
 })
 export class DatetimeToISOStringPipe implements PipeTransform {
 
-  constructor() { }
-  
-  transform(value: any): any {
-    return TypeConversions.datetimeToISOString( value);
+  transform(value) {
+    if (Std_TypeConversions.isValidDate(value) && !Std_TypeConversions.isEmpty(value)) {
+      return Std_TypeConversions.GxDatetimeToISOString(value);
+    } else {
+      return "";
+    }
   }
 }

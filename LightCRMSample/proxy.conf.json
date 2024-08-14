@@ -1,10 +1,21 @@
 {
-    "/globantdemoservices": {
-        "target": "https://apps5.genexus.com/globantdemoservices/",
+    "/LightCRM.NetEnviroment": {
+        "target": "http://10.122.172.114:8082/LightCRM.NetEnviroment/",
         "secure": false,
+        "changeOrigin": true,
         "logLevel": "debug",
         "pathRewrite": {
-            "^/globantdemoservices": ""
+            "^/LightCRM.NetEnviroment": ""
         }
+    },
+    "/LightCRM.NetEnviroment/*": {
+        "target": "http://10.122.172.114:8082/LightCRM.NetEnviroment/",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "debug",
+        "pathRewrite": {
+            "^/LightCRM.NetEnviroment/": ""
+        },
+        "ws":  true
     }
 }

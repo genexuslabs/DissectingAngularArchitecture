@@ -1,0 +1,121 @@
+@if (__viewManager.view === 'ViewOrEditAnyWebScreen') {
+<gx-card
+  #ViewOrEditAnyWebScreen id="ViewOrEditAnyWebScreen"
+  gx-form-properties [formCaption]="state.uiModel.ctrlForm.caption"
+>
+  <gx-table
+    #ctrlMaintable
+    [cssClass]="'ww__detail-container' | classSplit"
+    areas-template="'cell00 ' 'cell10 ' "
+    columns-template="1fr"
+    rows-template="min-content 1fr"
+    invisible-mode="keep-space"
+    slot="body"
+  >
+    <gx-table-cell
+      area="cell00"
+      valign="middle"
+      min-height="114px" max-height="114px"
+    >
+      <div
+        #ctrlTableheader
+        class="table"
+        style="display: flex; width: 100%; height: 100%; flex-direction: column; flex-wrap: nowrap; justify-content: center; align-items: stretch; "
+      >
+        <div class="flex-cell"
+          style="flex-grow: 1; min-width: 80px; min-height: 28px; "
+        >
+          <gx-button
+            #ctrlBtnreturn
+            [accessibleName]="'Meeting' | translate"
+            [cssClass]="'ww__view__button-back' | classSplit"
+            caption="{{'Meeting' | translate}}"
+            mainImageSrcset="{{'genexusunanimo_arrow_left' | imageNameToSrcset:this.app.uiContextKey}}"
+            [disabled]="(__actionsEnabled && true) | not"
+            invisible-mode="keep-space"
+            image-position="before"
+            (click)="_ReturnToCaller(); $event.stopPropagation()"
+          >
+          </gx-button>
+        </div>
+
+
+        <div class="flex-cell"
+          style="flex-grow: 1; min-width: 80px; min-height: 28px; "
+          [hidden]="state.uiModel.ctrlMeetingtitle?.visible | not"
+        >
+          <gx-form-field
+            [cssClass]="'heading-01' | classSplit"
+            [hidden]="state.uiModel.ctrlMeetingtitle?.visible | not"
+            invisible-mode="keep-space"
+            label-position="none"
+          >
+            <gx-edit
+              #ctrlMeetingtitle id="ctrlMeetingtitle"
+              [accessibleName]="'Meeting Title' | translate"
+              area="field"
+              [cssClass]="'heading-01' | classSplit"
+              line-clamp
+              type="text"
+              max-length="100"
+
+              placeholder="{{'Meeting Title' | translate}}"
+              [ngModel]="state.WorkWithMeeting_Meeting_Detail_data.MeetingTitle"
+              ngDefaultControl
+              [attr.readonly]="(true || (state.localModel.Mode == 'DLT'))"
+            >
+            </gx-edit>
+
+          </gx-form-field>
+        </div>
+
+
+        <div class="flex-cell"
+          style="flex-grow: 1; min-width: 80px; min-height: 28px; "
+          [hidden]="state.uiModel.ctrlTxbtrnname?.visible | not"
+        >
+          <gx-textblock
+            #ctrlTxbtrnname id="ctrlTxbtrnname"
+            [cssClass]="'heading-01' | classSplit"
+            [hidden]="state.uiModel.ctrlTxbtrnname?.visible | not"
+            invisible-mode="collapse"
+            line-clamp
+          >{{state.uiModel.ctrlTxbtrnname.caption | default:translate('Text Block')}}</gx-textblock
+          >
+        </div>
+
+      </div>
+    </gx-table-cell>
+
+    <gx-table-cell
+      area="cell10"
+    >
+      <div class="gx-sections-container">
+        <gx-tab
+          [cssClass]="'Tab' | classSplit"
+        >
+          <gx-tab-caption
+            slot="caption"
+            [tabCssClass]="'Tab' | classSplit"
+            [selected]="state.uiModel.ctrlCtrlsectionsgeneral.selected"
+            (tabSelect) = "state.uiModel.ctrlCtrlsectionsgeneral.parent.select(1)"
+          >
+            {{'General' | translate}}
+          </gx-tab-caption>
+          <gx-tab-page slot="page">
+            <WorkWithMeeting_Meeting_Section_General
+
+              [meetingid]="state.WorkWithMeeting_Meeting_Detail_data.MeetingId"
+
+              [mode]="state.localModel.Mode"
+              sectionType="inline"
+              [HostInfo]="this.__hostInfo"
+            >
+            </WorkWithMeeting_Meeting_Section_General>
+          </gx-tab-page>
+        </gx-tab>
+      </div>
+    </gx-table-cell>
+  </gx-table>
+</gx-card>
+}

@@ -1,0 +1,112 @@
+@use  "../../../node_modules/@genexus/web-controls-library/dist/theming/theming-mixins" as gx_wcl;
+@use  "../../../node_modules/@genexus/reporting-controls-library/dist/theming/theming-mixins" as gx_rcl;
+@use  "./../common" as gx_common;
+@use  "./../_designsystem" as gx_dso;
+// *** TOKENS ***
+@mixin tokens()
+{
+
+	// prefers-color-scheme
+
+}
+
+// *** IMAGES ***
+@mixin images($load-common-images: true)
+{
+	// common images
+	@if $load-common-images
+	{
+		:root {
+			--gx-image_selectrow: url(^assets/resources/selectRow.png);
+			--gx-image_img_company: -webkit-image-set(url(^assets/resources/img_company.png) 1x,url(^assets/resources/img_company-2x.png) 2x);
+			--gx-image_img_contact: -webkit-image-set(url(^assets/resources/img_contact.png) 1x,url(^assets/resources/img_contact-2x.png) 2x);
+			--gx-image_img_meeting: -webkit-image-set(url(^assets/resources/img_meeting.png) 1x,url(^assets/resources/img_meeting-2x.png) 2x);
+			--gx-image_genexus: url(^assets/resources/genexus.png);
+			--gx-image_emp_brownsafe: url(^assets/resources/emp_brownsafe.jpg);
+			--gx-image_emp_fastcompany: url(^assets/resources/emp_fastcompany.jpg);
+			--gx-image_emp_ibm: url(^assets/resources/emp_ibm.jpg);
+			--gx-image_emp_kids: url(^assets/resources/emp_kids.png);
+			--gx-image_emp_languageexpress: url(^assets/resources/EMP_Languageexpress.jpg);
+			--gx-image_emp_laundrycompany: url(^assets/resources/emp_laundrycompany.jpg);
+			--gx-image_emp_lumesse: url(^assets/resources/emp_lumesse.png);
+			--gx-image_m1: url(^assets/resources/m1.jpg);
+			--gx-image_f1: url(^assets/resources/f1.jpg);
+			--gx-image_m2: url(^assets/resources/m2.jpg);
+			--gx-image_f2: url(^assets/resources/f2.jpg);
+			--gx-image_m3: url(^assets/resources/m3.jpg);
+			--gx-image_f3: url(^assets/resources/f3.jpg);
+			--gx-image_m4: url(^assets/resources/m4.jpg);
+			--gx-image_f4: url(^assets/resources/f4.jpg);
+			--gx-image_m5: url(^assets/resources/m5.jpg);
+			--gx-image_f5: url(^assets/resources/f5.jpg);
+			--gx-image_m6: url(^assets/resources/m6.jpg);
+			--gx-image_f6: url(^assets/resources/f6.jpg);
+			--gx-image_m7: url(^assets/resources/m7.jpg);
+			--gx-image_f7: url(^assets/resources/f7.jpg);
+			--gx-image_m8: url(^assets/resources/m8.jpg);
+			--gx-image_f8: url(^assets/resources/f8.jpg);
+			--gx-image_ico_android_140x140: url(^assets/resources/ico_android_140x140.png);
+			--gx-image_launch_android: url(^assets/resources/launch_android.png);
+			--gx-image_bin: url(^assets/resources/bin.png);
+			--gx-image_iosicon: url(^assets/resources/IOSIcon.png);
+			--gx-image_companyicon: url(^assets/resources/CompanyIcon.png);
+			--gx-image_contacts: url(^assets/resources/Contacts.png);
+			--gx-image_meetings: url(^assets/resources/Meetings.png);
+			--gx-image_group: url(^assets/resources/Group.png);
+		}
+
+	}
+
+	// style images
+
+	// prefers-color-scheme images
+
+}
+
+// *** FONTS ***
+@mixin fonts()
+{
+}
+
+// *** FILES ***
+@mixin files()
+{
+}
+
+// *** STYLES ***
+@mixin styles()
+{
+	.action-group::part(actions) {
+		gap:var(--spacing_inline-xl);
+	}
+
+	.action-group::part(more-actions-button) {
+		width:28px;
+		height:28px;
+		margin-inline-end:4px;
+		border-radius:var(--radius_s);
+	}
+
+	.action-group::part(more-actions-button)::before {
+		width:24px;
+		height:24px;
+		color:var(--colors_primary);
+		-webkit-mask:var(--gx-image_genexusunanimo_show_more) 50% 50%;
+		-webkit-mask-repeat:no-repeat;
+	}
+
+	.action-group-item::part(action) {
+		min-width:80px;
+		padding-inline:var(--spacing_inset-m);
+		gap:var(--spacing_stack-m);
+		border:1px solid;
+		border-radius:var(--radius_s);
+		color:var(--colors_primary);
+		font-family:var(--fonts_primary-semibold);
+		font-size:var(--fontsizes_s);
+		text-align:center;
+		text-transform:uppercase;
+	}
+
+
+} 

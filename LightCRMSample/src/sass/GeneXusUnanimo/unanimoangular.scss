@@ -1,0 +1,13 @@
+@use "./../_common_functions" as gx_functions;
+@use "./_base_unanimoangular" as genexusunanimo_unanimoangular;
+
+// *** IMPORTS ***
+@use "../GeneXusUnanimo/unanimo";
+@use "../GeneXusUnanimo/unanimocontrols";
+
+// *** STYLES ***
+@include genexusunanimo_unanimoangular.tokens();
+@include genexusunanimo_unanimoangular.images(gx_functions.load-common-images());
+@include genexusunanimo_unanimoangular.fonts();
+@include genexusunanimo_unanimoangular.files();
+@include genexusunanimo_unanimoangular.styles(); 

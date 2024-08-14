@@ -2,12 +2,6 @@ import { NavigationExtras, Params, NavigationEnd } from "@angular/router";
 
 export class NavigationHelper {
 
-  static componentInstanceId = 1;
-
-  static newComponentInstanceId() {
-    return NavigationHelper.componentInstanceId++;
-  }
-
   static appendToQueryParams(nvgExt: NavigationExtras, key: string, value: string) {
     if (!nvgExt.queryParams) {
       const qParams = {};

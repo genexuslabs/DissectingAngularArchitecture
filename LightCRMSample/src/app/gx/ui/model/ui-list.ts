@@ -1,38 +1,56 @@
+import { ObjectValues } from "app/gx/types/utils";
+
 export interface IListElement {
   class: string;
   visible: boolean;
   enabled: boolean;
-
   currentItem: any;
+}
 
-  onSelect(selectedItem: any, eventInfo: any);
-  onPullRelease(eventInfo: any);
-  onSelectionChanged(eventInfo: any);
-
-  setSelectAction(action: any);
-  setSelectionChangedAction(action: any);
-  setPullReleaseAction(action: any);
-  setRefreshAction(action: any);
-
+export interface IListSelectableElement {
+  SelectedIndex: number;
 }
 
 export interface IListPagedElement {
   currentPage: number;
-  setPageChangedAction(action: any);
-  select(page: number);
 }
+
+export const UI_LIST_DATA_STATE = {
+  initial: "initial",
+  moreDataToFetch: "more-data-to-fetch",
+  allRecordsLoaded: "all-records-loaded",
+} as const;
+
+export type UIListDataState = ObjectValues<typeof UI_LIST_DATA_STATE>;
 
 export enum UIListLoadingState {
   loading = "loading",
   loaded = "loaded",
 }
 
-export class UIListElement implements IListElement, IListPagedElement {
+export enum UIListPagingType {
+  infinite = "infinite",
+  pages = "pages",
+}
+
+export class UIListElement
+  implements IListElement, IListPagedElement, IListSelectableElement
+{
   class = null;
   visible = null;
   enabled = null;
+  currentItem: any;
+
+  SelectedIndex = 0;
+
+  scrollDirection: string;
+  itemSelectedLayout: string;
+
   defaultLayoutName = null;
   columnsPerPagePortrait = null;
+  rowsPerPagePortrait = null;
+  columnsPerPageLandscape = null;
+  rowsPerPageLandscape = null;
 
   loadingState: UIListLoadingState = UIListLoadingState.loading;
 
@@ -41,72 +59,7 @@ export class UIListElement implements IListElement, IListPagedElement {
   count = 0;
   start = 0;
 
-  currentItem: any;
-
-  onSelectAction: any;
-  onPullReleaseAction: any;
-  onRefreshAction: any;
-  onSelectionChangedAction: any;
-  onPageChangedAction: any;
-
-  onSelect(selectedItem: any, eventInfo: CustomEvent) {
-    if (this.onSelectAction) {
-      eventInfo.stopPropagation();
-      this.currentItem = selectedItem;
-      this.onSelectAction();
-    }
-  }
-
-  onPullRelease(eventInfo: CustomEvent) {
-    if (this.onRefreshAction) {
-      this.onRefreshAction();
-    }
-  }
-
-  onSelectionChanged(eventInfo: CustomEvent) {
-    // TODO: Bring implementation from selectAction panel.component and add CurrentItem to model
-    if (this.onSelectionChangedAction) {
-      this.onSelectionChangedAction();
-    }
-  }
-
-  onPageChanged(eventInfo: CustomEvent) {
-    this.currentPage = eventInfo.detail;
-    if (this.onPageChangedAction) {
-      this.onPageChangedAction();
-    }
-  }
-
-  setPageChangedAction(action: any) {
-    this.onPageChangedAction = action;
-  }
-
-  setSelectAction(action: any) {
-    this.onSelectAction = action;
-  }
-
-  setPullReleaseAction(action: any) {
-    this.onPullReleaseAction = action;
-  }
-
-  setRefreshAction(action: any) {
-    this.onRefreshAction = action;
-  }
-
-  setSelectionChangedAction(action: any) {
-    this.onSelectionChangedAction = action;
-  }
-
-  refresh() {
-    if (this.onRefreshAction) {
-      this.onRefreshAction();
-    }
-  }
-  load() { }
-
-  select(page: number) {
-  }
-
+  load() {}
 }
 
 export class UIListElementItem {

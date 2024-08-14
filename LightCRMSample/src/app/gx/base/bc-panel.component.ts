@@ -1,55 +1,73 @@
-import { Directive } from '@angular/core';
-import { PanelComponent } from './panel.component';
-import { BusinessComponent, BusinessComponentService } from './business-component';
-import { msg } from '@genexus/web-standard-functions/dist/lib-esm/misc/msg';
-
+import { Directive } from "@angular/core";
+import { PanelComponent } from "./panel.component";
+import {
+  BusinessComponent,
+  BusinessComponentService,
+} from "./business-component";
+import { msg } from "@genexus/web-standard-functions/dist/lib-esm/misc/msg";
 
 @Directive()
-export class BcPanelComponent<D, S extends BusinessComponentService<D>> extends PanelComponent {
-
+export class BcPanelComponent<
+  D,
+  S extends BusinessComponentService<D>
+> extends PanelComponent {
   bcInstance: BusinessComponent<D, S>;
 
   async initBC(defaultBc, ...args: any[]) {
-    if (this.Mode === 'INS') {
+    if (this.Mode === "INS") {
       await this.bcInstance.initialize(defaultBc);
     } else {
       await this.bcInstance.load(...args);
+      this.app.setError(0);
     }
-    this.bcToEntity();
+    if (this.bcInstance.data) {
+      this.bcToEntity();
+    }
   }
 
   async loadBC(...args: any[]) {
-    if (this.Mode === 'INS') {
+    if (this.Mode === "INS") {
       await this.bcInstance.initialize();
     } else {
       await this.bcInstance.load(...args);
     }
-    this.bcToEntity();
+    if (this.bcInstance.data) {
+      this.bcToEntity();
+    }
   }
 
   async saveBC() {
     this.entityToBc();
     try {
-      if (this.Mode === 'DLT') {
+      if (this.Mode === "DLT") {
         await this.bcInstance.delete();
-        await msg(this.translate('GXM_sucdeleted'), 'status');
-      } else if (this.Mode === 'INS') {
+        this.checkError();
+        await msg(this.translate("GXM_sucdeleted"), "status");
+      } else if (this.Mode === "INS") {
         await this.bcInstance.insert();
-        await msg(this.translate('GXM_sucadded'), 'status');
+        if (this.bcInstance.data) {
+          this.bcToEntity();
+        }
+        this.checkError();
+        await msg(this.translate("GXM_sucadded"), "status");
       } else {
         await this.bcInstance.update();
-        await msg(this.translate('GXM_sucupdated'), 'status');
+        this.checkError();
+        await msg(this.translate("GXM_sucupdated"), "status");
       }
-    }
-    catch (error) {
+    } catch (error) {
       await msg(error.message);
       throw new Error(error);
     }
   }
 
-  entityToBc(): void {
+  checkError() {
+    if (this.app.err > 0) {
+      throw new Error(this.app.errMsg);
+    }
   }
 
-  bcToEntity(): void {
-  }
+  entityToBc(): void {}
+
+  bcToEntity(): void {}
 }

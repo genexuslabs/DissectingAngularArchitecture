@@ -1,73 +1,62 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { Settings } from "../../app.settings";
+import { GxImage } from '@genexus/web-standard-functions/dist/lib-esm/types/gximage';
 
 @Injectable({
   providedIn: "root"
 })
 export class ImageService {
-  constructor(private http: HttpClient) { }
+  private static readonly URL_REGEX = /url\((["']?)([^\)]*)\)(?:\s+([\d.]+)x)?/i;
+  private computedStyle: CSSStyleDeclaration;
 
-  images: { [id: string]: string } = {};
-  loadedImages: { [id: string]: boolean } = {};
-
-  async load(language: string, theme: string) {
-    await this.loadImages(language, theme);
+  constructor() {
+    this.loadComputedStyle();
   }
 
-  async loadImages(language: string, theme: string) {
-    if (!this.loadedImages[language + theme]) {
-      try {
-        let response = await this.http
-          // TODO: Load images from a specific theme/language definition file
-          //.get(`images/images.${theme}.${language}.json`)
-          .get(`images/images.json`)
-          .toPromise();
-        const data = response as ImagesData;
-        data.images.forEach(
-          t =>
-            (this.images[
-              this.resolveImageKey(t.name, t.lang, t.theme)
-            ] = `${t.location}`)
-        );
-        this.loadedImages[language + theme] = true;
-      } catch (e) {
-        console.log(
-          `Could not load images definition for ${language}/${theme}`,
-          e
-        );
+  refresh() {
+    this.loadComputedStyle();
+  }
+
+  getImage(name: string): GxImage | null {
+    let value = this.computedStyle.getPropertyValue(`--gx-image_${name}`);
+
+    if (value) {
+      let matches: RegExpMatchArray;
+      let gximage = new GxImage(name);
+
+      while (matches = value.match(ImageService.URL_REGEX)) {
+
+        gximage.densitySet.push({
+          uri: this.normalizeUri(matches[1] ? matches[2].slice(0, -1) : matches[2]),
+          density: matches[3] ? parseFloat(matches[3]) : 1
+        });
+
+        value = value.slice(matches[0].length);
       }
+
+      if (gximage.densitySet.length > 0) {
+        gximage.uri = gximage.densitySet.reduce((previousValue, currentValue) => {
+          return previousValue.density == 1 || previousValue.density < currentValue.density ? previousValue : currentValue;
+        }).uri;
+      }
+
+      return gximage;
     }
+    return null;
   }
 
-  getImageSource(name: string, language: string, theme: string): string {
-    const imageUrl = this.getImage(name, language, theme);
-    if (imageUrl === "") {
-      return "";
+  private normalizeUri(uri: string): string {
+
+    if (uri.startsWith("data:image/svg+xml;utf8,")) {
+      uri = `data:image/svg+xml;base64,${btoa(uri.slice(24).replace(/\\"/g, '"'))}`;
     }
-    return Settings.WEBAPP_BASE + imageUrl;
+
+    uri = uri.replace(/\\/g, '');
+    uri = uri.replace(/\s/g, '%20');
+
+    return uri;
   }
 
-  private getImage(name: string, language: string, theme: string): string {
-    const imageUrl = this.images[this.resolveImageKey(name, language, theme)];
-    if (imageUrl === null || imageUrl === undefined) {
-      return "";
-    }
-    return imageUrl;
+  private loadComputedStyle() {
+    this.computedStyle = window.getComputedStyle(document.documentElement);
   }
-
-  private resolveImageKey(name: string, lang: string, theme: string) {
-    return `${name.toLowerCase()}_${lang.toLowerCase()}_${theme.toLowerCase()}`;
-  }
-}
-
-export class ImagesData {
-  images: ImageData[];
-}
-
-export class ImageData {
-  name: string;
-  location: string;
-  theme: string;
-  lang: string;
 }

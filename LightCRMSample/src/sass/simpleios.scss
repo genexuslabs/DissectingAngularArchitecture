@@ -1,0 +1,11 @@
+@use "./_common_functions" as gx_functions;
+@use "./_base_simpleios" as simpleios;
+
+// *** IMPORTS ***
+
+// *** STYLES ***
+@include simpleios.tokens();
+@include simpleios.images(gx_functions.load-common-images());
+@include simpleios.fonts();
+@include simpleios.files();
+@include simpleios.styles(); 

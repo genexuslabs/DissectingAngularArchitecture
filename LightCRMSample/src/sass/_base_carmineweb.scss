@@ -1,0 +1,975 @@
+@use  "../../node_modules/@genexus/web-controls-library/dist/theming/theming-mixins" as gx_wcl;
+@use  "../../node_modules/@genexus/reporting-controls-library/dist/theming/theming-mixins" as gx_rcl;
+@use  "./common" as gx_common;
+@use  "./_designsystem" as gx_dso;
+// *** TOKENS ***
+@mixin tokens()
+{
+
+	// prefers-color-scheme
+
+}
+
+// *** IMAGES ***
+@mixin images($load-common-images: true)
+{
+	// common images
+	@if $load-common-images
+	{
+		:root {
+			--gx-image_selectrow: url(^assets/resources/selectRow.png);
+			--gx-image_img_company: -webkit-image-set(url(^assets/resources/img_company.png) 1x,url(^assets/resources/img_company-2x.png) 2x);
+			--gx-image_img_contact: -webkit-image-set(url(^assets/resources/img_contact.png) 1x,url(^assets/resources/img_contact-2x.png) 2x);
+			--gx-image_img_meeting: -webkit-image-set(url(^assets/resources/img_meeting.png) 1x,url(^assets/resources/img_meeting-2x.png) 2x);
+			--gx-image_genexus: url(^assets/resources/genexus.png);
+			--gx-image_emp_brownsafe: url(^assets/resources/emp_brownsafe.jpg);
+			--gx-image_emp_fastcompany: url(^assets/resources/emp_fastcompany.jpg);
+			--gx-image_emp_ibm: url(^assets/resources/emp_ibm.jpg);
+			--gx-image_emp_kids: url(^assets/resources/emp_kids.png);
+			--gx-image_emp_languageexpress: url(^assets/resources/EMP_Languageexpress.jpg);
+			--gx-image_emp_laundrycompany: url(^assets/resources/emp_laundrycompany.jpg);
+			--gx-image_emp_lumesse: url(^assets/resources/emp_lumesse.png);
+			--gx-image_m1: url(^assets/resources/m1.jpg);
+			--gx-image_f1: url(^assets/resources/f1.jpg);
+			--gx-image_m2: url(^assets/resources/m2.jpg);
+			--gx-image_f2: url(^assets/resources/f2.jpg);
+			--gx-image_m3: url(^assets/resources/m3.jpg);
+			--gx-image_f3: url(^assets/resources/f3.jpg);
+			--gx-image_m4: url(^assets/resources/m4.jpg);
+			--gx-image_f4: url(^assets/resources/f4.jpg);
+			--gx-image_m5: url(^assets/resources/m5.jpg);
+			--gx-image_f5: url(^assets/resources/f5.jpg);
+			--gx-image_m6: url(^assets/resources/m6.jpg);
+			--gx-image_f6: url(^assets/resources/f6.jpg);
+			--gx-image_m7: url(^assets/resources/m7.jpg);
+			--gx-image_f7: url(^assets/resources/f7.jpg);
+			--gx-image_m8: url(^assets/resources/m8.jpg);
+			--gx-image_f8: url(^assets/resources/f8.jpg);
+			--gx-image_ico_android_140x140: url(^assets/resources/ico_android_140x140.png);
+			--gx-image_launch_android: url(^assets/resources/launch_android.png);
+			--gx-image_bin: url(^assets/resources/bin.png);
+			--gx-image_iosicon: url(^assets/resources/IOSIcon.png);
+			--gx-image_companyicon: url(^assets/resources/CompanyIcon.png);
+			--gx-image_contacts: url(^assets/resources/Contacts.png);
+			--gx-image_meetings: url(^assets/resources/Meetings.png);
+			--gx-image_group: url(^assets/resources/Group.png);
+		}
+
+	}
+
+	// style images
+
+	// prefers-color-scheme images
+
+}
+
+// *** FONTS ***
+@mixin fonts()
+{
+}
+
+// *** FILES ***
+@mixin files()
+{
+}
+
+// *** STYLES ***
+@mixin styles()
+{
+	.Multimedia {
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+	}
+	%Multimedia__gx_variables {
+		--image-loading-indicator:none;
+	}
+
+
+	.Rating {
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > show_edit_text_line:True;
+		@include gx_wcl.gx-rating($selected-color:#F5C145, $unselected-color:#E6E6E6);
+	}
+
+	.Slider {
+		// Unsupported > show_edit_text_line:True;
+	}
+
+	.MapRoute {
+		// Unsupported > LineWidth:0;
+		// Unsupported > LineJoin:Round;
+		// Unsupported > MiterLimit:10;
+		// Unsupported > LineCap:Butt;
+		// Unsupported > LineDashPhase:10dip;
+	}
+
+	.MapPolygon {
+		// Unsupported > LineWidth:0;
+		// Unsupported > LineJoin:Round;
+		// Unsupported > MiterLimit:10;
+		// Unsupported > LineCap:Butt;
+		// Unsupported > LineDashPhase:10dip;
+	}
+
+	.ToggleButtonGroup {
+		// Unsupported > show_edit_text_line:True;
+	}
+
+	.Application {
+		background-color:#FFFFFF;
+		background-size:cover;
+		--primary-color:#B80545;
+		--primary-color-dark:#9F0039;
+		--accent-color:#FFA7C0;
+		--control-normal-color:#A1A1A1;
+		--control-activated-color:#FFA7C0;
+		--control-highlight-color:#B80545;
+		--action-tint-color:#FF3F79;
+		@include gx_common.gx-application();
+	}
+	%Application__gx_variables {
+		--image-loading-indicator:none;
+	}
+
+
+	.ProgressRing {
+		background-color:#B80545;
+		color:#FF3F79;
+		// Unsupported > application_bar_large_title_mode:automatic;
+		// Unsupported > application_bar_alignment:pd;
+	}
+
+	.ApplicationBarsHeaderRow {
+		background-color:#B80545;
+		color:#FF3F79;
+		// Unsupported > application_bar_large_title_mode:automatic;
+		// Unsupported > application_bar_alignment:pd;
+	}
+
+	.ApplicationBars {
+		background-color:#B80545;
+		color:#FF3F79;
+		// Unsupported > application_bar_large_title_mode:automatic;
+		// Unsupported > application_bar_alignment:pd;
+	}
+
+	.Form {
+		// Unsupported > enter_effect:gx_default;
+		// Unsupported > close_effect:gx_default;
+		// Unsupported > call_type:gx_default;
+		// Unsupported > target_size:gx_default;
+		// Unsupported > target_width:100%;
+		// Unsupported > target_height:100%;
+		// Unsupported > content_size_change:gx_default;
+		// Unsupported > input_view_appearance:gx_default;
+	}
+
+	.AttributeTitleWhite {
+		color:#2A3143;
+		font-size:18px;
+		margin-bottom:0px;
+		margin-left:0px;
+		margin-right:0px;
+		margin-top:0px;
+		padding-left:10px;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > show_edit_text_line:True;
+		@include gx_wcl.highlighted($color:#2A3143);
+		@include gx_wcl.gx-form-field-label($label:".TextBlockTitle", $label-align:Left);
+	}
+
+	.AttributeTitle {
+		color:#2A3143;
+		font-size:18px;
+		margin-bottom:0px;
+		margin-left:0px;
+		margin-right:0px;
+		margin-top:0px;
+		padding-left:10px;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > show_edit_text_line:True;
+		@include gx_wcl.highlighted($color:#2A3143);
+		@include gx_wcl.gx-form-field-label($label:".TextBlockTitle", $label-align:Left);
+	}
+
+	.AttributeSubtitle {
+		color:#2A3143;
+		font-size:18px;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > show_edit_text_line:True;
+		@include gx_wcl.highlighted($color:#2A3143);
+		@include gx_wcl.gx-form-field-label($label:".TextBlockSubtitle", $label-align:Left);
+	}
+
+	.AttributeReadOnly {
+		color:#2A3143;
+		font-size:18px;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > show_edit_text_line:True;
+		@include gx_wcl.highlighted($color:#2A3143);
+		@include gx_wcl.gx-form-field-label($label:".TextBlock", $label-align:Left);
+	}
+
+	.AttributeTitleDetail {
+		color:#2A3143;
+		font-size:18px;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > show_edit_text_line:True;
+		@include gx_wcl.highlighted($color:#2A3143);
+		@include gx_wcl.gx-form-field-label($label:".TextBlock", $label-align:Left);
+	}
+
+	.AttributeWhite {
+		color:#2A3143;
+		font-size:18px;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > show_edit_text_line:True;
+		@include gx_wcl.highlighted($color:#2A3143);
+		@include gx_wcl.gx-form-field-label($label:".TextBlock", $label-align:Left);
+	}
+
+	.AttributeDrag {
+		color:#2A3143;
+		font-size:18px;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > show_edit_text_line:True;
+		@include gx_wcl.highlighted($color:#2A3143);
+		@include gx_wcl.gx-form-field-label($label:".TextBlock", $label-align:Left);
+	}
+
+	.AttributeWP {
+		color:#2A3143;
+		font-size:18px;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > show_edit_text_line:True;
+		@include gx_wcl.highlighted($color:#2A3143);
+		@include gx_wcl.gx-form-field-label($label:".TextBlock", $label-align:Left);
+	}
+
+	.LinkAttribute {
+		color:#2A3143;
+		font-size:18px;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > show_edit_text_line:True;
+		@include gx_wcl.highlighted($color:#2A3143);
+		@include gx_wcl.gx-form-field-label($label:".TextBlock", $label-align:Left);
+	}
+
+	.Attribute {
+		color:#2A3143;
+		font-size:18px;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > show_edit_text_line:True;
+		@include gx_wcl.highlighted($color:#2A3143);
+		@include gx_wcl.gx-form-field-label($label:".TextBlock", $label-align:Left);
+	}
+
+	.ButtonSectionLink {
+		text-transform:uppercase;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.ButtonDelete {
+		text-transform:uppercase;
+		background-color:#0000FF;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.ButtonActionBar {
+		text-transform:uppercase;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.ConfirmButton {
+		text-transform:uppercase;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.Button {
+		text-transform:uppercase;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+
+	.DashboardOptionPanoramaItem {
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.MenuItem {
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.Grid {
+		background-size:cover;
+		padding-left:0px;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:true, $class:".WWLineSeparator");
+		@include gx_dso.gx-grid-base($row-even:".GridRowEven", $row-odd:".GridRowOdd");
+		@include gx_wcl.gx-grid-base($even-row:".GridRowEven", $odd-row:".GridRowOdd");
+	}
+
+	.GridRowOdd {
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.GridRowEven {
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.GridRow {
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.Group {
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+	}
+
+
+
+	.WWLineSeparator {
+		background-color:#EAEAEA;
+		height:1px;
+		@include gx_wcl.custom-vars($class:"%WWLineSeparator__gx_variables");
+	}
+	%WWLineSeparator__gx_variables {
+		--height:1px;
+	}
+
+
+
+	.ImageScaleToFillKA {
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+	}
+	%ImageScaleToFillKA__gx_variables {
+		--image-loading-indicator:none;
+	}
+
+
+	.ImageOriginal {
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+	}
+	%ImageOriginal__gx_variables {
+		--image-loading-indicator:none;
+	}
+
+
+	.ImageScaleToFill {
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+	}
+	%ImageScaleToFill__gx_variables {
+		--image-loading-indicator:none;
+	}
+
+
+	.ImageScaleToFitKA {
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+	}
+	%ImageScaleToFitKA__gx_variables {
+		--image-loading-indicator:none;
+	}
+
+
+	.ImageFit {
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+	}
+	%ImageFit__gx_variables {
+		--image-loading-indicator:none;
+	}
+
+
+	.ImageFill {
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+	}
+	%ImageFill__gx_variables {
+		--image-loading-indicator:none;
+	}
+
+
+	.ImageTile {
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+	}
+	%ImageTile__gx_variables {
+		--image-loading-indicator:none;
+	}
+
+
+	.ImageFillKeepingAspect {
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+	}
+	%ImageFillKeepingAspect__gx_variables {
+		--image-loading-indicator:none;
+	}
+
+
+	.ImageFitKeepingAspectMedium {
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+	}
+	%ImageFitKeepingAspectMedium__gx_variables {
+		--image-loading-indicator:none;
+	}
+
+
+	.WWImage {
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+	}
+	%WWImage__gx_variables {
+		--image-loading-indicator:none;
+	}
+
+
+	.ViewImage {
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+	}
+	%ViewImage__gx_variables {
+		--image-loading-indicator:none;
+	}
+
+
+	.Image {
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+	}
+	%Image__gx_variables {
+		--image-loading-indicator:none;
+	}
+
+
+	.Tab {
+		// Unsupported > ThemeAnimated:False;
+		@include gx_wcl.custom-vars($class:"%Tab__gx_variables");
+		@include gx_wcl.gx-tab($unselected-tab-caption:".TabPageUnselected", $selected-tab-caption:".TabPageSelected");
+	}
+	%Tab__gx_variables {
+		--tab-strip-background-color:#B80545;
+	}
+
+
+	.TabPageSelected {
+		font-size:18.8px;
+		text-transform:uppercase;
+		color:#FF3F79;
+	}
+
+	.TabPageUnselected {
+		font-size:18.8px;
+		text-transform:uppercase;
+	}
+
+	.TabPage {
+		font-size:18.8px;
+		text-transform:uppercase;
+	}
+
+	.TableDetail {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.TableSectioninsert {
+		background-color:#FFFFFF;
+		background-size:cover;
+		padding-left:83px;
+		padding-top:15px;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:true, $class:".WWLineSeparator");
+	}
+
+	.TableSection {
+		background-color:#FFFFFF;
+		background-size:cover;
+		padding-left:83px;
+		padding-top:15px;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:true, $class:".WWLineSeparator");
+	}
+
+	.TableTableGrid {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.TableImageTable {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.TableDetailHeader {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.TableSectionPadding {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.TableContactName {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.TableContact {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.TableRecycleBinAcceptDrag {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.TableRecycleBinVisible {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.TableRecycleBinOver {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.TableRecycleBin {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.TableTable1 {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.MatrixCell {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.MatrixSelectedCell {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.MatrixAxisTable {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.MatrixEvenRowTable {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.MatrixOddRowTable {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.MatrixSelectedRowTable {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.TableDrag {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.TableTransparent {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.GridContainer {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.MainTable {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.Table {
+		background-color:#FFFFFF;
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+		@include gx_wcl.horizontal-line($show-horizontal-line:false);
+	}
+
+	.TextBlockTitle {
+		margin-left:2px;
+		color:#2A3143;
+		font-size:18px;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.TextBlockSubtitle {
+		margin-left:2px;
+		color:#A1A1A1;
+		font-size:14px;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.TextBlockLabel {
+		margin-left:2px;
+		color:#A1A1A1;
+		font-size:14px;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.TextBlockGroupCaption {
+		margin-left:2px;
+		color:#A1A1A1;
+		font-size:14px;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.TextBlockBlanco {
+		margin-left:2px;
+		color:#A1A1A1;
+		font-size:14px;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.TextBlockApplicationTitle {
+		margin-left:2px;
+		color:#A1A1A1;
+		font-size:14px;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.TextBlockBackButton {
+		margin-left:2px;
+		color:#A1A1A1;
+		font-size:14px;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.TextBlockSectionTitle {
+		margin-left:2px;
+		color:#A1A1A1;
+		font-size:14px;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.TextBlockBigFont {
+		margin-left:2px;
+		color:#A1A1A1;
+		font-size:14px;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.CalendarLabel {
+		margin-left:2px;
+		color:#A1A1A1;
+		font-size:34px;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.TextBlockTransp {
+		margin-left:2px;
+		color:#A1A1A1;
+		font-size:14px;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.ViewImageLabelClass {
+		margin-left:2px;
+		color:#A1A1A1;
+		font-size:14px;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.ImageLabelClass {
+		margin-left:2px;
+		color:#A1A1A1;
+		font-size:14px;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.TextBlockSlider {
+		margin-left:2px;
+		color:#A1A1A1;
+		font-size:14px;
+		background-color:#B80545;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.AttributeLabel {
+		margin-left:0px;
+		color:#A1A1A1;
+		font-size:14px;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.TextBlock {
+		margin-left:2px;
+		color:#A1A1A1;
+		font-size:14px;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.Matrix {
+		background-size:cover;
+		// Unsupported > YAxisTitleLabelClassReference:MatrixLabel;
+		// Unsupported > YAxisDescriptionLabelClassReference:MatrixLabel;
+		// Unsupported > XAxisLabelClassReference:MatrixLabel;
+		// Unsupported > CellTableClassReference:MatrixCell;
+		// Unsupported > SelectedCellTableClassReference:MatrixSelectedCell;
+		// Unsupported > XAxisTableClassReference:MatrixAxisTable;
+		// Unsupported > YAxisTableClassReference:MatrixAxisTable;
+		// Unsupported > RowTableClassReferenceEven:MatrixRowTable;
+		// Unsupported > RowTableClassReferenceOdd:MatrixRowTable;
+		// Unsupported > SelectedRowTableClassReference:MatrixRowTable;
+		// Unsupported > showHorizontalRules:True;
+		// Unsupported > HorizontalLineSeparatorClassReference:MatrixLineSeparator;
+		// Unsupported > VerticalLineSeparatorClassReference:MatrixLineSeparator;
+		// Unsupported > showVerticalRules:True;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+	}
+
+	.MatrixAxisLabel {
+		// Unsupported > HorizontalAlignment:Default;
+		// Unsupported > ThemeAnimated:False;
+	}
+
+	.PageController {
+		// Unsupported > SDPageIndicatorSelectedColor:#FFFFFF;
+		// Unsupported > SDPageIndicatorUnselectedColor:#777777;
+	}
+
+	.Calendar {
+		background-size:cover;
+		// Unsupported > ThemeAnimated:False;
+		// Unsupported > sdmotion_max_horizontal:0;
+		// Unsupported > sdmotion_max_vertical:0;
+		// Unsupported > SDScrollIndicatorsVisibility:default;
+		// Unsupported > SDScrollIndicatorsStyle:default;
+		// Unsupported > SDScrollBouncing:default;
+	}
+
+	.MapPinImage {
+		// Unsupported > PinHeight:0;
+		// Unsupported > PinWidth:0;
+	}
+
+
+	.Animation {
+		@include gx_wcl.custom-vars($class:"%Animation__gx_variables");
+	}
+	%Animation__gx_variables {
+		--gx-animation-type:idNative;
+		--gx-lottie-file-path:(none);
+	}
+
+
+
+
+} 

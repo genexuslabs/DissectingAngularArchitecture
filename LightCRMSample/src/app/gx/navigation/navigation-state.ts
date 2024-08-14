@@ -1,42 +1,76 @@
-import { ActionState } from 'app/gx/base/action-state.dt';
-import { PanelNavigationState } from 'app/gx/navigation/panel-navigation-state.dt';
+import { EventEmitter, Injectable } from '@angular/core';
+import { HostInfo } from 'app/gx/base/panel.component';
 
-export class NavigationState {
+@Injectable({
+  providedIn: "root",
+})
+export class ComponentsStateManager {
+
   current = {};
+
+  onStateUpdated = new EventEmitter<number>();
 
   save(iid: number, comp: IStateContainer) {
     if (comp) {
-      const state = {
-        _name: comp.constructor.name,
-        navigation: comp._navigation
-      };
-      for (let prop of comp.stateMembers) {
+      const state = {};
+      for (const prop of comp.__stateMembers.concat(["__iid", "__panelServiceState"])) {
         state[prop] = comp[prop];
       }
       this.current[iid] = state;
     }
   }
 
+  update(iid: number, comp: IStateContainer) {
+    if (comp) {
+      const state = this.current[iid];
+      if (state) {
+        for (const prop of comp.__stateMembers) {
+          state[prop] = comp[prop];
+        }
+        this.onStateUpdated.emit(iid);
+      }
+    }
+  }
+
   restore(iid: number, comp: IStateContainer): boolean {
     const state = this.current[iid];
     if (state) {
-      for (let prop of comp.stateMembers) {
+      for (const prop of comp.__stateMembers.concat(["__iid", "__panelServiceState"])) {
         comp[prop] = state[prop];
       }
-      comp._navigation = state.navigation;
       return true;
     }
     return false;
   }
 
-  getInstance( iid: number): IStateContainer {
-    return this.current[iid];
+  private componentInstanceId = 1;
+
+  newComponentInstanceId() {
+    this.restoreState();
+    const newInstanceId = this.componentInstanceId++;
+    if (newInstanceId > 99999999) {
+      this.componentInstanceId = 1;
+    }
+    this.persistState();
+    return newInstanceId;
+  }
+
+  private persistState() {
+    sessionStorage.setItem('components-state', JSON.stringify({ lastComponentInstance: this.componentInstanceId }));
+  }
+
+  private restoreState() {
+    const storedComponentState = sessionStorage.getItem('components-state');
+    if (storedComponentState) {
+      const componentState = JSON.parse(storedComponentState);
+      this.componentInstanceId = componentState.lastComponentInstance;
+    }
   }
 
 }
 
 export interface IStateContainer {
-  stateMembers: Array<any>;
-  _navigation: PanelNavigationState;
-  _outlet: string;
+  __stateMembers: Array<any>;
+  __iid;
+  __hostInfo: HostInfo;
 }

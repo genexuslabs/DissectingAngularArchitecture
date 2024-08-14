@@ -1,132 +1,92 @@
-import {
-	Component,
-	EventEmitter,
-	Input,
-	OnChanges,
-	Output,
-	ViewChild,
-} from "@angular/core";
-
+import { CUSTOM_ELEMENTS_SCHEMA, Component, EventEmitter, Input, Output, ViewChild} from "@angular/core";
 import { AppContainer } from "app/gx/base/app-container";
-import { ImageUploadService } from "./image-upload.service";
 import { Title } from "@angular/platform-browser";
-import { UriCacheService } from "../../../utils/uri-cache/uri-cache.service";
+import { UriCacheService } from "app/gx/utils/uri-cache/uri-cache.service";
+import { TranslatePipe } from "app/gx/utils/translate.pipe";
 
 @Component({
-	selector: "gx-image-upload",
-	templateUrl: "./image-upload.component.html",
-	styleUrls: ["./image-upload.component.scss"],
-	providers: [ImageUploadService],
+  selector: "gx-image-upload",
+  templateUrl: "./image-upload.component.html",
+  styleUrls: ["./image-upload.component.scss"],
+  standalone: true,
+  imports: [TranslatePipe],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class ImageUploadComponent implements OnChanges {
-	@Input() src = "";
-	@Input() alt = "";
-	@Input() disabled = false;
-	@Input() readonly = false;
+export class ImageUploadComponent {
+  @Input() alt = "";
+  @Input() autoGrow = true;
+  @Input() cssClass: string = null;
+  @Input() disabled = false;
+  @Input() invisibleMode: "collapse" | "keep-space" = "collapse";
+  @Input() lazyLoad = true;
+  @Input() lowResolutionSrc = "";
+  @Input() scaleType: "contain" | "cover" | "fill" | "none" | "tile";
+  @Input() src = "";
+  @Input() srcset = "";
+  @Input() highlightable = false;
+  @Input() readonly = false;
+  @Input() modalTitle = null;
+  @Input() changeButtonText = "Change image...";
+  @Input() removeButtonText = "Remove image";
+  @Input() cancelButtonText = "GXM_cancel";
 
-	@Output() click: EventEmitter<MouseEvent> = new EventEmitter();
-	@Output() onImageChanged: EventEmitter<string> = new EventEmitter<string>();
+  @Output() click: EventEmitter<MouseEvent> = new EventEmitter();
+  @Output() onImageChanged: EventEmitter<string> = new EventEmitter<string>();
 
-	@ViewChild("fileInput", { static: false }) file;
+  @ViewChild("imageUpload", { static: false }) imageUpload;
 
-	src1 = "";
-	show = false;
-	modalTitle: string;
-	uploading = false;
+  constructor(
+    protected uriCacheService: UriCacheService,
+    protected app: AppContainer,
+    protected titleService: Title
+  ) { }
 
-	updateButtonCaption = "Add Image";
-	clearButtonVisible = false;
+  ngOnChanges(eventInfo) {
+    if (!eventInfo.srcset?.currentValue) {
+      this.src = '';
+    }
+  }
 
-	constructor(
-		protected uploadService: ImageUploadService,
-		protected uriCacheService: UriCacheService,
-		protected app: AppContainer,
-		protected titleService: Title
-	) {}
+  handleImageChange(event: CustomEvent) {
+    // This stopPropagation() allows to not call the external event, defined
+    // when using the Angular's control
+    event.stopPropagation();
 
-	ngOnChanges() {
-		this.modalTitle = this.titleService.getTitle();
-		this.updateButtons();
-	}
+    // The image was removed
+    if (event.detail == null) {
+      this.src = null;
+      this.srcset = null;
+      this.alt = "";
+      this.onImageChanged.emit("");
+    }
+    // The image was updated
+    else {
+      const imageFile: File = event.detail as File;
+      this.fileSelectedAction(imageFile);
+    }
+  }
 
-	updateButtons() {
-		if (!this.src || this.src === "") {
-			this.updateButtonCaption = "Add Image";
-			this.clearButtonVisible = false;
-		} else {
-			this.updateButtonCaption = "Change Image";
-			this.clearButtonVisible = true;
-		}
-	}
+  clickImageAction(event) {
+    // This stopPropagation() allows to not call the external event, defined
+    // when using the Angular's control
+    event.stopPropagation();
 
-	clickImageAction(event) {
-		this.click.emit(event);
-	}
+    this.click.emit(event);
+  }
 
-	updateImageAction() {
-		this.show = !this.show;
-	}
+  async fileSelectedAction(file: File) {
+    if (file) {
+      const gxImageUpload = this.imageUpload
+        .nativeElement as HTMLGxImagePickerElement;
+      const fileURL = await this.uriCacheService.store(file);
+      this.src = fileURL;
+      this.alt = gxImageUpload.alt;
+      this.onImageChanged.emit(fileURL);
+    }
+    return;
+  }
 
-	clearImageAction() {
-		this.src = null;
-		this.alt = "";
-		this.updateButtons();
-		this.onImageChanged.emit("");
-	}
-
-	async fileSelectedAction() {
-		const files: { [key: string]: File } = this.file.nativeElement.files;
-		for (let key in files) {
-			if (!isNaN(parseInt(key))) {
-				this.uploading = true;
-				let result = await this.uploadService.uploadFile(files[key]);
-				if (result.object_id) {
-					await this.updateImageSrc(files[key]);
-					this.updateImageUrl(result);
-				}
-				this.updateButtons();
-				this.uploading = false;
-				this.show = false;
-				this.alt = this.getFileNameWithoutExtension(files[key].name);
-				return;
-			}
-		}
-	}
-
-	closeAction() {
-		this.show = false;
-	}
-
-	translate(key: string) {
-		return this.app.translate(key);
-	}
-
-	updateImageSrc(file): Promise<any> {
-		return new Promise((complete) => {
-			if (FileReader && file) {
-				const fr = new FileReader();
-				fr.onload = () => {
-					this.src = fr.result.toString();
-					complete();
-				};
-				fr.readAsDataURL(file);
-			}
-		});
-	}
-
-	updateImageUrl(uploadResult) {
-		if (uploadResult.object_id) {
-			this.uriCacheService.storeImage(uploadResult.object_id, this.src);
-			this.onImageChanged.emit(uploadResult.object_id);
-		}
-	}
-
-	getFileNameWithoutExtension(fileName: string) {
-		const index = fileName.lastIndexOf(".");
-		if (index === -1) {
-			return fileName;
-		} else {
-			return fileName.substring(0, index);
-		}
-	}
+  translate(key: string) {
+    return this.app.translate(key);
+  }
 }

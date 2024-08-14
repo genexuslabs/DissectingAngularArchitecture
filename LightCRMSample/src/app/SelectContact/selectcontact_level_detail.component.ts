@@ -1,145 +1,154 @@
-import { Component, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, Input, inject,  CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Routes, ActivatedRoute } from '@angular/router';
 import { AppContainer } from 'app/gx/base/app-container';
 import { CompositeNavigation } from 'app/gx/navigation/composite-navigation';
 import { PanelComponent } from 'app/gx/base/panel.component';
 import { BcPanelComponent} from 'app/gx/base/bc-panel.component';
-import { LoginService} from "app/gx/auth/login.service";
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { GAMService} from "app/gx/auth/gam.service";
 import { AppBarService } from "app/gx/base/app-bar.service";
 import { NavigationStyle } from "app/gx/base/view-manager";
+import { Settings } from "app/app.settings";
+import { CommonModule as gxCommonModule}  from 'app/common.module';
 
-import { SelectContact_Level_DetailService , SelectContact_Level_Detail_Grid1Data } from './selectcontact_level_detail.service';
-import { GridControllerData } from 'app/gx/base/grid-dataset';
+import { SelectContact_Level_DetailService , SelectContact_Level_Detail_Grid1Data  , SelectContact_Level_DetailLocalModel } from './selectcontact_level_detail.service';
+import { GridControllerData } from 'app/gx/base/grid-data';
 import { UIListElementItem } from 'app/gx/ui/model/ui-list';
 import { UIListLoadingState } from 'app/gx/ui/model/ui-list';
+import { UIListPagingType } from 'app/gx/ui/model/ui-list';
 import { DataGridController } from 'app/gx/base/grid-dataset';
 import { GxCollectionData } from 'app/gx/base/gxcollection.dt';
+import { TypeConversions } from 'app/gx/base/type-conversion';
+import { Std_TypeConversions } from '@genexus/web-standard-functions/dist/lib-esm/types/std-type-conversion';
+import { GxImage } from '@genexus/web-standard-functions/dist/lib-esm/types/gximage';
 import { UIListElement } from 'app/gx/ui/model/ui-list';
+import { UIFormElement } from 'app/gx/ui/model/ui-form';
+import { UIActionBarElement } from 'app/gx/ui/model/ui-actionbar';
 
 @Component({
   selector: 'SelectContact_Level_Detail',
   templateUrl: './selectcontact_level_detail.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     SelectContact_Level_DetailService,
   ],
-  styles: [":host { display: flex; flex: 1; }"]
+  host: {
+    class: "gx-panel"
+  },
+  standalone: true,
+  imports: [gxCommonModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SelectContact_Level_DetailComponent extends PanelComponent {
-
-  SelectContact_Grid1_collection: GxCollectionData<SelectContact_Level_Detail_Grid1Data>;
-  uiModel: SelectContact_Level_DetailUIModel;
-  uiActions: SelectContact_Level_DetailUIActions;
+  state: SelectContact_Level_DetailStateModel;
   ctrlGrid1Controller: DataGridController<SelectContact_Level_Detail_Grid1Data, UIListElementItem>;
-  @Input('pcompanyid') 
-  Pcompanyid: number;
-  @Input('pcontactid') 
-  Pcontactid: number;
-  @Input('start') 
-  start: number;
-  @Input('1') 
-  count: number;
-  @Input('mode') 
-  Mode: string;
+  @Input("pcompanyid") Pcompanyid: number;
+  @Input("pcontactid") Pcontactid: number;
 
+  __stateMembers = ['state'];
 
-  stateMembers = [
-    "SelectContact_Grid1_collection", "uiModel", "Pcompanyid", "Pcontactid", "start", "count", "Mode"
-  ];
+  __routingPath = 'SelectContact-Level_Detail';
 
-  _routingPath = 'SelectContact-Level_Detail';
-  views = [
+  __views = [
     {
-      name: "ViewAnyiOS",
+      name: "ViewAny",
       type: "any",
+      os: "Any Platform",
+      device: "Any Device Kind",
       minShortestBound: 0,
       maxShortestBound: 0,
       minLongestBound: 0,
       maxLongestBound: 0,
-      appBarInitFn: this.initAppBar_ViewAnyiOS.bind(this),
-      appBarResetFn: this.resetAppBar_ViewAnyiOS.bind(this)
+      navigationStyle: "default",
+      appBarBindFn: this.bindAppBar_ViewAny.bind(this),
+      UIModelDefaults: this.getUIModelDefaults_ViewAny.bind(this),
+      theme: "GeneXusUnanimo.UnanimoAngular"
     }
-
   ];
 
 
+  panelService = inject(SelectContact_Level_DetailService);
+  protected gam = inject(GAMService);
+  private appBarService = inject(AppBarService);
 
-  constructor(
-      private panelService: SelectContact_Level_DetailService,
-      protected gam: LoginService,
-      public app:AppContainer,
-      protected nvg:CompositeNavigation,
-      protected activatedRoute: ActivatedRoute,
-      private appBarService: AppBarService
-  ) {
-    super( app, nvg, activatedRoute);
-    this.uiActions = new SelectContact_Level_DetailUIActions(this);
-    this.ctrlGrid1Controller = new DataGridController<SelectContact_Level_Detail_Grid1Data, UIListElementItem>("ctrlGrid1",{ctrlGrid1:UIListElementItem},"Gxidentity");
+  constructor() {
+    super();
+      this.state = new SelectContact_Level_DetailStateModel();
+      this.ctrlGrid1Controller = new DataGridController<SelectContact_Level_Detail_Grid1Data, UIListElementItem>("ctrlGrid1",SelectContact_Level_Detail_Grid1Data,UIListElementItem,[],"Gxidentity",{uiModelDefaultsFn: this.__viewManager.getUIModelDefaults, gridRowsPerPage: 30 });
+      this.Pcontactid = 0;
 
-    this.canControlAppBar = activatedRoute.component === SelectContact_Level_DetailComponent;
-    this.showAsCard = !this.canControlAppBar;
-    this.initState(null);
+    this.__canControlAppBar = this.activatedRoute.component === SelectContact_Level_DetailComponent;
+    this.__showAsCard = !this.__canControlAppBar;
+    this.initState();
+    this.initParameters(null);
+    this.initUIModel();
   }
 
-  initState(params) {
-    this.SelectContact_Grid1_collection = new GxCollectionData<SelectContact_Level_Detail_Grid1Data>();
-    this.uiModel = new SelectContact_Level_DetailUIModel(this);
-    this.Pcompanyid = !params ? this.Pcompanyid : 0;
-    this.Pcontactid = !params ? this.Pcontactid : 0;
-    this.start = !params ? this.start : 0;
-    this.count = !params ? this.count : 0;
-    this.Mode = !params ? this.Mode : "";
-
-    this.loadParams(params);
+  initState() {
+    this.state = new SelectContact_Level_DetailStateModel();
     this.ctrlGrid1Controller.initState();
+    this.ctrlGrid1Controller.setPaging(UIListPagingType.infinite);
 
     this.panelService.start();
   }
 
-  initAppBar_ViewAnyiOS(navigationStyle: NavigationStyle) {
-    if (this.canControlAppBar) {
-      this.appBarService.setNavigation({
-        className: "ApplicationBars",
-        visible: true,
-        navigationStyle,
-        showBackButton: false,
-      });
+  setParameters(params) {
+    if (params) {
+      this.state.localModel.Pcompanyid = +this.nvg.getParam('pcompanyid', params, 1) || 0;
+      this.state.localModel.Pcontactid = +this.nvg.getParam('pcontactid', params, 2) || 0;
+    } else {
+      this.state.localModel.Pcompanyid = 0;
+      this.state.localModel.Pcontactid = 0;
+    }
+  }
 
-      if (!this.showAsCard) {
-        this.appBarService.setActions([
-        ]);
+  setParametersFromInputs() {
+    this.state.localModel.Pcompanyid = this.Pcompanyid;
+    this.state.localModel.Pcontactid = this.Pcontactid;
+  }
+
+
+  initUIModel() {
+    this.__viewManager.update(this.Mode);
+    this.updateUIModel(this.state.uiModel, this.__viewManager.getUIModelDefaults());
+
+  }
+
+  bindAppBar_ViewAny(navigationStyle: NavigationStyle) {
+    if (this.isPrimaryContent()) {
+      this.state.uiModel.ctrlApplicationbar.navigationStyle = navigationStyle;
+      this.state.uiModel.ctrlApplicationbar.showBackButton = this.nvg.canGoBack();
+      this.state.uiModel.ctrlApplicationbar.actionItems = [];
+      this.state.uiModel.ctrlApplicationbar.onBackButtonClick = () => this.__Cancel();
+      if (! this.__showAsCard) {
+        this.appBarService.setAppbar(this.state.uiModel.ctrlApplicationbar);
       }
+      this.cdr.markForCheck();
+    }
+  } 
+
+  getUIModelDefaults_ViewAny(containerName?: string) {
+    if (!containerName) {
+      return [
+        ['ctrlApplicationbar', 'class', 'ApplicationBars'],
+        ['ctrlApplicationbar', 'visible', true],
+        ['ctrlApplicationbar', 'caption', this.app.translate('Contact')],
+        ['ctrlApplicationbar', 'showBackButton', 'False'],
+        ['ctrlApplicationbar', 'enableHeaderRowPattern', 'False'],
+        ['ctrlApplicationbar', 'headerRowPatternCssClass', '']
+      ];
     }
 
-    if (this.showAsCard) {
-      this.appBarService.setNavigation({
-        showBackButton: true,
-        onBackButtonClick: () => this.callAction(this.__Cancel),
-      });
-    }
+    return [];
   }
 
-  resetAppBar_ViewAnyiOS() {
-    if (this.showAsCard) {
-      this.appBarService.setNavigation({
-        showBackButton: false,
-        onBackButtonClick: null,
-      });
-    }
-
-    this.appBarService.setActions([]);
-  }
-   
 
   // Actions
   _Select = async (): Promise<any> => {
     const __aSt = this.startAction();
     try {
-      this.Pcontactid = this.SelectContact_Grid1_collection.CurrentItem.ContactId;
-
-      await this.return({Pcontactid:this.Pcontactid}, __aSt)
-
+      this.state.localModel.Pcontactid = this.state.SelectContact_Grid1_collection.CurrentItem.ContactId;
+      await this.return({Pcontactid:this.state.localModel.Pcontactid}, __aSt);
+      return;
     } catch (e) {
       this.processCompositeError(e);
     } finally {
@@ -149,83 +158,109 @@ export class SelectContact_Level_DetailComponent extends PanelComponent {
 
 
 
-  loadParams(params) {
-    if (params) {
-      this.Pcompanyid = +this.nvg.getParam('pcompanyid', params, 1) || 0;
-      this.Pcontactid = +this.nvg.getParam('pcontactid', params, 2) || 0;
-      this.Mode = this.nvg.getParam('mode', params, 3) || "";
-    }
-  }
-
+  // Load and refresh
   async loadPanel() {
     await this.ctrlGrid1Load();
 
   }
 
   async Refresh(type?: string) {
+    const __aSt = this.startAction();
     await this.ctrlGrid1Load();
 
+    this.endAction(__aSt);
   }
 
   async ctrlGrid1Load() {
    this.ctrlGrid1Controller.initPaging();
-    let data = await this.panelService.getSelectContact_Level_Detail_Grid1( this.Pcompanyid, this.Pcontactid, this.uiModel._ctrlGrid1Items.start, 30);
-    this.SelectContact_Grid1_collection = data;
-    this.ctrlGrid1Controller.loadFromData(this.SelectContact_Grid1_collection, this.uiModel._ctrlGrid1Items );
-    this.ctrlGrid1Controller.updatePaging(this.SelectContact_Grid1_collection.length, 30, UIListLoadingState.loaded, null);    
+    const response = await this.panelService.getSelectContact_Level_Detail_Grid1(this.state.localModel.Pcompanyid, this.state.localModel.Pcontactid, this.state.uiModel._ctrlGrid1Items.searchText, this.state.uiModel._ctrlGrid1Items.start, 30);
+    this.state.SelectContact_Grid1_collection = response.data;
+    this.state.uiModel._ctrlGrid1Items = new GridControllerData<UIListElementItem>().setType(UIListElementItem);
+    this.ctrlGrid1Controller.load1(this.state.SelectContact_Grid1_collection, this.state.uiModel._ctrlGrid1Items, null, response, null, []);
+  }
+
+  async ctrlGrid1Fetch() {
+    const response = await this.panelService.getSelectContact_Level_Detail_Grid1(this.state.localModel.Pcompanyid, this.state.localModel.Pcontactid, this.state.uiModel._ctrlGrid1Items.searchText, this.state.uiModel._ctrlGrid1Items.start, 30);
+    this.state.SelectContact_Grid1_collection = response.data;
+    this.state.uiModel._ctrlGrid1Items.clear();
+    this.ctrlGrid1Controller.load1(this.state.SelectContact_Grid1_collection, this.state.uiModel._ctrlGrid1Items, null, response, null, []);
   }
 
   async fetchNextPagectrlGrid1(event) {
-    let data = await this.panelService.getSelectContact_Level_Detail_Grid1( this.Pcompanyid, this.Pcontactid, this.uiModel._ctrlGrid1Items.start, 30);
-    this.SelectContact_Grid1_collection.push(...data);
-    this.ctrlGrid1Controller.loadFromData(this.SelectContact_Grid1_collection, this.uiModel._ctrlGrid1Items );
-    this.ctrlGrid1Controller.updatePaging(this.SelectContact_Grid1_collection.length, 30, UIListLoadingState.loaded, event);
+    const response = await this.panelService.getSelectContact_Level_Detail_Grid1(this.state.localModel.Pcompanyid, this.state.localModel.Pcontactid, this.state.uiModel._ctrlGrid1Items.searchText, this.state.uiModel._ctrlGrid1Items.start, 30);
+    this.state.SelectContact_Grid1_collection.push(...response.data);
+    this.ctrlGrid1Controller.load1(this.state.SelectContact_Grid1_collection, this.state.uiModel._ctrlGrid1Items, null, response, event, []);
+    this.cdr.markForCheck();
   }
-
-
   initControllers() {
-    this.ctrlGrid1Controller.setState(this.SelectContact_Grid1_collection, this.uiModel._ctrlGrid1Items );
+    this.ctrlGrid1Controller.setState(
+      this.state.SelectContact_Grid1_collection, 
+      this.state.uiModel._ctrlGrid1Items,
+      null,
+    );
 
   }
 
-  ctrlGrid1SetContext( ix: number) {
-    this.SelectContact_Grid1_collection.CurrentItem = this.SelectContact_Grid1_collection[ix];
-    this.ctrlGrid1Controller.balanceModels();
-    this.uiModel._ctrlGrid1Items.CurrentItem = this.uiModel._ctrlGrid1Items[ix];
+  ctrlGrid1SetContext(ix: number) {
+    this.ctrlGrid1Controller.setCurrent(ix);
   }
-  async ctrlGrid1Action( ix: number, action: any) {
-    if (action) {
-      await this.callAction(action);
+
+  ctrlGrid1Select(ix: number, selected = true) {
+    if (selected) {
+      this.ctrlGrid1Controller.setCurrent(ix);
+    }
+    this.ctrlGrid1Controller.action_select(ix, selected, "" );
+  }
+  async ctrlGrid1Action(ix: number, actionHandler: any) {
+    this.ctrlGrid1Controller.action_noselection(ix, actionHandler);
+  }
+
+  async ctrlGrid1SelectionChanged(eventInfo) {
+    this.ctrlGrid1Controller.setCurrent(parseInt(eventInfo.addedRowsId[0] || eventInfo.removedRowsId[0])+1);
+    this.ctrlGrid1Controller.action_select_list(eventInfo.rowsId.map(rowId => parseInt(rowId)+1), "", null);
+  }
+  async ctrlGrid1RowClicked(eventInfo, actionHandler) {
+    if (actionHandler) {
+      this.ctrlGrid1Controller.setCurrent(parseInt(eventInfo.rowId)+1);
+      await actionHandler();
     }
   }
+
   async ctrlGrid1Refresh() {
     await this.ctrlGrid1Load();
-    this.ctrlGrid1Controller.refreshUI();
+    this.cdr.markForCheck();
   }
 
 
 
+
+
+}
+
+class SelectContact_Level_DetailStateModel {
+  SelectContact_Grid1_collection: GxCollectionData<SelectContact_Level_Detail_Grid1Data>;
+  localModel: SelectContact_Level_DetailLocalModel;
+  uiModel: SelectContact_Level_DetailUIModel;
+
+  constructor() {
+      this.SelectContact_Grid1_collection = new GxCollectionData<SelectContact_Level_Detail_Grid1Data>().setType(SelectContact_Level_Detail_Grid1Data);
+      this.localModel = new SelectContact_Level_DetailLocalModel();
+      this.uiModel = new SelectContact_Level_DetailUIModel();
+
+  }
 }
 
 class SelectContact_Level_DetailUIModel {
 
-  private _host: SelectContact_Level_DetailComponent;
-
-  constructor( host: SelectContact_Level_DetailComponent) {
-    this._host = host;
+  constructor() {
+    this.ctrlForm.applicationBar = this.ctrlApplicationbar;
   }
 
-  _ctrlGrid1Items = new GridControllerData<UIListElementItem>();
+  _ctrlGrid1Items = new GridControllerData<UIListElementItem>().setType(UIListElementItem);
   ctrlGrid1 = new UIListElement();
+  ctrlForm = new UIFormElement();
+  ctrlApplicationbar = new UIActionBarElement();
 }
 
-  
-class SelectContact_Level_DetailUIActions {
 
-  private _host: SelectContact_Level_DetailComponent;
 
-  constructor( host: SelectContact_Level_DetailComponent) {
-    this._host = host;
-  }
-
-}

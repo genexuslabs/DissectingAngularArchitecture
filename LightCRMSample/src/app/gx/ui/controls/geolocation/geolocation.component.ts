@@ -1,40 +1,35 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, Component, EventEmitter, Input, Output } from "@angular/core";
+import { Geography } from "@genexus/web-standard-functions/dist/lib-esm/types/geography";
+import { GeographyToCoordsPipe } from "../../../utils/geography-to-coords.pipe";
+import { NgIf } from "@angular/common";
 
 @Component({
-	selector: "gx-geolocation",
-	templateUrl: "./geolocation.component.html",
-	styleUrls: ["./geolocation.component.scss"],
+  selector: "gx-geolocation",
+  templateUrl: "./geolocation.component.html",
+  styleUrls: ["./geolocation.component.scss"],
+  standalone: true,
+  imports: [NgIf, GeographyToCoordsPipe],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
 })
 export class GeolocationComponent {
-	@Input() coords = "";
-	@Input() disabled = false;
-	@Input() readonly = false;
+  @Input() coords = "";
+  @Input() disabled = false;
+  @Input() readonly = false;
 
-	@Output() onGeolocationChanged: EventEmitter<string> = new EventEmitter<
-		string
-	>();
-	zoom = "1";
+  @Output() onGeolocationChanged: EventEmitter<Geography> =
+    new EventEmitter<Geography>();
+  zoom = "1";
 
-	ngOnInit() {
-		if (this.coords !== "") {
-			this.zoom = "15";
-		}
-	}
+  ngOnInit() {
+    if (this.coords !== "") {
+      this.zoom = "15";
+    }
+  }
 
-	convertCoords(x: string): string {
-		let pt = x.trim().toUpperCase();
-		if (pt.startsWith("POINT")) {
-			let sCoords = pt.replace(")", "").replace("(", "");
-			let coords = sCoords.split(" ");
-			return "" + coords[2] + "," + coords[1];
-		} else {
-			return pt;
-		}
-	}
-
-	coordsChanged(x: string) {
-		if (!this.readonly && !this.disabled) {
-			this.onGeolocationChanged.emit(x);
-		}
-	}
+  coordsChanged(x: Geography) {
+    if (!this.readonly && !this.disabled) {
+      this.onGeolocationChanged.emit(x);
+    }
+  }
 }

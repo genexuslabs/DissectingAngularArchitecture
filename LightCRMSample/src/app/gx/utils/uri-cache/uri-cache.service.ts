@@ -4,22 +4,43 @@ import { Injectable } from "@angular/core";
   providedIn: 'root',
 }) export class UriCacheService {
 
-  srcMap = {};
+  srcMap = new Map();
+  cacheLimit = 50;
 
-  getImage(uri: string): string {
+
+  get(uri: string): string {
     if (uri) {
-      const uploadKeyPos = uri.indexOf('gxupload:');
-      if (uploadKeyPos > -1) {
-        const uploadKey = uri.substr(uploadKeyPos);
-        if (this.srcMap[uploadKey]) {
-          return this.srcMap[uploadKey];
-        }
+      if (this.srcMap.has(uri)) {
+        return this.srcMap.get(uri).url;
       }
     }
     return uri;
   }
 
-  storeImage(key: string, url: string) {
-    this.srcMap[key] = url;
+  async getFile(uri: string): Promise<File> {
+    if (uri) {
+      if (uri.startsWith('blob:')) {
+        let f = this.srcMap.get(uri);
+        if (!f) {
+          f = { url: uri, name: "upload1", type: (f) ? f.type || "image" : "image" };
+        }
+        const response = await fetch(f.url);
+        const data = await response.blob();
+        return new File([data], f.name, {
+          type: data.type || f.type,
+        });
+      }
+    }
+    return null;
+  }
+
+  store(file: File): string {
+    if (this.srcMap.size > this.cacheLimit) {
+      const elder = this.srcMap.keys().next().value;
+      this.srcMap.delete(elder);
+    }
+    const fileURL = URL.createObjectURL(file);
+    this.srcMap.set(fileURL, { url: fileURL, name: file.name, type: file.type });
+    return fileURL;
   }
 }
