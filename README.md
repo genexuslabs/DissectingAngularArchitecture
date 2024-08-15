@@ -70,23 +70,23 @@ Understanding the generated code is quite simple, for each panel in Genexus you 
 There are several cases where we are generating components for different parts of one panel, for example if you have a Tab then we are generating a component for each tab page.
 Or if you have a Work With and Entity with several sections we are generating 3 files for each section, always respecting the separation of concerns in terms of UI, behavior and data access.
 
-For example take a look WorkWithDevicesCompany  is composed of several sections:
+For example take a look WorkWithCompany  is composed of several sections:
 
 1) A master with a list of the Companies, so we have 
-    - [List UI](LightCRMSample/src/app/WorkWithDevicesCompany/workwithdevicescompany_company_list.component.html)
-    - [List Behavior](LightCRMSample/src/app/WorkWithDevicesCompany/workwithdevicescompany_company_list.component.ts)
-    - [List Data Access](LightCRMSample/src/app/WorkWithDevicesCompany/workwithdevicescompany_company_list.service.ts)
+    - [List UI](LightCRMSample/src/app/WorkWithCompany/workwithcompany_company_list.component.html)
+    - [List Behavior](LightCRMSample/src/app/WorkWithCompany/workwithcompany_company_list.component.ts)
+    - [List Data Access](LightCRMSample/src/app/WorkWithCompany/workwithcompany_company_list.service.ts)
 2) A detail for each company that is called when a Company is selected 
-    - [Detail Company UI](LightCRMSample/src/app/WorkWithDevicesCompany/workwithdevicescompany_company_detail.component.html)
-    - [Detail Company Behavior](LightCRMSample/src/app/WorkWithDevicesCompany/workwithdevicescompany_company_detail.component.ts)
-    - [Detail Company Data Access](LightCRMSample/src/app/WorkWithDevicesCompany/workwithdevicescompany_company_detail.service.ts)
+    - [Detail Company UI](LightCRMSample/src/app/WorkWithCompany/workwithcompany_company_detail.component.html)
+    - [Detail Company Behavior](LightCRMSample/src/app/WorkWithCompany/workwithcompany_company_detail.component.ts)
+    - [Detail Company Data Access](LightCRMSample/src/app/WorkWithCompany/workwithcompany_company_detail.service.ts)
 3) The Detail of a company has a General section and a Contacts section to show all the information of a company, so GeneXus generates the General section and the contacts section:
-     - [Section General UI](LightCRMSample/src/app/WorkWithDevicesCompany/workwithdevicescompany_company_section_general.component.html)
-     - [Section General Behavior](LightCRMSample/src/app/WorkWithDevicesCompany/workwithdevicescompany_company_section_general.component.ts)
-     - [Section General Data Access](LightCRMSample/src/app/WorkWithDevicesCompany/workwithdevicescompany_company_section_general.service.ts)
-     - [Section Contacts UI](LightCRMSample/src/app/WorkWithDevicesCompany/workwithdevicescompany_company_section_contact.component.html)
-     - [Section Contacts Behavior](LightCRMSample/src/app/WorkWithDevicesCompany/workwithdevicescompany_company_section_contact.component.ts)
-     - [Section Contacts Data Access](LightCRMSample/src/app/WorkWithDevicesCompany/workwithdevicescompany_company_section_contact.service.ts)
+     - [Section General UI](LightCRMSample/src/app/WorkWithCompany/workwithcompany_company_section_general.component.html)
+     - [Section General Behavior](LightCRMSample/src/app/WorkWithCompany/workwithcompany_company_section_general.component.ts)
+     - [Section General Data Access](LightCRMSample/src/app/WorkWithCompany/workwithcompany_company_section_general.service.ts)
+     - [Section Contacts UI](LightCRMSample/src/app/WorkWithCompany/workwithcompany_company_section_contact.component.html)
+     - [Section Contacts Behavior](LightCRMSample/src/app/WorkWithCompany/workwithcompany_company_section_contact.component.ts)
+     - [Section Contacts Data Access](LightCRMSample/src/app/WorkWithCompany/workwithcompany_company_section_contact.service.ts)
      
      
 # Extensibility Scenarios
